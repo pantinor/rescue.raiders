@@ -1,6 +1,6 @@
 package rescue.raiders.levels;
 
-import static rescue.raiders.util.Main.FIELD_HEIGHT;
+import static rescue.raiders.game.RescueRaiders.*;
 
 import java.util.ArrayList;
 import java.util.List;

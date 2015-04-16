@@ -1,6 +1,7 @@
 package rescue.raiders.objects;
 
-import rescue.raiders.util.Main;
+import static rescue.raiders.game.RescueRaiders.*;
+import rescue.raiders.game.RescueRaiders;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
@@ -17,7 +18,7 @@ public class Helicopter extends Movable implements InputProcessor {
 	
 	float ax, avx, ay, avy, ak, ad, angle;
 	boolean left, right, up, down;
-	float px = Main.SCREEN_WIDTH / 2, py = Main.SCREEN_HEIGHT / 2, pvx = 0.0f, pvy = 0.0f, pd = 0.9f;
+	float px = SCREEN_WIDTH / 2, py = SCREEN_HEIGHT / 2, pvx = 0.0f, pvy = 0.0f, pd = 0.9f;
 	long lastKeyUp;
 	boolean west;
 	
@@ -85,7 +86,7 @@ public class Helicopter extends Movable implements InputProcessor {
 	}
 	
 	public float yup(float y) {
-		return Main.yup(y);
+		return RescueRaiders.yup(y);
 	}
 	
 	public float getAngle() {
@@ -116,8 +117,8 @@ public class Helicopter extends Movable implements InputProcessor {
 			px = 0;
 		}
 		
-		if (px > Main.FIELD_WIDTH) {
-			px = Main.FIELD_WIDTH;
+		if (px > FIELD_WIDTH) {
+			px = FIELD_WIDTH;
 		}
 		
 		if (left) {
@@ -159,7 +160,7 @@ public class Helicopter extends Movable implements InputProcessor {
 		if (Math.abs(ax) > 5) {
 			//crash
 		}
-		py = Main.FIELD_HEIGHT;
+		py = FIELD_HEIGHT;
 
 	}
 

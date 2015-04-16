@@ -1,8 +1,11 @@
 package rescue.raiders.objects;
 
+import rescue.raiders.util.AtlasCache;
+
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
-import static rescue.raiders.util.Main.*;
+
+import static rescue.raiders.game.RescueRaiders.*;
 
 public class Tank extends Movable {
 

@@ -2,6 +2,8 @@ package rescue.raiders.objects;
 
 import java.util.Random;
 
+import rescue.raiders.util.AtlasCache;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;

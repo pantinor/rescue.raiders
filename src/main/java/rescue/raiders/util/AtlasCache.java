@@ -1,4 +1,4 @@
-package rescue.raiders.objects;
+package rescue.raiders.util;
 
 import java.util.HashMap;
 import java.util.Map;

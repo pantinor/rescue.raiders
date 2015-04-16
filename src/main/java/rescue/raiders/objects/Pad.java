@@ -1,5 +1,7 @@
 package rescue.raiders.objects;
 
+import rescue.raiders.util.AtlasCache;
+
 import com.badlogic.gdx.graphics.Color;
 
 
