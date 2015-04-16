@@ -1,0 +1,95 @@
+wirly-bird.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+copter
+  rotate: false
+  xy: 2, 0
+  size: 81, 60
+  orig: 81, 60
+  offset: 0, 0
+  index: 0
+copter
+  rotate: false
+  xy: 83, 0
+  size: 81, 60
+  orig: 81, 60
+  offset: 0, 0
+  index: 1
+copter
+  rotate: false
+  xy: 164, 0
+  size: 81, 60
+  orig: 81, 60
+  offset: 0, 0
+  index: 2
+copter
+  rotate: false
+  xy: 245, 0
+  size: 81, 60
+  orig: 81, 60
+  offset: 0, 0
+  index: 3
+copter
+  rotate: false
+  xy: 326, 0
+  size: 81, 60
+  orig: 81, 60
+  offset: 0, 0
+  index: 4
+copter
+  rotate: false
+  xy: 2, 64
+  size: 81, 60
+  orig: 81, 60
+  offset: 0, 0
+  index: 5
+turning
+  rotate: false
+  xy: 312, 416
+  size: 69, 73
+  orig: 69, 73
+  offset: 0, 0
+  index: 0
+turning
+  rotate: false
+  xy: 286, 493
+  size: 61, 73
+  orig: 61, 73
+  offset: 0, 0
+  index: 1
+turning
+  rotate: false
+  xy: 262, 570
+  size: 61, 73
+  orig: 61, 73
+  offset: 0, 0
+  index: 2
+turning
+  rotate: false
+  xy: 271, 647
+  size: 64, 73
+  orig: 64, 73
+  offset: 0, 0
+  index: 3
+turning
+  rotate: false
+  xy: 324, 570
+  size: 61, 73
+  orig: 61, 73
+  offset: 0, 0
+  index: 4
+turning
+  rotate: false
+  xy: 348, 493
+  size: 61, 73
+  orig: 61, 73
+  offset: 0, 0
+  index: 5
+turning
+  rotate: false
+  xy: 382, 416
+  size: 69, 73
+  orig: 69, 73
+  offset: 0, 0
+  index: 6

@@ -1,0 +1,25 @@
+rescue.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+copter
+  rotate: false
+  xy: 2, 189
+  size: 532, 134
+  orig: 532, 134
+  offset: 0, 0
+  index: 0
+copter
+  rotate: false
+  xy: 2, 330
+  size: 532, 134
+  orig: 532, 134
+  offset: 0, 0
+  index: 1
+copter
+  rotate: false
+  xy: 2, 469
+  size: 532, 134
+  orig: 532, 134
+  offset: 0, 0
+  index: 2

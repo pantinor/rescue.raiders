@@ -1,0 +1,228 @@
+turret.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+turret
+  rotate: false
+  xy: 0, 0
+  size: 80, 56
+  orig: 80, 56
+  offset: 0, 0
+  index: 0
+turret
+  rotate: false
+  xy: 90, 0
+  size: 80, 56
+  orig: 80, 56
+  offset: 0, 0
+  index: 1
+turret
+  rotate: false
+  xy: 180, 0
+  size: 80, 56
+  orig: 80, 56
+  offset: 0, 0
+  index: 2
+turret
+  rotate: false
+  xy: 270, 0
+  size: 80, 56
+  orig: 80, 56
+  offset: 0, 0
+  index: 3
+turret
+  rotate: false
+  xy: 360, 0
+  size: 80, 56
+  orig: 80, 56
+  offset: 0, 0
+  index: 4
+turret
+  rotate: false
+  xy: 451, 0
+  size: 80, 56
+  orig: 80, 56
+  offset: 0, 0
+  index: 5
+turret
+  rotate: false
+  xy: 542, 0
+  size: 80, 56
+  orig: 80, 56
+  offset: 0, 0
+  index: 6
+turret
+  rotate: false
+  xy: 633, 0
+  size: 80, 56
+  orig: 80, 56
+  offset: 0, 0
+  index: 7
+turret
+  rotate: false
+  xy: 0, 76
+  size: 80, 56
+  orig: 80, 56
+  offset: 0, 0
+  index: 8
+turret
+  rotate: false
+  xy: 90, 76
+  size: 80, 56
+  orig: 80, 56
+  offset: 0, 0
+  index: 9
+turret
+  rotate: false
+  xy: 180, 76
+  size: 80, 56
+  orig: 80, 56
+  offset: 0, 0
+  index: 10
+turret
+  rotate: false
+  xy: 270, 76
+  size: 80, 56
+  orig: 80, 56
+  offset: 0, 0
+  index: 11
+turret
+  rotate: false
+  xy: 360, 76
+  size: 80, 56
+  orig: 80, 56
+  offset: 0, 0
+  index: 12
+turret
+  rotate: false
+  xy: 451, 76
+  size: 80, 56
+  orig: 80, 56
+  offset: 0, 0
+  index: 13
+turret
+  rotate: false
+  xy: 542, 76
+  size: 80, 56
+  orig: 80, 56
+  offset: 0, 0
+  index: 14
+turret
+  rotate: false
+  xy: 633, 76
+  size: 80, 56
+  orig: 80, 56
+  offset: 0, 0
+  index: 15
+enemy-turret
+  rotate: false
+  xy: 0, 137
+  size: 80, 56
+  orig: 80, 56
+  offset: 0, 0
+  index: 0
+enemy-turret
+  rotate: false
+  xy: 90, 137
+  size: 80, 56
+  orig: 80, 56
+  offset: 0, 0
+  index: 1
+enemy-turret
+  rotate: false
+  xy: 180, 137
+  size: 80, 56
+  orig: 80, 56
+  offset: 0, 0
+  index: 2
+enemy-turret
+  rotate: false
+  xy: 270, 137
+  size: 80, 56
+  orig: 80, 56
+  offset: 0, 0
+  index: 3
+enemy-turret
+  rotate: false
+  xy: 360, 137
+  size: 80, 56
+  orig: 80, 56
+  offset: 0, 0
+  index: 4
+enemy-turret
+  rotate: false
+  xy: 451, 137
+  size: 80, 56
+  orig: 80, 56
+  offset: 0, 0
+  index: 5
+enemy-turret
+  rotate: false
+  xy: 542, 137
+  size: 80, 56
+  orig: 80, 56
+  offset: 0, 0
+  index: 6
+enemy-turret
+  rotate: false
+  xy: 633, 137
+  size: 80, 56
+  orig: 80, 56
+  offset: 0, 0
+  index: 7
+enemy-turret
+  rotate: false
+  xy: 0, 213
+  size: 80, 56
+  orig: 80, 56
+  offset: 0, 0
+  index: 8
+enemy-turret
+  rotate: false
+  xy: 90, 213
+  size: 80, 56
+  orig: 80, 56
+  offset: 0, 0
+  index: 9
+enemy-turret
+  rotate: false
+  xy: 180, 213
+  size: 80, 56
+  orig: 80, 56
+  offset: 0, 0
+  index: 10
+enemy-turret
+  rotate: false
+  xy: 270, 213
+  size: 80, 56
+  orig: 80, 56
+  offset: 0, 0
+  index: 11
+enemy-turret
+  rotate: false
+  xy: 360, 213
+  size: 80, 56
+  orig: 80, 56
+  offset: 0, 0
+  index: 12
+enemy-turret
+  rotate: false
+  xy: 451, 213
+  size: 80, 56
+  orig: 80, 56
+  offset: 0, 0
+  index: 13
+enemy-turret
+  rotate: false
+  xy: 542, 213
+  size: 80, 56
+  orig: 80, 56
+  offset: 0, 0
+  index: 14
+enemy-turret
+  rotate: false
+  xy: 633, 213
+  size: 80, 56
+  orig: 80, 56
+  offset: 0, 0
+  index: 15

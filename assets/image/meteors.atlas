@@ -1,0 +1,214 @@
+meteors.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+meteor
+  rotate: false
+  xy: 0, 0
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: 0
+meteor
+  rotate: false
+  xy: 35, 0
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: 1
+meteor
+  rotate: false
+  xy: 70, 0
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: 2
+meteor
+  rotate: false
+  xy: 105, 0
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: 3
+meteor
+  rotate: false
+  xy: 139, 0
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: 4
+meteor
+  rotate: false
+  xy: 173, 0
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: 5
+meteor
+  rotate: false
+  xy: 207, 0
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: 6
+meteor
+  rotate: false
+  xy: 241, 0
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: 7
+meteor
+  rotate: false
+  xy: 275, 0
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: 8
+meteor
+  rotate: false
+  xy: 309, 0
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: 9
+meteor
+  rotate: false
+  xy: 0, 36
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: 10
+meteor
+  rotate: false
+  xy: 34, 36
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: 11
+meteor
+  rotate: false
+  xy: 68, 36
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: 12
+meteor
+  rotate: false
+  xy: 102, 36
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: 13
+meteor
+  rotate: false
+  xy: 136, 36
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: 14
+meteor
+  rotate: false
+  xy: 170, 36
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: 15
+meteor
+  rotate: false
+  xy: 204, 36
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: 16
+meteor
+  rotate: false
+  xy: 238, 36
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: 17
+meteor
+  rotate: false
+  xy: 272, 36
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: 18
+meteor
+  rotate: false
+  xy: 305, 36
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: 19
+meteor
+  rotate: false
+  xy: 0, 69
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: 20
+meteor
+  rotate: false
+  xy: 33, 69
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: 21
+meteor
+  rotate: false
+  xy: 66, 69
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: 22
+meteor
+  rotate: false
+  xy: 99, 69
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: 23
+meteor
+  rotate: false
+  xy: 132, 69
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: 24
+meteor
+  rotate: false
+  xy: 165, 69
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: 25
+meteor
+  rotate: false
+  xy: 198, 69
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: 26
+meteor
+  rotate: false
+  xy: 231, 69
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: 27
+meteor
+  rotate: false
+  xy: 264, 69
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: 28
+meteor
+  rotate: false
+  xy: 297, 69
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: 29

@@ -1,0 +1,123 @@
+rocket-launcher.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+launcher
+  rotate: false
+  xy: 0, 378
+  size: 79, 52
+  orig: 79, 52
+  offset: 0, 0
+  index: 0
+launcher
+  rotate: false
+  xy: 81, 378
+  size: 79, 52
+  orig: 79, 52
+  offset: 0, 0
+  index: 1
+launcher
+  rotate: false
+  xy: 162, 378
+  size: 79, 52
+  orig: 79, 52
+  offset: 0, 0
+  index: 2
+launcher
+  rotate: false
+  xy: 243, 378
+  size: 79, 52
+  orig: 79, 52
+  offset: 0, 0
+  index: 3
+launcher
+  rotate: false
+  xy: 324, 378
+  size: 79, 52
+  orig: 79, 52
+  offset: 0, 0
+  index: 4
+launcher
+  rotate: false
+  xy: 405, 378
+  size: 79, 52
+  orig: 79, 52
+  offset: 0, 0
+  index: 5
+launcher
+  rotate: false
+  xy: 0, 433
+  size: 79, 52
+  orig: 79, 52
+  offset: 0, 0
+  index: 6
+launcher
+  rotate: false
+  xy: 81, 433
+  size: 79, 52
+  orig: 79, 52
+  offset: 0, 0
+  index: 7
+launcher-raising
+  rotate: false
+  xy: 0, 535
+  size: 80, 78
+  orig: 80, 78
+  offset: 0, 0
+  index: 0
+launcher-raising
+  rotate: false
+  xy: 81, 535
+  size: 80, 78
+  orig: 80, 78
+  offset: 0, 0
+  index: 1
+launcher-raising
+  rotate: false
+  xy: 162, 535
+  size: 80, 78
+  orig: 80, 78
+  offset: 0, 0
+  index: 2
+launcher-raising
+  rotate: false
+  xy: 244, 535
+  size: 80, 78
+  orig: 80, 78
+  offset: 0, 0
+  index: 3
+launcher-raising
+  rotate: false
+  xy: 326, 535
+  size: 80, 78
+  orig: 80, 78
+  offset: 0, 0
+  index: 4
+launcher-raising
+  rotate: false
+  xy: 408, 535
+  size: 80, 78
+  orig: 80, 78
+  offset: 0, 0
+  index: 5
+launcher-raising
+  rotate: false
+  xy: 0, 616
+  size: 80, 78
+  orig: 80, 78
+  offset: 0, 0
+  index: 6
+launcher-raising
+  rotate: false
+  xy: 82, 616
+  size: 80, 78
+  orig: 80, 78
+  offset: 0, 0
+  index: 7
+launcher-raising
+  rotate: false
+  xy: 164, 616
+  size: 80, 78
+  orig: 80, 78
+  offset: 0, 0
+  index: 8

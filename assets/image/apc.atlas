@@ -1,0 +1,32 @@
+rescue.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+apc-tan
+  rotate: false
+  xy: 4, 25
+  size: 64, 37
+  orig: 64, 37
+  offset: 0, 0
+  index: 0
+apc-tan
+  rotate: false
+  xy: 68, 25
+  size: 64, 37
+  orig: 64, 37
+  offset: 0, 0
+  index: 1
+apc-green
+  rotate: false
+  xy: 131, 25
+  size: 64, 37
+  orig: 64, 37
+  offset: 0, 0
+  index: 0
+apc-green
+  rotate: false
+  xy: 195, 25
+  size: 64, 37
+  orig: 64, 37
+  offset: 0, 0
+  index: 1

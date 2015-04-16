@@ -1,0 +1,32 @@
+covered-truck.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+truck
+  rotate: false
+  xy: 2, 76
+  size: 121, 76
+  orig: 121, 76
+  offset: 0, 0
+  index: 0
+truck
+  rotate: false
+  xy: 126, 76
+  size: 121, 76
+  orig: 121, 76
+  offset: 0, 0
+  index: 1
+truck
+  rotate: false
+  xy: 251, 76
+  size: 121, 76
+  orig: 121, 76
+  offset: 0, 0
+  index: 2
+truck
+  rotate: false
+  xy: 376, 76
+  size: 121, 76
+  orig: 121, 76
+  offset: 0, 0
+  index: 3

@@ -1,0 +1,25 @@
+rescue.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+tank
+  rotate: false
+  xy: 4, 114
+  size: 142, 72
+  orig: 142, 72
+  offset: 0, 0
+  index: 0
+tank
+  rotate: false
+  xy: 155, 114
+  size: 142, 72
+  orig: 142, 72
+  offset: 0, 0
+  index: 1
+tank
+  rotate: false
+  xy: 307, 114
+  size: 142, 72
+  orig: 142, 72
+  offset: 0, 0
+  index: 2

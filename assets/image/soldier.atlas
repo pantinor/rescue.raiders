@@ -1,0 +1,200 @@
+soldiers.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+infantry-shooting
+  rotate: false
+  xy: 0, 30
+  size: 31, 29
+  orig: 31, 29
+  offset: 0, 0
+  index: 0
+infantry
+  rotate: false
+  xy: 40, 29
+  size: 22, 29
+  orig: 22, 29
+  offset: 0, 0
+  index: 0
+infantry
+  rotate: false
+  xy: 72, 29
+  size: 22, 29
+  orig: 22, 29
+  offset: 0, 0
+  index: 1
+infantry
+  rotate: false
+  xy: 104, 29
+  size: 22, 29
+  orig: 22, 29
+  offset: 0, 0
+  index: 2
+infantry
+  rotate: false
+  xy: 136, 29
+  size: 22, 29
+  orig: 22, 29
+  offset: 0, 0
+  index: 3
+infantry
+  rotate: false
+  xy: 168, 29
+  size: 22, 29
+  orig: 22, 29
+  offset: 0, 0
+  index: 4
+infantry
+  rotate: false
+  xy: 200, 29
+  size: 22, 29
+  orig: 22, 29
+  offset: 0, 0
+  index: 5
+engineer-shooting
+  rotate: false
+  xy: 9, 155
+  size: 25, 29
+  orig: 25, 29
+  offset: 0, 0
+  index: 0
+engineer
+  rotate: false
+  xy: 44, 155
+  size: 25, 29
+  orig: 25, 29
+  offset: 0, 0
+  index: 0
+engineer
+  rotate: false
+  xy: 74, 155
+  size: 24, 29
+  orig: 24, 29
+  offset: 0, 0
+  index: 1
+engineer
+  rotate: false
+  xy: 108, 155
+  size: 24, 29
+  orig: 24, 29
+  offset: 0, 0
+  index: 2
+engineer
+  rotate: false
+  xy: 140, 155
+  size: 24, 29
+  orig: 24, 29
+  offset: 0, 0
+  index: 3
+engineer
+  rotate: false
+  xy: 174, 155
+  size: 24, 29
+  orig: 24, 29
+  offset: 0, 0
+  index: 4
+engineer
+  rotate: false
+  xy: 205, 155
+  size: 24, 29
+  orig: 24, 29
+  offset: 0, 0
+  index: 5
+enemy-infantry-shooting
+  rotate: false
+  xy: 7, 225
+  size: 31, 29
+  orig: 31, 29
+  offset: 0, 0
+  index: 0
+enemy-infantry
+  rotate: false
+  xy: 47, 224
+  size: 22, 29
+  orig: 22, 29
+  offset: 0, 0
+  index: 0
+enemy-infantry
+  rotate: false
+  xy: 79, 224
+  size: 22, 29
+  orig: 22, 29
+  offset: 0, 0
+  index: 1
+enemy-infantry
+  rotate: false
+  xy: 111, 224
+  size: 22, 29
+  orig: 22, 29
+  offset: 0, 0
+  index: 2
+enemy-infantry
+  rotate: false
+  xy: 143, 224
+  size: 22, 29
+  orig: 22, 29
+  offset: 0, 0
+  index: 3
+enemy-infantry
+  rotate: false
+  xy: 175, 224
+  size: 22, 29
+  orig: 22, 29
+  offset: 0, 0
+  index: 4
+enemy-infantry
+  rotate: false
+  xy: 207, 224
+  size: 22, 29
+  orig: 22, 29
+  offset: 0, 0
+  index: 5
+enemy-engineer-shooting
+  rotate: false
+  xy: 16, 351
+  size: 25, 29
+  orig: 25, 29
+  offset: 0, 0
+  index: 0
+enemy-engineer
+  rotate: false
+  xy: 51, 350
+  size: 25, 29
+  orig: 25, 29
+  offset: 0, 0
+  index: 0
+enemy-engineer
+  rotate: false
+  xy: 81, 350
+  size: 24, 29
+  orig: 24, 29
+  offset: 0, 0
+  index: 1
+enemy-engineer
+  rotate: false
+  xy: 115, 350
+  size: 24, 29
+  orig: 24, 29
+  offset: 0, 0
+  index: 2
+enemy-engineer
+  rotate: false
+  xy: 147, 350
+  size: 24, 29
+  orig: 24, 29
+  offset: 0, 0
+  index: 3
+enemy-engineer
+  rotate: false
+  xy: 181, 350
+  size: 24, 29
+  orig: 24, 29
+  offset: 0, 0
+  index: 4
+enemy-engineer
+  rotate: false
+  xy: 213, 350
+  size: 24, 29
+  orig: 24, 29
+  offset: 0, 0
+  index: 5

@@ -1,0 +1,60 @@
+backgrounds.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+ground
+  rotate: false
+  xy: 7, 8
+  size: 48, 24
+  orig: 48, 24
+  offset: 0, 0
+  index: 0
+tower
+  rotate: false
+  xy: 7, 86
+  size: 88, 97
+  orig: 88, 97
+  offset: 0, 0
+  index: 0
+wall
+  rotate: false
+  xy: 4, 262
+  size: 64, 40
+  orig: 64, 40
+  offset: 0, 0
+  index: 0
+pad
+  rotate: false
+  xy: 173, 6
+  size: 288, 77
+  orig: 288, 77
+  offset: 0, 0
+  index: 0
+hut
+  rotate: false
+  xy: 129, 120
+  size: 232, 128
+  orig: 232, 128
+  offset: 0, 0
+  index: 0
+base
+  rotate: false
+  xy: 370, 124
+  size: 336, 128
+  orig: 336, 128
+  offset: 0, 0
+  index: 0
+enemy-hut
+  rotate: false
+  xy: 131, 262
+  size: 232, 128
+  orig: 232, 128
+  offset: 0, 0
+  index: 0
+enemy-base
+  rotate: false
+  xy: 369, 263
+  size: 336, 128
+  orig: 336, 128
+  offset: 0, 0
+  index: 0
