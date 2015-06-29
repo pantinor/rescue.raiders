@@ -1,29 +1,32 @@
 package rescue.raiders.levels;
 
+import rescue.raiders.objects.ActorType;
+
 public class Level1 extends Level {
-	
-	public Level1() {
-		
-		this.layout = 
-			"base,0:"+
-			"pad,500:"+
-			"hut,1000:"+
-			"turret,2000:"+
-			"hut,3000:"+
-			"turret,4000:"+
-			"hut,5000:"+
-			"hut,6000:"+
-			"enemy-hut,7000:"+
-			"enemy-hut,8000:"+
-			"enemy-turret,9000:"+
-			"enemy-hut,10000:"+
-			"enemy-turret,11000:"+
-			"enemy-hut,12000:"+
-			"pad,13500:"+
-			"enemy-base,13850";
-		
-		init();
-		
-	}
+
+    public Level1() {
+
+        this.layout = new Object[][] {
+            {ActorType.BASE, 0},
+            {ActorType.PAD, 500},
+            {ActorType.HUT, 1000},
+            {ActorType.TURRET, 2000},
+            {ActorType.HUT, 3000},
+            {ActorType.TURRET, 4000},
+            {ActorType.HUT, 5000},
+            {ActorType.HUT, 6000},
+            {ActorType.ENEMY_HUT, 7000},
+            {ActorType.ENEMY_HUT, 8000},
+            {ActorType.ENEMY_TURRET, 9000},
+            {ActorType.ENEMY_HUT, 10000},
+            {ActorType.ENEMY_TURRET, 11000},
+            {ActorType.ENEMY_HUT, 12000},
+            {ActorType.ENEMY_PAD, 13500},
+            {ActorType.ENEMY_BASE, 13850}
+        };
+
+        init();
+
+    }
 
 }

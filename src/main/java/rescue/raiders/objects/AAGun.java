@@ -2,17 +2,11 @@ package rescue.raiders.objects;
 
 import rescue.raiders.util.AtlasCache;
 
-import com.badlogic.gdx.graphics.Color;
 
-public class AAGun extends Movable {
-	
-	public AAGun(String name) {
-		super(name, AtlasCache.get("turret"), .65f, false);
-		this.setUserObject(createMiniIcon(Color.RED, 4,4));
+public class AAGun extends Actor {
 
-	}
-	
-	
-	
+    public AAGun(ActorType t) {
+        super(t, AtlasCache.get("turret"), .65f, false);
+    }
 
 }

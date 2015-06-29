@@ -2,19 +2,11 @@ package rescue.raiders.objects;
 
 import rescue.raiders.util.AtlasCache;
 
-import com.badlogic.gdx.graphics.Color;
+public class Base extends Actor {
 
-
-public class Base extends Movable {
-	
-	public Base(String name) {
-		
-		super(name, AtlasCache.get("backgrounds"), .65f, false);
-		this.setUserObject(createMiniIcon(Color.BLUE, 12,8));
-
-	}
-	
-	
-	
+    public Base(ActorType t) {
+        super(t, AtlasCache.get("backgrounds"), .65f, false);
+        this.setUserObject(createMiniIcon(t.getIconColor(), 12, 8));
+    }
 
 }
