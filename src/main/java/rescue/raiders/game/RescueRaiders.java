@@ -63,7 +63,7 @@ public class RescueRaiders extends Game implements InputProcessor {
     Stage stage;
     Image hud;
     Image floor;
-    Helicopter heli;
+    public static Helicopter heli;
 
 	//Rectangle floor = new Rectangle(0, 0, FIELD_WIDTH, FIELD_HEIGHT);
     public static void main(String[] args) {
@@ -99,6 +99,8 @@ public class RescueRaiders extends Game implements InputProcessor {
 
         TextureRegion tr = new TextureRegion(makeFloor(AtlasCache.get("backgrounds")));
         floor = new Image(tr);
+        floor.setPosition(-1000, 0);
+        stage.addActor(floor);
 
         hud = new Image(fillRectangle(SCREEN_WIDTH, 40, Color.DARK_GRAY));
         hud.setY(SCREEN_HEIGHT - 40);
@@ -128,11 +130,11 @@ public class RescueRaiders extends Game implements InputProcessor {
 	//if (heli.hits(floor)) {
         //	heli.checkCrash();
         //}
+        
         stage.act();
         stage.draw();
 
         staticBatch.begin();
-        floor.draw(staticBatch, 1f);
         hud.draw(staticBatch, .7f);
         staticBatch.end();
 
@@ -177,10 +179,10 @@ public class RescueRaiders extends Game implements InputProcessor {
 
             int h = ar.getRegionHeight();
             int w = ar.getRegionWidth();
-            BufferedImage canvas = new BufferedImage(FIELD_WIDTH, h, BufferedImage.TYPE_INT_ARGB);
+            BufferedImage canvas = new BufferedImage(FIELD_WIDTH + 2000, h, BufferedImage.TYPE_INT_ARGB);
             BufferedImage sub = sheet.getSubimage(ar.getRegionX(), ar.getRegionY(), w, h);
 
-            for (int x = 0; x < FIELD_WIDTH; x += w) {
+            for (int x = 0; x < FIELD_WIDTH + 2000; x += w) {
                 canvas.getGraphics().drawImage(sub, x, 0, w, h, null);
             }
 
