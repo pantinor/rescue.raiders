@@ -87,7 +87,7 @@ public class Actor extends com.badlogic.gdx.scenes.scene2d.Actor {
         return hitbox;
     }
 
-    /*pkg*/ final TextureRegion createMiniIcon(Color c, int w, int h) {
+    public final TextureRegion createMiniIcon(Color c, int w, int h) {
         Pixmap pix = new Pixmap(w, h, Pixmap.Format.RGBA8888);
         pix.setColor(c.r, c.g, c.b, .85f);
         pix.fillRectangle(0, 0, w, h);

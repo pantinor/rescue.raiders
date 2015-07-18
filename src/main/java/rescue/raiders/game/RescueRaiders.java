@@ -50,7 +50,7 @@ public class RescueRaiders extends Game implements InputProcessor {
     public static final int SCREEN_HEIGHT = 600;
 
     public static final int FIELD_WIDTH = 14000;
-    public static final int FIELD_HEIGHT = 24;
+    public static final int FIELD_HEIGHT = 48;
 
     public static final int SPAWN = 0;
     public static final int ENEMY_SPAWN = FIELD_WIDTH;
@@ -96,21 +96,26 @@ public class RescueRaiders extends Game implements InputProcessor {
         batchMiniMap = new SpriteBatch();
 
         staticBatch = new SpriteBatch();
+        
+        heli = (Helicopter)ActorType.HELI.getInstance();
+        heli.setPosition(400, FIELD_HEIGHT);
+        stage.addActor(heli);
 
-        TextureRegion tr = new TextureRegion(makeFloor(AtlasCache.get("backgrounds")));
-        floor = new Image(tr);
-        floor.setPosition(-1000, 0);
-        stage.addActor(floor);
+        TextureRegion tr = new TextureRegion(makeFloorSection(AtlasCache.get("backgrounds"), FIELD_WIDTH + 2000, 5));
+        int fx = 0;
+        for (int i = 0; i < 5; i++) {
+            floor = new Image(tr);
+            floor.setPosition(fx - 1000, 0);
+            floor.setUserObject(heli.createMiniIcon(Color.GRAY, 275, 3));
+            stage.addActor(floor);
+            fx += tr.getRegionWidth();
+        }
 
         hud = new Image(fillRectangle(SCREEN_WIDTH, 40, Color.DARK_GRAY));
         hud.setY(SCREEN_HEIGHT - 40);
 
         Level l1 = new Level1();
         l1.addObjects(stage);
-
-        heli = (Helicopter)ActorType.HELI.getInstance();
-        heli.setPosition(400, FIELD_HEIGHT);
-        stage.addActor(heli);
 
         Explosion ex = new Explosion(460, FIELD_HEIGHT);
         stage.addActor(ex);
@@ -170,25 +175,30 @@ public class RescueRaiders extends Game implements InputProcessor {
         return t;
     }
 
-    public static Texture makeFloor(TextureAtlas atlas) {
-
+    public static Texture makeFloorSection(TextureAtlas atlas, int totalFloorWIdth, int numFloorPieces) {
         Texture t = null;
+
         try {
             AtlasRegion ar = (AtlasRegion) atlas.findRegion("ground");
             BufferedImage sheet = ImageIO.read(new File("assets/image/backgrounds.png"));
 
             int h = ar.getRegionHeight();
             int w = ar.getRegionWidth();
-            BufferedImage canvas = new BufferedImage(FIELD_WIDTH + 2000, h, BufferedImage.TYPE_INT_ARGB);
+
+            int numberPiecesInEachSection = (totalFloorWIdth / w) / numFloorPieces;
+            int twidth = numberPiecesInEachSection * w;
+
+            BufferedImage canvas = new BufferedImage(twidth, h, BufferedImage.TYPE_INT_ARGB);
             BufferedImage sub = sheet.getSubimage(ar.getRegionX(), ar.getRegionY(), w, h);
 
-            for (int x = 0; x < FIELD_WIDTH + 2000; x += w) {
+            for (int x = 0; x < twidth; x += w) {
                 canvas.getGraphics().drawImage(sub, x, 0, w, h, null);
             }
 
             Pixmap p = createPixmap(canvas);
             t = new Texture(p);
             p.dispose();
+
         } catch (IOException e) {
             e.printStackTrace();
         }

@@ -33,15 +33,13 @@ public class AAGun extends Actor {
         TextureRegion frame = anim.getKeyFrames()[(int)index];
         batch.draw(frame, this.getX(), this.getY(), frame.getRegionWidth() * scale, frame.getRegionHeight() * scale);
         
-
-        
         float dst = distance(tx, ty, x, y);
         if (dst < 600000 && (25 < ang && ang < 165)) {
             if (!snd.isPlaying()) {
                 Sounds.play(Sound.TURRET_GUNFIRE);
             }
             if (System.currentTimeMillis() - lastShotTime > 200) {
-                Bullet b = new Bullet(x + 25, y + 15, ang);
+                Bullet b = new Bullet(this, x + 25, y + 15, ang);
                 this.getStage().addActor(b);
                 lastShotTime = System.currentTimeMillis();
             }

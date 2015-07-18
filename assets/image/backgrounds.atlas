@@ -4,11 +4,11 @@ filter: Nearest,Nearest
 repeat: none
 ground
   rotate: false
-  xy: 7, 8
-  size: 48, 24
-  orig: 48, 24
+  xy: 5, 206
+  size: 48, 48
+  orig: 48, 48
   offset: 0, 0
-  index: 0
+  index: 0    
 tower
   rotate: false
   xy: 7, 86

@@ -9,6 +9,7 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
+import com.badlogic.gdx.utils.Array;
 
 public class Bullet extends com.badlogic.gdx.scenes.scene2d.Actor {
 
@@ -16,6 +17,7 @@ public class Bullet extends com.badlogic.gdx.scenes.scene2d.Actor {
     private static TextureRegion tr;
     private final float radians;
     private static final float speed = 1000;
+    private final Object source;
 
     static {
         Pixmap pix = new Pixmap(2, 2, Pixmap.Format.RGBA8888);
@@ -25,7 +27,8 @@ public class Bullet extends com.badlogic.gdx.scenes.scene2d.Actor {
         pix.dispose();
     }
 
-    public Bullet(float startX, float startY, float degrees) {
+    public Bullet(Object source, float startX, float startY, float degrees) {
+        this.source = source;
         this.radians = MathUtils.degreesToRadians * degrees;
         this.hitbox = new Rectangle(0, 0, 3, 3);
         setPosition(startX, startY);
@@ -52,6 +55,12 @@ public class Bullet extends com.badlogic.gdx.scenes.scene2d.Actor {
 
     @Override
     public void draw(Batch batch, float parentAlpha) {
+        batch.draw(tr, this.getX(), this.getY());
+    }
+
+    @Override
+    public void act(float delta) {
+        super.act(delta);
 
         float vx = (float) (speed * Math.cos(radians));
         float vy = (float) (speed * Math.sin(radians));
@@ -63,14 +72,23 @@ public class Bullet extends com.badlogic.gdx.scenes.scene2d.Actor {
 
         setPosition(getX() + dx, getY() + dy);
 
-        batch.draw(tr, this.getX(), this.getY());
-    }
-
-    @Override
-    public void act(float delta) {
-        super.act(delta);
         hitbox.x = this.getX();
         hitbox.y = this.getY();
+        
+        if (this.getStage() != null) {
+            Array<com.badlogic.gdx.scenes.scene2d.Actor> actors = this.getStage().getActors();
+            for (int i=0;i<actors.items.length;i++) {
+                if (this.source.equals(actors.items[i])) {
+                    continue;
+                }
+                if (actors.items[i] instanceof rescue.raiders.objects.Actor) {
+                    if (((rescue.raiders.objects.Actor)actors.items[i]).hits(this.hitbox)) {
+                        //System.out.println("hit: " + actors.items[i].toString());
+                        break;
+                    }
+                }
+            }
+        }
     }
 
     public Rectangle getHitBox() {
