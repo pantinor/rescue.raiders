@@ -7,8 +7,10 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -20,9 +22,9 @@ import rescue.raiders.util.Sounds;
 public class Helicopter extends Actor implements InputProcessor {
 
     float ax, avx, ay, avy, ak, ad, angle;
+    int lastMouseX, lastMouseY;
     boolean left, right, up, down;
     float px = SCREEN_WIDTH / 2, py = SCREEN_HEIGHT / 2, pvx = 0.0f, pvy = 0.0f, pd = 0.9f;
-    long lastKeyUp;
     boolean west;
     
     Music snd = Sounds.get(Sound.HELICOPTER_ENGINE);
@@ -31,6 +33,11 @@ public class Helicopter extends Actor implements InputProcessor {
     Array<AtlasRegion> turningLeft;
     Array<AtlasRegion> turningRight;
     int turningIndex = 0;
+    
+    private int health = 100;
+    private int fuel = 100;
+    private TextureRegion healthBar;
+    private TextureRegion fuelBar;
     
     public Helicopter(ActorType t) {
         super(t, AtlasCache.get("copter"), 0.02f, 1f, false);
@@ -45,6 +52,9 @@ public class Helicopter extends Actor implements InputProcessor {
         this.turningRight = AtlasCache.get("copter").findRegions("turning");
         this.turningLeft = AtlasCache.get("copter").findRegions("turning");
         this.turningLeft.reverse();
+        
+        healthBar = new TextureRegion(RescueRaiders.fillRectangle(SCREEN_WIDTH, STATUS_BAR_HEIGHT, Color.valueOf("105410")));
+        fuelBar = new TextureRegion(RescueRaiders.fillRectangle(SCREEN_WIDTH, STATUS_BAR_HEIGHT, Color.YELLOW));
 
         ax = 0.0f;
         ay = 0.0f;
@@ -90,6 +100,11 @@ public class Helicopter extends Actor implements InputProcessor {
         batch.draw(frame, this.getX(), this.getY(), 0, 0, frame.getRegionWidth() * scale, frame.getRegionHeight() * scale, 1, 1, 100 * angle);
 
     }
+    
+    public void drawStatusBars(SpriteBatch batch) {
+        batch.draw(healthBar, 0,SCREEN_HEIGHT - HUD_HEIGHT - STATUS_BAR_HEIGHT);
+        batch.draw(fuelBar, 0,SCREEN_HEIGHT - HUD_HEIGHT - STATUS_BAR_HEIGHT - STATUS_BAR_HEIGHT);
+    }
 
     public float yup(float y) {
         return RescueRaiders.yup(y);
@@ -99,6 +114,30 @@ public class Helicopter extends Actor implements InputProcessor {
         return this.angle;
     }
 
+    public void decrementHealth() {
+        double percent = this.health / 100;
+        double bar = percent * (double) SCREEN_WIDTH;
+        if (this.health < 0) {
+            bar = 0;
+        }
+        if (bar > SCREEN_WIDTH) {
+            bar = SCREEN_WIDTH;
+        }
+        healthBar.setRegion(0, 0, (int) bar, STATUS_BAR_HEIGHT);
+    }
+
+    public void decrementFuel() {
+        double percent = this.fuel / 100;
+        double bar = percent * (double) SCREEN_WIDTH;
+        if (this.fuel < 0) {
+            bar = 0;
+        }
+        if (bar > SCREEN_WIDTH) {
+            bar = SCREEN_WIDTH;
+        }
+        fuelBar.setRegion(0, 0, (int) bar, STATUS_BAR_HEIGHT);
+    }
+  
     public boolean isWest() {
         return this.west;
     }
@@ -171,31 +210,17 @@ public class Helicopter extends Actor implements InputProcessor {
     @Override
     public boolean keyDown(int keycode) {
 
-        long diff = System.currentTimeMillis() - lastKeyUp;
-
         switch (keycode) {
-            case Keys.LEFT:
-                if (diff < 700) {
-                    if (!west) {
-                        turningIndex = 0;
-                    }
-                    west = true;
-                }
+            case Keys.A:
                 left = true;
                 break;
-            case Keys.RIGHT:
-                if (diff < 700) {
-                    if (west) {
-                        turningIndex = 0;
-                    }
-                    west = false;
-                }
+            case Keys.D:
                 right = true;
                 break;
-            case Keys.UP:
+            case Keys.W:
                 up = true;
                 break;
-            case Keys.DOWN:
+            case Keys.S:
                 down = true;
                 break;
         }
@@ -207,18 +232,16 @@ public class Helicopter extends Actor implements InputProcessor {
     public boolean keyUp(int keycode) {
 
         switch (keycode) {
-            case Keys.LEFT:
-                lastKeyUp = System.currentTimeMillis();
+            case Keys.A:
                 left = false;
                 break;
-            case Keys.RIGHT:
-                lastKeyUp = System.currentTimeMillis();
+            case Keys.D:
                 right = false;
                 break;
-            case Keys.UP:
+            case Keys.W:
                 up = false;
                 break;
-            case Keys.DOWN:
+            case Keys.S:
                 down = false;
                 break;
         }
@@ -234,7 +257,16 @@ public class Helicopter extends Actor implements InputProcessor {
 
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-        // TODO Auto-generated method stub
+        
+        if (button == 1) {
+            turningIndex = 0;
+            if (west) {
+                west = false;
+            } else {
+                west = true;
+            }
+        }
+        
         return false;
     }
 
@@ -251,14 +283,13 @@ public class Helicopter extends Actor implements InputProcessor {
     }
 
     @Override
-    public boolean mouseMoved(int screenX, int screenY) {
+    public boolean scrolled(int amount) {
         // TODO Auto-generated method stub
         return false;
     }
 
     @Override
-    public boolean scrolled(int amount) {
-        // TODO Auto-generated method stub
+    public boolean mouseMoved(int i, int i1) {
         return false;
     }
 

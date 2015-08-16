@@ -12,11 +12,11 @@ import rescue.raiders.util.Sounds;
 public class AAGun extends Actor {
     
     long lastShotTime;
-    Music snd = Sounds.get(Sound.TURRET_GUNFIRE);
-
+    private final Music snd;
 
     public AAGun(ActorType t) {
         super(t, AtlasCache.get("turret"), .05f, .65f, false);
+        this.snd = Sounds.getNewInstance(Sound.TURRET_GUNFIRE);
     }
     
     @Override
@@ -36,7 +36,7 @@ public class AAGun extends Actor {
         float dst = distance(tx, ty, x, y);
         if (dst < 600000 && (25 < ang && ang < 165)) {
             if (!snd.isPlaying()) {
-                Sounds.play(Sound.TURRET_GUNFIRE);
+                //Sounds.play(Sound.TURRET_GUNFIRE);
             }
             if (System.currentTimeMillis() - lastShotTime > 200) {
                 Bullet b = new Bullet(this, x + 25, y + 15, ang);
@@ -44,12 +44,17 @@ public class AAGun extends Actor {
                 lastShotTime = System.currentTimeMillis();
             }
         } else {
-            if (snd.isPlaying()) {
-                snd.stop();
-            }
+            //if (snd.isPlaying()) {
+                //snd.stop();
+            //}
         }
     }
     
+    @Override
+    public void act(float delta) {
+        super.act(delta);
+ 
+    }
     
     private float distance(float x1, float y1, float x2, float y2) {
         final float x_d = x2 - x1;

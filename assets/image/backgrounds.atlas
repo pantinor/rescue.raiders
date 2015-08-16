@@ -58,3 +58,31 @@ enemy-base
   orig: 336, 128
   offset: 0, 0
   index: 0
+chain
+  rotate: false
+  xy: 25, 309
+  size: 5, 282
+  orig: 5, 282
+  offset: 0, 0
+  index: 0
+chain
+  rotate: false
+  xy: 31, 309
+  size: 5, 282
+  orig: 5, 282
+  offset: 0, 0
+  index: 1
+chain
+  rotate: false
+  xy: 37, 309
+  size: 5, 282
+  orig: 5, 282
+  offset: 0, 0
+  index: 2
+chain
+  rotate: false
+  xy: 43, 309
+  size: 5, 282
+  orig: 5, 282
+  offset: 0, 0
+  index: 3

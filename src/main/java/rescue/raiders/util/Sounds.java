@@ -28,4 +28,11 @@ public class Sounds {
         return m;
     }
 
+    public static Music getNewInstance(Sound sound) {
+        Music m = Gdx.audio.newMusic(Gdx.files.internal("assets/audio/ogg/" + sound.getFile()));
+        m.setVolume(sound.getVolume());
+        m.setLooping(sound.getLooping());
+        return m;
+    }
+
 }

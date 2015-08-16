@@ -30,6 +30,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion;
@@ -47,8 +48,10 @@ import rescue.raiders.objects.Jeep;
 public class RescueRaiders extends Game implements InputProcessor {
 
     public static final int SCREEN_WIDTH = 1200;
-    public static final int SCREEN_HEIGHT = 600;
-
+    public static final int SCREEN_HEIGHT = 768;
+    public static final int HUD_HEIGHT = 100;
+    public static final int STATUS_BAR_HEIGHT = 15;
+    
     public static final int FIELD_WIDTH = 14000;
     public static final int FIELD_HEIGHT = 48;
 
@@ -65,7 +68,6 @@ public class RescueRaiders extends Game implements InputProcessor {
     Image floor;
     public static Helicopter heli;
 
-	//Rectangle floor = new Rectangle(0, 0, FIELD_WIDTH, FIELD_HEIGHT);
     public static void main(String[] args) {
 
         LwjglApplicationConfiguration cfg = new LwjglApplicationConfiguration();
@@ -78,6 +80,11 @@ public class RescueRaiders extends Game implements InputProcessor {
 
     @Override
     public void create() {
+        try {
+            BufferedImage cursor = ImageIO.read(new File("assets/image/cursor-cross.png"));
+            Gdx.input.setCursorImage(createPixmap(cursor), 8, 8);
+        } catch (IOException ex) {
+        }
 
         AtlasCache.add("copter", "assets/image/wirly-bird.atlas");
         AtlasCache.add("launcher", "assets/image/rocket-launcher.atlas");
@@ -88,7 +95,8 @@ public class RescueRaiders extends Game implements InputProcessor {
         AtlasCache.add("backgrounds", "assets/image/backgrounds.atlas");
         AtlasCache.add("turret", "assets/image/turret.atlas");
         AtlasCache.add("balloon", "assets/image/meteors.atlas");
-
+        AtlasCache.add("chain", "assets/image/backgrounds.atlas");
+        
         camera = new OrthographicCamera();
         camera.setToOrtho(false, SCREEN_WIDTH, SCREEN_HEIGHT);
         stage = new Stage(new ScreenViewport(camera));
@@ -106,13 +114,13 @@ public class RescueRaiders extends Game implements InputProcessor {
         for (int i = 0; i < 5; i++) {
             floor = new Image(tr);
             floor.setPosition(fx - 1000, 0);
-            floor.setUserObject(heli.createMiniIcon(Color.GRAY, 275, 3));
+            floor.setUserObject(heli.createMiniIcon(Color.GRAY, 435, 3));
             stage.addActor(floor);
             fx += tr.getRegionWidth();
         }
 
-        hud = new Image(fillRectangle(SCREEN_WIDTH, 40, Color.DARK_GRAY));
-        hud.setY(SCREEN_HEIGHT - 40);
+        hud = new Image(fillRectangle(SCREEN_WIDTH, HUD_HEIGHT, Color.DARK_GRAY));
+        hud.setY(SCREEN_HEIGHT - HUD_HEIGHT);
 
         Level l1 = new Level1();
         l1.addObjects(stage);
@@ -141,7 +149,9 @@ public class RescueRaiders extends Game implements InputProcessor {
 
         staticBatch.begin();
         hud.draw(staticBatch, .7f);
+        heli.drawStatusBars(staticBatch);
         staticBatch.end();
+        
 
         batchMiniMap.begin();
         Array<com.badlogic.gdx.scenes.scene2d.Actor> actors = stage.getActors();
@@ -149,7 +159,7 @@ public class RescueRaiders extends Game implements InputProcessor {
             Object obj = actor.getUserObject();
             if (obj != null && obj instanceof TextureRegion) {
                 float x = ((actor.getX() / FIELD_WIDTH) * hud.getWidth());
-                float y = ((actor.getY() / SCREEN_HEIGHT) * hud.getHeight()) + SCREEN_HEIGHT - 40;
+                float y = ((actor.getY() / SCREEN_HEIGHT) * hud.getHeight()) + SCREEN_HEIGHT - HUD_HEIGHT;
                 TextureRegion tr = (TextureRegion) obj;
                 batchMiniMap.draw(tr, x, y);
             }
@@ -166,7 +176,7 @@ public class RescueRaiders extends Game implements InputProcessor {
 
     }
 
-    public Texture fillRectangle(int width, int height, Color color) {
+    public static Texture fillRectangle(int width, int height, Color color) {
         Pixmap pix = new Pixmap(width, height, Pixmap.Format.RGBA8888);
         pix.setColor(color);
         pix.fillRectangle(0, 0, width, height);
@@ -263,15 +273,13 @@ public class RescueRaiders extends Game implements InputProcessor {
                 jeep.addAction(Actions.moveTo(FIELD_WIDTH, FIELD_HEIGHT, 160f));
                 stage.addActor(jeep);
                 break;
-//            case Keys.L:
+            case Keys.L:
 //                Actor launcher = new Actor("launcher-raising", AtlasCache.get("launcher"), 0.05f, 1f, true);
 //                launcher.setPosition(SPAWN, FIELD_HEIGHT);
 //                launcher.addAction(Actions.moveTo(FIELD_WIDTH, FIELD_HEIGHT, 160f));
 //                stage.addActor(launcher);
 //                break;
-            case Keys.SPACE:
-                heli.shoot(stage);
-                break;
+
         }
 
         return false;
@@ -291,7 +299,9 @@ public class RescueRaiders extends Game implements InputProcessor {
 
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-        // TODO Auto-generated method stub
+        if (button == 0) {
+            heli.shoot(stage);
+        }
         return false;
     }
 
