@@ -6,7 +6,7 @@ public class Level1 extends Level {
 
     public Level1() {
 
-        this.layout = new Object[][] {
+        this.layout = new Object[][]{
             {ActorType.BASE, 0},
             {ActorType.PAD, 500},
             {ActorType.HUT, 1000},

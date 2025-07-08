@@ -27,28 +27,33 @@
             </snapshots>
         </repository>
     </repositories>
+    
+    <properties>
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
+    </properties>
 
     <dependencies>
         <dependency>
             <groupId>com.badlogicgames.gdx</groupId>
             <artifactId>gdx</artifactId>
-            <version>1.6.2</version>
+            <version>1.13.5</version>
         </dependency>
         <dependency>
             <groupId>com.badlogicgames.gdx</groupId>
             <artifactId>gdx-backend-lwjgl</artifactId>
-            <version>1.6.2</version>
+            <version>1.13.5</version>
         </dependency>
         <dependency>
             <groupId>com.badlogicgames.gdx</groupId>
             <artifactId>gdx-platform</artifactId>
-            <version>1.6.2</version>
+            <version>1.13.5</version>
             <classifier>natives-desktop</classifier>
         </dependency>
         <dependency>
             <groupId>com.badlogicgames.gdx</groupId>
             <artifactId>gdx-tools</artifactId>
-            <version>1.6.2</version>
+            <version>1.13.5</version>
         </dependency>
         <dependency>
             <groupId>org.testng</groupId>
@@ -57,59 +62,6 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
+   
 
-    <build>
-
-        <plugins>
-
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-jar-plugin</artifactId>
-                <version>2.3.2</version>
-                <configuration>
-                    <archive>
-                        <index>true</index>
-                        <manifest>
-                            <addClasspath>true</addClasspath>
-                            <classpathPrefix>lib/</classpathPrefix>
-                            <mainClass>ultima.Ultima4</mainClass>
-                        </manifest>
-
-                    </archive>
-                </configuration>
-            </plugin>
-
-
-<!--            <plugin>
-                <artifactId>maven-assembly-plugin</artifactId>
-                <version>2.3</version>
-                <configuration>
-
-                    <descriptors>
-                        <descriptor>src/assemble/assemble.xml</descriptor>
-                    </descriptors>
-
-                    <archive>
-                        <manifest>
-                            <mainClass>ultima.Ultima4</mainClass>
-                        </manifest>
-                    </archive>
-                </configuration>
-                <executions>
-                    <execution>
-                        <id>make-assembly</id>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>single</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>-->
-        </plugins>
-
-    </build>
-    <properties>
-        <maven.compiler.source>1.8</maven.compiler.source>
-        <maven.compiler.target>1.8</maven.compiler.target>
-    </properties>
 </project>

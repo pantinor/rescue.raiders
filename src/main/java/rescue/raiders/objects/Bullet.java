@@ -74,15 +74,15 @@ public class Bullet extends com.badlogic.gdx.scenes.scene2d.Actor {
 
         hitbox.x = this.getX();
         hitbox.y = this.getY();
-        
+
         if (this.getStage() != null) {
             Array<com.badlogic.gdx.scenes.scene2d.Actor> actors = this.getStage().getActors();
-            for (int i=0;i<actors.items.length;i++) {
+            for (int i = 0; i < actors.items.length; i++) {
                 if (this.source.equals(actors.items[i])) {
                     continue;
                 }
                 if (actors.items[i] instanceof rescue.raiders.objects.Actor) {
-                    if (((rescue.raiders.objects.Actor)actors.items[i]).hits(this.hitbox)) {
+                    if (((rescue.raiders.objects.Actor) actors.items[i]).hits(this.hitbox)) {
                         //System.out.println("hit: " + actors.items[i].toString());
                         break;
                     }

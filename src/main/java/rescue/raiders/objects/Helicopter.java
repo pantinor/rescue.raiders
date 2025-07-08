@@ -26,22 +26,22 @@ public class Helicopter extends Actor implements InputProcessor {
     boolean left, right, up, down;
     float px = SCREEN_WIDTH / 2, py = SCREEN_HEIGHT / 2, pvx = 0.0f, pvy = 0.0f, pd = 0.9f;
     boolean west;
-    
+
     Music snd = Sounds.get(Sound.HELICOPTER_ENGINE);
-    
-    Animation flipped;
+
+    Animation<TextureRegion> flipped;
     Array<AtlasRegion> turningLeft;
     Array<AtlasRegion> turningRight;
     int turningIndex = 0;
-    
+
     private int health = 100;
     private int fuel = 100;
     private TextureRegion healthBar;
     private TextureRegion fuelBar;
-    
+
     public Helicopter(ActorType t) {
         super(t, AtlasCache.get("copter"), 0.02f, 1f, false);
-        
+
         Array<AtlasRegion> east = AtlasCache.get("copter").findRegions(t.getName());
         for (TextureRegion tr : east) {
             tr.flip(true, false);
@@ -52,7 +52,7 @@ public class Helicopter extends Actor implements InputProcessor {
         this.turningRight = AtlasCache.get("copter").findRegions("turning");
         this.turningLeft = AtlasCache.get("copter").findRegions("turning");
         this.turningLeft.reverse();
-        
+
         healthBar = new TextureRegion(RescueRaiders.fillRectangle(SCREEN_WIDTH, STATUS_BAR_HEIGHT, Color.valueOf("105410")));
         fuelBar = new TextureRegion(RescueRaiders.fillRectangle(SCREEN_WIDTH, STATUS_BAR_HEIGHT, Color.YELLOW));
 
@@ -62,7 +62,7 @@ public class Helicopter extends Actor implements InputProcessor {
         avy = 0.0f;
         ak = 0.03f;// spring constant
         ad = 0.7f; // damping factor
-        
+
         Sounds.play(Sound.HELICOPTER_ENGINE);
 
     }
@@ -100,10 +100,10 @@ public class Helicopter extends Actor implements InputProcessor {
         batch.draw(frame, this.getX(), this.getY(), 0, 0, frame.getRegionWidth() * scale, frame.getRegionHeight() * scale, 1, 1, 100 * angle);
 
     }
-    
+
     public void drawStatusBars(SpriteBatch batch) {
-        batch.draw(healthBar, 0,SCREEN_HEIGHT - HUD_HEIGHT - STATUS_BAR_HEIGHT);
-        batch.draw(fuelBar, 0,SCREEN_HEIGHT - HUD_HEIGHT - STATUS_BAR_HEIGHT - STATUS_BAR_HEIGHT);
+        batch.draw(healthBar, 0, SCREEN_HEIGHT - HUD_HEIGHT - STATUS_BAR_HEIGHT);
+        batch.draw(fuelBar, 0, SCREEN_HEIGHT - HUD_HEIGHT - STATUS_BAR_HEIGHT - STATUS_BAR_HEIGHT);
     }
 
     public float yup(float y) {
@@ -137,7 +137,7 @@ public class Helicopter extends Actor implements InputProcessor {
         }
         fuelBar.setRegion(0, 0, (int) bar, STATUS_BAR_HEIGHT);
     }
-  
+
     public boolean isWest() {
         return this.west;
     }
@@ -196,7 +196,7 @@ public class Helicopter extends Actor implements InputProcessor {
         hitbox.x = px;
         hitbox.y = yup(py);
 
-		//System.out.println("velocityX: " +ax+ " velocityY: " +ay);
+        //System.out.println("velocityX: " +ax+ " velocityY: " +ay);
     }
 
     public void checkCrash() {
@@ -257,7 +257,7 @@ public class Helicopter extends Actor implements InputProcessor {
 
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-        
+
         if (button == 1) {
             turningIndex = 0;
             if (west) {
@@ -266,7 +266,7 @@ public class Helicopter extends Actor implements InputProcessor {
                 west = true;
             }
         }
-        
+
         return false;
     }
 
@@ -283,13 +283,17 @@ public class Helicopter extends Actor implements InputProcessor {
     }
 
     @Override
-    public boolean scrolled(int amount) {
-        // TODO Auto-generated method stub
+    public boolean mouseMoved(int i, int i1) {
         return false;
     }
 
     @Override
-    public boolean mouseMoved(int i, int i1) {
+    public boolean touchCancelled(int i, int i1, int i2, int i3) {
+        return false;
+    }
+
+    @Override
+    public boolean scrolled(float f, float f1) {
         return false;
     }
 

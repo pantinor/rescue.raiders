@@ -17,17 +17,17 @@ public class Hut extends Actor {
 
     private final Balloon balloon;
     private boolean balloonAdded = false;
-    private Animation chain;
-    
+    private Animation<TextureRegion> chain;
+
     public Hut(ActorType t) {
 
         super(t, AtlasCache.get("backgrounds"), .65f, false);
-        this.setUserObject(createMiniIcon(t.getIconColor(), 8,8));
-        
-        ActorType b = t.isIsEnemy() ? ActorType.ENEMY_BALLON : ActorType.BALLON ;
+        this.setUserObject(createMiniIcon(t.getIconColor(), 8, 8));
+
+        ActorType b = t.isIsEnemy() ? ActorType.ENEMY_BALLON : ActorType.BALLON;
         this.balloon = new Balloon(b);
-        this.balloon.setUserObject(createMiniIcon(b.getIconColor(), 3,3));
-        
+        this.balloon.setUserObject(createMiniIcon(b.getIconColor(), 3, 3));
+
         Array<TextureAtlas.AtlasRegion> ch = AtlasCache.get("chain").findRegions("chain");
         this.chain = new Animation(0.05f, ch, Animation.PlayMode.LOOP);
 
@@ -47,19 +47,19 @@ public class Hut extends Actor {
         //seq1.addAction(Actions.delay(.05f));
         //seq1.addAction(Actions.run(new MeteorAction()));
         seq1.addAction(Actions.moveTo(x + 60, 400, 8f));
-        
+
         seq1.addAction(Actions.run(new Runnable() {
-        public void run() {
-            Hut.this.chain.setPlayMode(Animation.PlayMode.LOOP_REVERSED);
-        }
+            public void run() {
+                Hut.this.chain.setPlayMode(Animation.PlayMode.LOOP_REVERSED);
+            }
         }));
 
         seq1.addAction(Actions.moveTo(x + 60, 135, 8f));
-        
+
         seq1.addAction(Actions.run(new Runnable() {
-        public void run() {
-            Hut.this.chain.setPlayMode(Animation.PlayMode.LOOP);
-        }
+            public void run() {
+                Hut.this.chain.setPlayMode(Animation.PlayMode.LOOP);
+            }
         }));
 
         this.balloon.addAction(Actions.forever(seq1));
@@ -75,9 +75,9 @@ public class Hut extends Actor {
 
         frameCounter += Gdx.graphics.getDeltaTime();
         batch.draw(tr, this.getX(), this.getY(), tr.getRegionWidth() * scale, tr.getRegionHeight() * scale);
-                
+
         TextureRegion ctr = chain.getKeyFrame(frameCounter);
-        int h = (int)(this.balloon.getY() - 282 + 165);
+        int h = (int) (this.balloon.getY() - 282 + 165);
         ctr.setRegion(ctr.getRegionX(), ctr.getRegionY(), ctr.getRegionWidth(), h);
         batch.draw(ctr, this.getX() + 72, this.getY() + 80);
 

@@ -8,9 +8,8 @@ import rescue.raiders.util.AtlasCache;
 import rescue.raiders.util.Sound;
 import rescue.raiders.util.Sounds;
 
-
 public class AAGun extends Actor {
-    
+
     long lastShotTime;
     private final Music snd;
 
@@ -18,21 +17,21 @@ public class AAGun extends Actor {
         super(t, AtlasCache.get("turret"), .05f, .65f, false);
         this.snd = Sounds.getNewInstance(Sound.TURRET_GUNFIRE);
     }
-    
+
     @Override
     public void draw(Batch batch, float parentAlpha) {
-        
+
         float tx = RescueRaiders.heli.getX();
         float ty = RescueRaiders.heli.getY();
         float x = this.getX();
         float y = this.getY();
-        
+
         float ang = getAngleToTarget(tx, ty, x, y);
 
         float index = getFrame(ang);
-        TextureRegion frame = anim.getKeyFrames()[(int)index];
+        TextureRegion frame = anim.getKeyFrames()[(int) index];
         batch.draw(frame, this.getX(), this.getY(), frame.getRegionWidth() * scale, frame.getRegionHeight() * scale);
-        
+
         float dst = distance(tx, ty, x, y);
         if (dst < 600000 && (25 < ang && ang < 165)) {
             if (!snd.isPlaying()) {
@@ -45,23 +44,23 @@ public class AAGun extends Actor {
             }
         } else {
             //if (snd.isPlaying()) {
-                //snd.stop();
+            //snd.stop();
             //}
         }
     }
-    
+
     @Override
     public void act(float delta) {
         super.act(delta);
- 
+
     }
-    
+
     private float distance(float x1, float y1, float x2, float y2) {
         final float x_d = x2 - x1;
         final float y_d = y2 - y1;
         return x_d * x_d + y_d * y_d;
     }
-    
+
     private float getAngleToTarget(float tx, float ty, float x, float y) {
         float ang = (float) Math.toDegrees(Math.atan2(tx - x, y - ty));
         if (ang < 0) {
@@ -70,11 +69,11 @@ public class AAGun extends Actor {
         ang = (ang - 90) % 360;
         return ang;
     }
-    
+
     private float getFrame(float ang) {
-        
-        float frame = (ang - 45) / (90.0f/16.0f);
-        
+
+        float frame = (ang - 45) / (90.0f / 16.0f);
+
         if (frame < 0) {
             frame = 0;
         } else if (frame > 15f) {

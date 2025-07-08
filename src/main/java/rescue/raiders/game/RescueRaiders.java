@@ -6,18 +6,12 @@
 package rescue.raiders.game;
 
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
-
-import javax.imageio.ImageIO;
-
 import rescue.raiders.levels.Level;
 import rescue.raiders.levels.Level1;
 import rescue.raiders.objects.Explosion;
 import rescue.raiders.objects.Helicopter;
 import rescue.raiders.objects.Tank;
 import rescue.raiders.util.AtlasCache;
-
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
@@ -26,11 +20,11 @@ import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Cursor;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion;
@@ -51,7 +45,7 @@ public class RescueRaiders extends Game implements InputProcessor {
     public static final int SCREEN_HEIGHT = 768;
     public static final int HUD_HEIGHT = 100;
     public static final int STATUS_BAR_HEIGHT = 15;
-    
+
     public static final int FIELD_WIDTH = 14000;
     public static final int FIELD_HEIGHT = 48;
 
@@ -80,11 +74,10 @@ public class RescueRaiders extends Game implements InputProcessor {
 
     @Override
     public void create() {
-        try {
-            BufferedImage cursor = ImageIO.read(new File("assets/image/cursor-cross.png"));
-            Gdx.input.setCursorImage(createPixmap(cursor), 8, 8);
-        } catch (IOException ex) {
-        }
+        Pixmap cursorPixmap = new Pixmap(Gdx.files.internal("assets/image/cursor-cross.png"));
+        Cursor customCursor = Gdx.graphics.newCursor(cursorPixmap, 8, 8);
+        Gdx.graphics.setCursor(customCursor);
+        cursorPixmap.dispose(); // Safe to dispose after setting
 
         AtlasCache.add("copter", "assets/image/wirly-bird.atlas");
         AtlasCache.add("launcher", "assets/image/rocket-launcher.atlas");
@@ -96,7 +89,7 @@ public class RescueRaiders extends Game implements InputProcessor {
         AtlasCache.add("turret", "assets/image/turret.atlas");
         AtlasCache.add("balloon", "assets/image/meteors.atlas");
         AtlasCache.add("chain", "assets/image/backgrounds.atlas");
-        
+
         camera = new OrthographicCamera();
         camera.setToOrtho(false, SCREEN_WIDTH, SCREEN_HEIGHT);
         stage = new Stage(new ScreenViewport(camera));
@@ -104,8 +97,8 @@ public class RescueRaiders extends Game implements InputProcessor {
         batchMiniMap = new SpriteBatch();
 
         staticBatch = new SpriteBatch();
-        
-        heli = (Helicopter)ActorType.HELI.getInstance();
+
+        heli = (Helicopter) ActorType.HELI.getInstance();
         heli.setPosition(400, FIELD_HEIGHT);
         stage.addActor(heli);
 
@@ -140,10 +133,9 @@ public class RescueRaiders extends Game implements InputProcessor {
 
         camera.position.x = heli.getX();
 
-	//if (heli.hits(floor)) {
+        //if (heli.hits(floor)) {
         //	heli.checkCrash();
         //}
-        
         stage.act();
         stage.draw();
 
@@ -151,7 +143,6 @@ public class RescueRaiders extends Game implements InputProcessor {
         hud.draw(staticBatch, .7f);
         heli.drawStatusBars(staticBatch);
         staticBatch.end();
-        
 
         batchMiniMap.begin();
         Array<com.badlogic.gdx.scenes.scene2d.Actor> actors = stage.getActors();
@@ -185,36 +176,47 @@ public class RescueRaiders extends Game implements InputProcessor {
         return t;
     }
 
-    public static Texture makeFloorSection(TextureAtlas atlas, int totalFloorWIdth, int numFloorPieces) {
-        Texture t = null;
-
-        try {
-            AtlasRegion ar = (AtlasRegion) atlas.findRegion("ground");
-            BufferedImage sheet = ImageIO.read(new File("assets/image/backgrounds.png"));
-
-            int h = ar.getRegionHeight();
-            int w = ar.getRegionWidth();
-
-            int numberPiecesInEachSection = (totalFloorWIdth / w) / numFloorPieces;
-            int twidth = numberPiecesInEachSection * w;
-
-            BufferedImage canvas = new BufferedImage(twidth, h, BufferedImage.TYPE_INT_ARGB);
-            BufferedImage sub = sheet.getSubimage(ar.getRegionX(), ar.getRegionY(), w, h);
-
-            for (int x = 0; x < twidth; x += w) {
-                canvas.getGraphics().drawImage(sub, x, 0, w, h, null);
-            }
-
-            Pixmap p = createPixmap(canvas);
-            t = new Texture(p);
-            p.dispose();
-
-        } catch (IOException e) {
-            e.printStackTrace();
+    public static Texture makeFloorSection(TextureAtlas atlas, int totalFloorWidth, int numFloorPieces) {
+        // Find the region named "ground" in the atlas
+        AtlasRegion groundRegion = atlas.findRegion("ground");
+        if (groundRegion == null) {
+            throw new IllegalArgumentException("Region 'ground' not found in the atlas.");
         }
 
-        return t;
+        int pieceWidth = groundRegion.getRegionWidth();
+        int pieceHeight = groundRegion.getRegionHeight();
 
+        int numberPiecesInEachSection = (totalFloorWidth / pieceWidth) / numFloorPieces;
+        int finalTextureWidth = numberPiecesInEachSection * pieceWidth;
+
+        // Create a new Pixmap large enough to hold all repeated pieces
+        Pixmap result = new Pixmap(finalTextureWidth, pieceHeight, Pixmap.Format.RGBA8888);
+
+        // Extract the Pixmap from the ground region
+        Texture groundTexture = groundRegion.getTexture();
+        groundTexture.getTextureData().prepare();
+        Pixmap fullPixmap = groundTexture.getTextureData().consumePixmap();
+
+        // Extract only the groundRegion part from the fullPixmap
+        Pixmap groundPixmap = new Pixmap(pieceWidth, pieceHeight, Pixmap.Format.RGBA8888);
+        groundPixmap.drawPixmap(
+                fullPixmap,
+                0, 0, // destX, destY
+                groundRegion.getRegionX(), // srcX
+                groundRegion.getRegionY(), // srcY
+                pieceWidth, pieceHeight // srcWidth, srcHeight
+        );
+
+        // Now tile the groundPixmap into the result
+        for (int x = 0; x < finalTextureWidth; x += pieceWidth) {
+            result.drawPixmap(groundPixmap, x, 0);
+        }
+
+        // Clean up
+        groundPixmap.dispose();
+        fullPixmap.dispose();
+
+        return new Texture(result, true);
     }
 
     public static Pixmap createPixmap(BufferedImage image) {
@@ -252,23 +254,23 @@ public class RescueRaiders extends Game implements InputProcessor {
 
         switch (keycode) {
             case Keys.T:
-                Tank  tank = (Tank)ActorType.TANK.getInstance();
+                Tank tank = (Tank) ActorType.TANK.getInstance();
                 stage.addActor(tank);
                 break;
             case Keys.E:
-                Engineer engineer = (Engineer)ActorType.ENGINEER.getInstance();
+                Engineer engineer = (Engineer) ActorType.ENGINEER.getInstance();
                 engineer.setPosition(SPAWN, FIELD_HEIGHT);
                 engineer.addAction(Actions.moveTo(FIELD_WIDTH, FIELD_HEIGHT, 160f));
                 stage.addActor(engineer);
                 break;
             case Keys.I:
-                Infantry infantry = (Infantry)ActorType.INFANTRY.getInstance();
+                Infantry infantry = (Infantry) ActorType.INFANTRY.getInstance();
                 infantry.setPosition(SPAWN, FIELD_HEIGHT);
                 infantry.addAction(Actions.moveTo(FIELD_WIDTH, FIELD_HEIGHT, 160f));
                 stage.addActor(infantry);
                 break;
             case Keys.J:
-                Jeep jeep = (Jeep)ActorType.JEEP.getInstance();
+                Jeep jeep = (Jeep) ActorType.JEEP.getInstance();
                 jeep.setPosition(SPAWN, FIELD_HEIGHT);
                 jeep.addAction(Actions.moveTo(FIELD_WIDTH, FIELD_HEIGHT, 160f));
                 stage.addActor(jeep);
@@ -324,8 +326,12 @@ public class RescueRaiders extends Game implements InputProcessor {
     }
 
     @Override
-    public boolean scrolled(int amount) {
-        // TODO Auto-generated method stub
+    public boolean touchCancelled(int i, int i1, int i2, int i3) {
+        return false;
+    }
+
+    @Override
+    public boolean scrolled(float f, float f1) {
         return false;
     }
 

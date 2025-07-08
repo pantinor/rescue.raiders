@@ -17,11 +17,11 @@ public class Actor extends com.badlogic.gdx.scenes.scene2d.Actor {
     ActorType type;
     Rectangle hitbox;
     TextureRegion tr;
-    Animation anim;
+    Animation<TextureRegion> anim;
     float frameCounter = 0;
     float scale;
     boolean flip;
-    
+
     public Actor(ActorType t) {
         super();
         this.type = t;
