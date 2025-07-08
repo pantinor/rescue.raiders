@@ -3,7 +3,7 @@ package rescue.raiders.objects;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import rescue.raiders.game.RescueRaiders;
+import rescue.raiders.game.GameStage;
 import rescue.raiders.util.AtlasCache;
 import rescue.raiders.util.Sound;
 import rescue.raiders.util.Sounds;
@@ -12,6 +12,7 @@ public class AAGun extends Actor {
 
     long lastShotTime;
     private final Music snd;
+    private int health = 100;
 
     public AAGun(ActorType t) {
         super(t, AtlasCache.get("turret"), .05f, .65f, false);
@@ -21,8 +22,11 @@ public class AAGun extends Actor {
     @Override
     public void draw(Batch batch, float parentAlpha) {
 
-        float tx = RescueRaiders.heli.getX();
-        float ty = RescueRaiders.heli.getY();
+        GameStage stage = (GameStage) getStage();
+        Helicopter heli = stage.getHelicopter();
+
+        float tx = heli != null ? heli.getX() : 0;
+        float ty = heli != null ? heli.getY() : 0;
         float x = this.getX();
         float y = this.getY();
 
@@ -80,6 +84,22 @@ public class AAGun extends Actor {
             frame = 15f;
         }
         return frame;
+    }
+
+    public void takeDamage(int damage) {
+        health -= damage;
+        if (health <= 0) {
+            health = 0;
+            destroy();
+        }
+    }
+
+    public boolean isAlive() {
+        return health > 0;
+    }
+
+    private void destroy() {
+        // handle explosion, removal, score update etc.
     }
 
 }

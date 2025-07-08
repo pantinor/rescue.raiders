@@ -2,7 +2,6 @@ package rescue.raiders.objects;
 
 import static rescue.raiders.game.RescueRaiders.*;
 import rescue.raiders.game.RescueRaiders;
-
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputProcessor;
@@ -21,18 +20,18 @@ import rescue.raiders.util.Sounds;
 
 public class Helicopter extends Actor implements InputProcessor {
 
-    float ax, avx, ay, avy, ak, ad, angle;
-    int lastMouseX, lastMouseY;
-    boolean left, right, up, down;
-    float px = SCREEN_WIDTH / 2, py = SCREEN_HEIGHT / 2, pvx = 0.0f, pvy = 0.0f, pd = 0.9f;
-    boolean west;
+    private float ax, avx, ay, avy, ak, ad, angle;
+    private int lastMouseX, lastMouseY;
+    private boolean left, right, up, down;
+    private float px = SCREEN_WIDTH / 2, py = SCREEN_HEIGHT / 2, pvx = 0.0f, pvy = 0.0f, pd = 0.9f;
+    private boolean west;
 
-    Music snd = Sounds.get(Sound.HELICOPTER_ENGINE);
+    private Music snd = Sounds.get(Sound.HELICOPTER_ENGINE);
 
-    Animation<TextureRegion> flipped;
-    Array<AtlasRegion> turningLeft;
-    Array<AtlasRegion> turningRight;
-    int turningIndex = 0;
+    private Animation<TextureRegion> flipped;
+    private Array<AtlasRegion> turningLeft;
+    private Array<AtlasRegion> turningRight;
+    private int turningIndex = 0;
 
     private int health = 100;
     private int fuel = 100;
@@ -53,8 +52,8 @@ public class Helicopter extends Actor implements InputProcessor {
         this.turningLeft = AtlasCache.get("copter").findRegions("turning");
         this.turningLeft.reverse();
 
-        healthBar = new TextureRegion(RescueRaiders.fillRectangle(SCREEN_WIDTH, STATUS_BAR_HEIGHT, Color.valueOf("105410")));
-        fuelBar = new TextureRegion(RescueRaiders.fillRectangle(SCREEN_WIDTH, STATUS_BAR_HEIGHT, Color.YELLOW));
+        healthBar = new TextureRegion(RescueRaiders.fillRectangle(SCREEN_WIDTH, STATUS_BAR_HEIGHT, Color.GREEN));
+        fuelBar = new TextureRegion(RescueRaiders.fillRectangle(SCREEN_WIDTH, STATUS_BAR_HEIGHT, Color.ORANGE));
 
         ax = 0.0f;
         ay = 0.0f;
@@ -114,9 +113,12 @@ public class Helicopter extends Actor implements InputProcessor {
         return this.angle;
     }
 
-    public void decrementHealth() {
-        double percent = this.health / 100;
-        double bar = percent * (double) SCREEN_WIDTH;
+    public void takeDamage(int damage) {
+        health -= damage;
+
+        double percent = (double) this.health / 100.0;
+        double bar = percent * SCREEN_WIDTH;
+
         if (this.health < 0) {
             bar = 0;
         }
@@ -124,9 +126,22 @@ public class Helicopter extends Actor implements InputProcessor {
             bar = SCREEN_WIDTH;
         }
         healthBar.setRegion(0, 0, (int) bar, STATUS_BAR_HEIGHT);
+
+        if (health <= 0) {
+            health = 0;
+            crash();
+        }
     }
 
-    public void decrementFuel() {
+    public boolean isAlive() {
+        return health > 0;
+    }
+
+    private void crash() {
+        // trigger explosion, game over, etc.
+    }
+
+    private void decrementFuel() {
         double percent = this.fuel / 100;
         double bar = percent * (double) SCREEN_WIDTH;
         if (this.fuel < 0) {

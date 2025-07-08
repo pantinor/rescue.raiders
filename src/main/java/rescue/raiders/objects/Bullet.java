@@ -66,7 +66,6 @@ public class Bullet extends com.badlogic.gdx.scenes.scene2d.Actor {
         float vy = (float) (speed * Math.sin(radians));
 
         float dt = Gdx.graphics.getDeltaTime();
-
         float dx = vx * dt;
         float dy = vy * dt;
 
@@ -79,11 +78,21 @@ public class Bullet extends com.badlogic.gdx.scenes.scene2d.Actor {
             Array<com.badlogic.gdx.scenes.scene2d.Actor> actors = this.getStage().getActors();
             for (int i = 0; i < actors.items.length; i++) {
                 if (this.source.equals(actors.items[i])) {
-                    continue;
+                    continue; // don't hit the shooter
                 }
+
                 if (actors.items[i] instanceof rescue.raiders.objects.Actor) {
-                    if (((rescue.raiders.objects.Actor) actors.items[i]).hits(this.hitbox)) {
-                        //System.out.println("hit: " + actors.items[i].toString());
+                    rescue.raiders.objects.Actor target = (rescue.raiders.objects.Actor) actors.items[i];
+                    if (target.hits(this.hitbox)) {
+
+                        // Handle damage
+                        if (target instanceof Helicopter && !(this.source instanceof Helicopter)) {
+                            ((Helicopter) target).takeDamage(1);
+                        } else if (target instanceof AAGun && !(this.source instanceof AAGun)) {
+                            ((AAGun) target).takeDamage(1);
+                        }
+
+                        this.remove(); // Remove bullet on impact
                         break;
                     }
                 }

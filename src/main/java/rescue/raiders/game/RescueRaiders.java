@@ -5,7 +5,6 @@
  */
 package rescue.raiders.game;
 
-import java.awt.image.BufferedImage;
 import rescue.raiders.levels.Level;
 import rescue.raiders.levels.Level1;
 import rescue.raiders.objects.Explosion;
@@ -29,7 +28,6 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.utils.Array;
@@ -52,15 +50,16 @@ public class RescueRaiders extends Game implements InputProcessor {
     public static final int SPAWN = 0;
     public static final int ENEMY_SPAWN = FIELD_WIDTH;
 
-    OrthographicCamera camera;
+    private OrthographicCamera camera;
 
-    SpriteBatch staticBatch;
-    SpriteBatch batchMiniMap;
+    private SpriteBatch batch;
+    private SpriteBatch batchMiniMap;
 
-    Stage stage;
-    Image hud;
-    Image floor;
-    public static Helicopter heli;
+    private GameStage stage;
+    private Image hud;
+    private Image floor;
+
+    public Helicopter heli;
 
     public static void main(String[] args) {
 
@@ -92,15 +91,17 @@ public class RescueRaiders extends Game implements InputProcessor {
 
         camera = new OrthographicCamera();
         camera.setToOrtho(false, SCREEN_WIDTH, SCREEN_HEIGHT);
-        stage = new Stage(new ScreenViewport(camera));
+        stage = new GameStage(new ScreenViewport(camera));
 
         batchMiniMap = new SpriteBatch();
 
-        staticBatch = new SpriteBatch();
+        batch = new SpriteBatch();
 
         heli = (Helicopter) ActorType.HELI.getInstance();
         heli.setPosition(400, FIELD_HEIGHT);
         stage.addActor(heli);
+
+        stage.setHelicopter(heli);
 
         TextureRegion tr = new TextureRegion(makeFloorSection(AtlasCache.get("backgrounds"), FIELD_WIDTH + 2000, 5));
         int fx = 0;
@@ -139,10 +140,10 @@ public class RescueRaiders extends Game implements InputProcessor {
         stage.act();
         stage.draw();
 
-        staticBatch.begin();
-        hud.draw(staticBatch, .7f);
-        heli.drawStatusBars(staticBatch);
-        staticBatch.end();
+        batch.begin();
+        hud.draw(batch, .7f);
+        heli.drawStatusBars(batch);
+        batch.end();
 
         batchMiniMap.begin();
         Array<com.badlogic.gdx.scenes.scene2d.Actor> actors = stage.getActors();
@@ -161,10 +162,6 @@ public class RescueRaiders extends Game implements InputProcessor {
 
     public static float yup(float y) {
         return SCREEN_HEIGHT - y;
-    }
-
-    public void dispose() {
-
     }
 
     public static Texture fillRectangle(int width, int height, Color color) {
@@ -219,36 +216,6 @@ public class RescueRaiders extends Game implements InputProcessor {
         return new Texture(result, true);
     }
 
-    public static Pixmap createPixmap(BufferedImage image) {
-
-        int w = image.getWidth();
-        int h = image.getHeight();
-
-        Pixmap pix = new Pixmap(w, h, Pixmap.Format.RGBA8888);
-        pix.setColor(0f, 0f, 0f, .45f);
-        pix.fillRectangle(0, 0, w, h);
-
-        int[] pixels = image.getRGB(0, 0, w, h, null, 0, w);
-
-        for (int x = 0; x < w; x++) {
-            for (int y = 0; y < h; y++) {
-                int pixel = pixels[y * w + x];
-                pix.drawPixel(x, y, getRGBA(pixel));
-            }
-        }
-
-        return pix;
-    }
-
-    public static int getRGBA(int rgb) {
-        int a = rgb >> 24;
-        a &= 0x000000ff;
-        int rest = rgb & 0x00ffffff;
-        rest <<= 8;
-        rest |= a;
-        return rest;
-    }
-
     @Override
     public boolean keyDown(int keycode) {
 
@@ -289,13 +256,11 @@ public class RescueRaiders extends Game implements InputProcessor {
 
     @Override
     public boolean keyUp(int keycode) {
-        // TODO Auto-generated method stub
         return false;
     }
 
     @Override
     public boolean keyTyped(char character) {
-        // TODO Auto-generated method stub
         return false;
     }
 
@@ -309,19 +274,16 @@ public class RescueRaiders extends Game implements InputProcessor {
 
     @Override
     public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-        // TODO Auto-generated method stub
         return false;
     }
 
     @Override
     public boolean touchDragged(int screenX, int screenY, int pointer) {
-        // TODO Auto-generated method stub
         return false;
     }
 
     @Override
     public boolean mouseMoved(int screenX, int screenY) {
-        // TODO Auto-generated method stub
         return false;
     }
 
