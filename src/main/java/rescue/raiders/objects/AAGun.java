@@ -1,6 +1,5 @@
 package rescue.raiders.objects;
 
-import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import rescue.raiders.game.GameStage;
@@ -11,18 +10,16 @@ import rescue.raiders.util.Sounds;
 public class AAGun extends Actor {
 
     long lastShotTime;
-    private final Music snd;
-    private int health = 100;
 
     public AAGun(ActorType t) {
         super(t, AtlasCache.get("turret"), .05f, .65f, false);
-        this.snd = Sounds.getNewInstance(Sound.TURRET_GUNFIRE);
     }
 
     @Override
     public void draw(Batch batch, float parentAlpha) {
 
         GameStage stage = (GameStage) getStage();
+
         Helicopter heli = stage.getHelicopter();
 
         float tx = heli != null ? heli.getX() : 0;
@@ -37,19 +34,13 @@ public class AAGun extends Actor {
         batch.draw(frame, this.getX(), this.getY(), frame.getRegionWidth() * scale, frame.getRegionHeight() * scale);
 
         float dst = distance(tx, ty, x, y);
-        if (dst < 600000 && (25 < ang && ang < 165)) {
-            if (!snd.isPlaying()) {
-                //Sounds.play(Sound.TURRET_GUNFIRE);
-            }
+        if (isAlive() && this.type == ActorType.ENEMY_TURRET && dst < 600000 && (25 < ang && ang < 165)) {
             if (System.currentTimeMillis() - lastShotTime > 200) {
                 Bullet b = new Bullet(this, x + 25, y + 15, ang);
                 this.getStage().addActor(b);
                 lastShotTime = System.currentTimeMillis();
+                Sounds.play(Sound.TURRET_GUNFIRE);
             }
-        } else {
-            //if (snd.isPlaying()) {
-            //snd.stop();
-            //}
         }
     }
 
@@ -76,6 +67,10 @@ public class AAGun extends Actor {
 
     private float getFrame(float ang) {
 
+        if (!isAlive()) {
+            return 0;
+        }
+
         float frame = (ang - 45) / (90.0f / 16.0f);
 
         if (frame < 0) {
@@ -84,22 +79,6 @@ public class AAGun extends Actor {
             frame = 15f;
         }
         return frame;
-    }
-
-    public void takeDamage(int damage) {
-        health -= damage;
-        if (health <= 0) {
-            health = 0;
-            destroy();
-        }
-    }
-
-    public boolean isAlive() {
-        return health > 0;
-    }
-
-    private void destroy() {
-        // handle explosion, removal, score update etc.
     }
 
 }

@@ -11,6 +11,7 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.Array;
+import static rescue.raiders.game.RescueRaiders.FIELD_HEIGHT;
 
 public class Actor extends com.badlogic.gdx.scenes.scene2d.Actor {
 
@@ -21,6 +22,12 @@ public class Actor extends com.badlogic.gdx.scenes.scene2d.Actor {
     float frameCounter = 0;
     float scale;
     boolean flip;
+
+    int health = 20;
+    int maxHealth = 20;
+
+    Emitter damagedEmitter;
+    Emitter destroyedEmitter;
 
     public Actor(ActorType t) {
         super();
@@ -53,6 +60,28 @@ public class Actor extends com.badlogic.gdx.scenes.scene2d.Actor {
             tr.flip(flip, false);
         }
         this.setUserObject(createMiniIcon(t.getIconColor(), 4, 4));
+    }
+
+    public void takeDamage(int damage) {
+        if (health > 0) {
+            health -= damage;
+
+            double percent = (double) this.health / this.maxHealth;
+            
+            if (percent <= 0.25 && damagedEmitter == null) {
+                damagedEmitter = new Emitter(this.getX() + this.hitbox.getWidth() / 2, FIELD_HEIGHT, Emitter.Type.SMOKE);
+                getStage().addActor(damagedEmitter);
+            }
+            
+            if (health <= 0) {
+                destroyedEmitter = new Emitter(this.getX() + this.hitbox.getWidth() / 2, FIELD_HEIGHT, Emitter.Type.FIRE);
+                getStage().addActor(destroyedEmitter);
+            }
+        }
+    }
+
+    public boolean isAlive() {
+        return health > 0;
     }
 
     public boolean hits(Rectangle r) {

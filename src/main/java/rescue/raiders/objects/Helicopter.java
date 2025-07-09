@@ -5,7 +5,6 @@ import rescue.raiders.game.RescueRaiders;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputProcessor;
-import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Batch;
@@ -26,14 +25,11 @@ public class Helicopter extends Actor implements InputProcessor {
     private float px = SCREEN_WIDTH / 2, py = SCREEN_HEIGHT / 2, pvx = 0.0f, pvy = 0.0f, pd = 0.9f;
     private boolean west;
 
-    private Music snd = Sounds.get(Sound.HELICOPTER_ENGINE);
-
     private Animation<TextureRegion> flipped;
     private Array<AtlasRegion> turningLeft;
     private Array<AtlasRegion> turningRight;
     private int turningIndex = 0;
 
-    private int health = 100;
     private int fuel = 100;
     private TextureRegion healthBar;
     private TextureRegion fuelBar;
@@ -113,10 +109,11 @@ public class Helicopter extends Actor implements InputProcessor {
         return this.angle;
     }
 
+    @Override
     public void takeDamage(int damage) {
         health -= damage;
 
-        double percent = (double) this.health / 100.0;
+        double percent = (double) this.health / this.maxHealth;
         double bar = percent * SCREEN_WIDTH;
 
         if (this.health < 0) {
@@ -131,10 +128,6 @@ public class Helicopter extends Actor implements InputProcessor {
             health = 0;
             crash();
         }
-    }
-
-    public boolean isAlive() {
-        return health > 0;
     }
 
     private void crash() {
@@ -161,6 +154,7 @@ public class Helicopter extends Actor implements InputProcessor {
         float angleInDegrees = west ? 180 + angle * 100 : angle < 0 ? 360 + angle * 100 : angle * 100;
         Bullet b = new Bullet(this, west ? this.getX() + 15 : this.getX() + 55, this.getY() + 10, angleInDegrees);
         stage.addActor(b);
+        Sounds.play(Sound.INFANTRY_GUNFIRE);
     }
 
     @Override
@@ -211,7 +205,6 @@ public class Helicopter extends Actor implements InputProcessor {
         hitbox.x = px;
         hitbox.y = yup(py);
 
-        //System.out.println("velocityX: " +ax+ " velocityY: " +ay);
     }
 
     public void checkCrash() {
@@ -266,7 +259,6 @@ public class Helicopter extends Actor implements InputProcessor {
 
     @Override
     public boolean keyTyped(char character) {
-        // TODO Auto-generated method stub
         return false;
     }
 
@@ -287,13 +279,11 @@ public class Helicopter extends Actor implements InputProcessor {
 
     @Override
     public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-        // TODO Auto-generated method stub
         return false;
     }
 
     @Override
     public boolean touchDragged(int screenX, int screenY, int pointer) {
-        // TODO Auto-generated method stub
         return false;
     }
 

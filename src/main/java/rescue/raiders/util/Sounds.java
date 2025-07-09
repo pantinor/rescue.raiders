@@ -1,38 +1,44 @@
 package rescue.raiders.util;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.audio.Music;
-
 public class Sounds {
 
-    public static Map<Sound, Music> sounds = new HashMap<Sound, Music>();
+    private static Map<rescue.raiders.util.Sound, Sound> soundCache = new HashMap<>();
 
-    public static Music play(Sound sound) {
-        Music m = get(sound);
-        m.play();
-        return m;
-    }
-
-    public static Music get(Sound sound) {
-        Music m = sounds.get(sound);
-        if (m == null) {
-            m = Gdx.audio.newMusic(Gdx.files.internal("assets/audio/ogg/" + sound.getFile()));
-            m.setVolume(sound.getVolume());
-            m.setLooping(sound.getLooping());
-
-            sounds.put(sound, m);
+    public static void play(rescue.raiders.util.Sound s) {
+        Sound sound = get(s);
+        if (sound != null) {
+            if (s.getLooping()) {
+                sound.loop(1f);
+            } else {
+                sound.play(1f);
+            }
         }
-        return m;
     }
 
-    public static Music getNewInstance(Sound sound) {
-        Music m = Gdx.audio.newMusic(Gdx.files.internal("assets/audio/ogg/" + sound.getFile()));
-        m.setVolume(sound.getVolume());
-        m.setLooping(sound.getLooping());
-        return m;
+    private static Sound get(rescue.raiders.util.Sound s) {
+        if (soundCache.containsKey(s)) {
+            return soundCache.get(s);
+        } else {
+            try {
+                Sound sound = Gdx.audio.newSound(Gdx.files.internal("assets/audio/ogg/" + s.getFile()));
+                soundCache.put(s, sound);
+                return sound;
+            } catch (Exception e) {
+                Gdx.app.error("SoundManager", "Could not load sound: " + s, e);
+                return null;
+            }
+        }
     }
 
+    public static void dispose() {
+        for (Sound sound : soundCache.values()) {
+            sound.dispose();
+        }
+        soundCache.clear();
+    }
 }

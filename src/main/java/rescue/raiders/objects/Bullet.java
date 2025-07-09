@@ -77,6 +77,7 @@ public class Bullet extends com.badlogic.gdx.scenes.scene2d.Actor {
         if (this.getStage() != null) {
             Array<com.badlogic.gdx.scenes.scene2d.Actor> actors = this.getStage().getActors();
             for (int i = 0; i < actors.items.length; i++) {
+                
                 if (this.source.equals(actors.items[i])) {
                     continue; // don't hit the shooter
                 }
@@ -85,7 +86,6 @@ public class Bullet extends com.badlogic.gdx.scenes.scene2d.Actor {
                     rescue.raiders.objects.Actor target = (rescue.raiders.objects.Actor) actors.items[i];
                     if (target.hits(this.hitbox)) {
 
-                        // Handle damage
                         if (target instanceof Helicopter && !(this.source instanceof Helicopter)) {
                             ((Helicopter) target).takeDamage(1);
                         } else if (target instanceof AAGun && !(this.source instanceof AAGun)) {

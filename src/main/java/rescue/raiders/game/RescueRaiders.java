@@ -7,7 +7,6 @@ package rescue.raiders.game;
 
 import rescue.raiders.levels.Level;
 import rescue.raiders.levels.Level1;
-import rescue.raiders.objects.Explosion;
 import rescue.raiders.objects.Helicopter;
 import rescue.raiders.objects.Tank;
 import rescue.raiders.util.AtlasCache;
@@ -118,9 +117,6 @@ public class RescueRaiders extends Game implements InputProcessor {
 
         Level l1 = new Level1();
         l1.addObjects(stage);
-
-        Explosion ex = new Explosion(460, FIELD_HEIGHT);
-        stage.addActor(ex);
 
         Gdx.input.setInputProcessor(new InputMultiplexer(this, heli));
 

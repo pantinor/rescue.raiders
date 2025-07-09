@@ -50,7 +50,7 @@ public enum Sound {
     SPLAT2("splat2.ogg", false, 0.1f),
     SPLAT3("splat3.ogg", false, 0.1f),
     TINKER_WRENCH("tinker-wrench.ogg", false, 0.1f),
-    TURRET_GUNFIRE("turret-gunfire.ogg", true, 0.1f),
+    TURRET_GUNFIRE("turret-gunfire.ogg", false, 0.1f),
     VIOLIN_C5_PIZZICATO_NON_VIBRATO("violin-c5-pizzicato-non-vibrato.ogg", false, 0.1f),
     VIOLIN_G4_PIZZICATO_NON_VIBRATO("violin-g4-pizzicato-non-vibrato.ogg", false, 0.1f),
     WILHEM_SCREAM("wilhem-scream.ogg", false, 0.1f);
