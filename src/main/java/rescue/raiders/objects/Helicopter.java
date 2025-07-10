@@ -12,6 +12,8 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.actions.Actions;
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import com.badlogic.gdx.utils.Array;
 import rescue.raiders.util.AtlasCache;
 import rescue.raiders.util.Sound;
@@ -19,20 +21,36 @@ import rescue.raiders.util.Sounds;
 
 public class Helicopter extends Actor implements InputProcessor {
 
-    private float ax, avx, ay, avy, ak, ad, angle;
-    private int lastMouseX, lastMouseY;
+    private static final float CRASH_SPEED_THRESHOLD = 7;
+    private static final float GROUND_LEVEL = FIELD_HEIGHT - 5;
+
+    /**
+     * ax / ay are the current tilt offsets in the X and Y directions. avx / avy
+     * are the velocities of those tilts.
+     *
+     * They store the tilt‐rates on X and Y, letting helicopter gracefully
+     * accelerate into a bank, then spring and damp back toward level.
+     */
+    private float ax, avx, ay, avy, angle;
+    private float px, py, pvx, pvy;
+
+    private static final float PD = 0.9f;//drag simulating friction or air resistance on position movement
+    private static final float AK = 0.03f;// spring constant
+    private static final float AD = 0.7f; // damping factor
+
     private boolean left, right, up, down;
-    private float px = SCREEN_WIDTH / 2, py = SCREEN_HEIGHT / 2, pvx = 0.0f, pvy = 0.0f, pd = 0.9f;
     private boolean west;
 
-    private Animation<TextureRegion> flipped;
-    private Array<AtlasRegion> turningLeft;
-    private Array<AtlasRegion> turningRight;
+    private final Animation<TextureRegion> flipped;
+    private final Array<AtlasRegion> turningLeft;
+    private final Array<AtlasRegion> turningRight;
     private int turningIndex = 0;
 
     private int fuel = 100;
-    private TextureRegion healthBar;
-    private TextureRegion fuelBar;
+    private final TextureRegion healthBar;
+    private final TextureRegion fuelBar;
+    boolean destroyed = false;
+    private com.badlogic.gdx.audio.Sound copterSound;
 
     public Helicopter(ActorType t) {
         super(t, AtlasCache.get("copter"), 0.02f, 1f, false);
@@ -55,11 +73,8 @@ public class Helicopter extends Actor implements InputProcessor {
         ay = 0.0f;
         avx = 0.0f;
         avy = 0.0f;
-        ak = 0.03f;// spring constant
-        ad = 0.7f; // damping factor
 
-        Sounds.play(Sound.HELICOPTER_ENGINE);
-
+        copterSound = Sounds.play(Sound.HELICOPTER_ENGINE);
     }
 
     @Override
@@ -101,14 +116,6 @@ public class Helicopter extends Actor implements InputProcessor {
         batch.draw(fuelBar, 0, SCREEN_HEIGHT - HUD_HEIGHT - STATUS_BAR_HEIGHT - STATUS_BAR_HEIGHT);
     }
 
-    public float yup(float y) {
-        return RescueRaiders.yup(y);
-    }
-
-    public float getAngle() {
-        return this.angle;
-    }
-
     @Override
     public void takeDamage(int damage) {
         health -= damage;
@@ -130,8 +137,49 @@ public class Helicopter extends Actor implements InputProcessor {
         }
     }
 
+    public boolean isDestroyed() {
+        return destroyed;
+    }
+
+    private void setDestroyed(boolean destroyed) {
+        this.destroyed = destroyed;
+        if (this.destroyed) {
+            this.copterSound.pause();
+            ax = 0;
+            ay = 0;
+            avx = 0;
+            avy = 0;
+            pvx = 0;
+            pvy = 0;
+            left = false;
+            right = false;
+            up = false;
+            down = false;
+        } else {
+            this.copterSound.resume();
+        }
+    }
+
     private void crash() {
-        // trigger explosion, game over, etc.
+        setDestroyed(true);
+
+        GAME.addExplosion(getX(), getY(), west);
+
+        Stage stage = getStage();
+
+        remove();
+        setPosition(HELI_START_X, HELI_START_Y);
+
+        SequenceAction seq = Actions.sequence(
+                Actions.delay(5f),
+                Actions.run(new Runnable() {
+                    @Override
+                    public void run() {
+                        setDestroyed(false);
+                        stage.addActor(Helicopter.this);
+                    }
+                }));
+        stage.addAction(seq);
     }
 
     private void decrementFuel() {
@@ -146,15 +194,18 @@ public class Helicopter extends Actor implements InputProcessor {
         fuelBar.setRegion(0, 0, (int) bar, STATUS_BAR_HEIGHT);
     }
 
-    public boolean isWest() {
-        return this.west;
-    }
-
     public void shoot(Stage stage) {
         float angleInDegrees = west ? 180 + angle * 100 : angle < 0 ? 360 + angle * 100 : angle * 100;
         Bullet b = new Bullet(this, west ? this.getX() + 15 : this.getX() + 55, this.getY() + 10, angleInDegrees);
         stage.addActor(b);
         Sounds.play(Sound.INFANTRY_GUNFIRE);
+    }
+
+    @Override
+    public void setPosition(float x, float y) {
+        super.setPosition(x, yup(y));
+        px = x;
+        py = yup(y);
     }
 
     @Override
@@ -192,26 +243,30 @@ public class Helicopter extends Actor implements InputProcessor {
             avy += 0.5;
         }
 
-        pvx *= pd;
-        pvy *= pd;
-        avx += -ak * ax;
-        avx *= ad;
-        avy += -ak * ay;
-        avy *= ad;
+        pvx *= PD;
+        pvy *= PD;
+
+        avx += -AK * ax;
+        avx *= AD;
+        avy += -AK * ay;
+        avy *= AD;
+
+        float nextY = SCREEN_HEIGHT - py + pvy * delta;
+
+        if (nextY <= GROUND_LEVEL) {
+            float speed = (float) Math.hypot(pvx, pvy);
+            if (speed > CRASH_SPEED_THRESHOLD) {
+                crash();
+            } else {
+                py = SCREEN_HEIGHT - GROUND_LEVEL;
+            }
+        }
 
         setX(px);
         setY(yup(py));
 
         hitbox.x = px;
         hitbox.y = yup(py);
-
-    }
-
-    public void checkCrash() {
-        if (Math.abs(ax) > 5) {
-            //crash
-        }
-        py = FIELD_HEIGHT;
 
     }
 

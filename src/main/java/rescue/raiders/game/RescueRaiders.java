@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package rescue.raiders.game;
 
 import rescue.raiders.levels.Level;
@@ -23,18 +18,24 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.DelayedRemovalArray;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import rescue.raiders.objects.ActorType;
 import rescue.raiders.objects.Engineer;
 import rescue.raiders.objects.Infantry;
 import rescue.raiders.objects.Jeep;
+import rescue.raiders.objects.Stars;
+import rescue.raiders.util.ExplosionTriangle;
 
 public class RescueRaiders extends Game implements InputProcessor {
 
@@ -49,6 +50,9 @@ public class RescueRaiders extends Game implements InputProcessor {
     public static final int SPAWN = 0;
     public static final int ENEMY_SPAWN = FIELD_WIDTH;
 
+    public static final int HELI_START_X = 542;
+    public static final int HELI_START_Y = 105;
+
     private OrthographicCamera camera;
 
     private SpriteBatch batch;
@@ -57,8 +61,15 @@ public class RescueRaiders extends Game implements InputProcessor {
     private GameStage stage;
     private Image hud;
     private Image floor;
+    private Stars stars;
+
+    private DelayedRemovalArray<ExplosionTriangle> explosionTriangles = new DelayedRemovalArray<>();
+    private ShapeRenderer shapeRenderer;
 
     public Helicopter heli;
+
+    public static BitmapFont FONT;
+    public static RescueRaiders GAME;
 
     public static void main(String[] args) {
 
@@ -67,11 +78,15 @@ public class RescueRaiders extends Game implements InputProcessor {
         cfg.width = SCREEN_WIDTH;
         cfg.height = SCREEN_HEIGHT;
         new LwjglApplication(new RescueRaiders(), cfg);
-
     }
 
     @Override
     public void create() {
+        
+        GAME = this;
+
+        FONT = new BitmapFont();
+
         Pixmap cursorPixmap = new Pixmap(Gdx.files.internal("assets/image/cursor-cross.png"));
         Cursor customCursor = Gdx.graphics.newCursor(cursorPixmap, 8, 8);
         Gdx.graphics.setCursor(customCursor);
@@ -96,11 +111,11 @@ public class RescueRaiders extends Game implements InputProcessor {
 
         batch = new SpriteBatch();
 
-        heli = (Helicopter) ActorType.HELI.getInstance();
-        heli.setPosition(400, FIELD_HEIGHT);
-        stage.addActor(heli);
+        shapeRenderer = new ShapeRenderer();
+        shapeRenderer.setProjectionMatrix(stage.getBatch().getProjectionMatrix());
 
-        stage.setHelicopter(heli);
+        heli = (Helicopter) ActorType.HELI.getInstance();
+        heli.setPosition(HELI_START_X, HELI_START_Y);
 
         TextureRegion tr = new TextureRegion(makeFloorSection(AtlasCache.get("backgrounds"), FIELD_WIDTH + 2000, 5));
         int fx = 0;
@@ -118,6 +133,12 @@ public class RescueRaiders extends Game implements InputProcessor {
         Level l1 = new Level1();
         l1.addObjects(stage);
 
+        stage.addActor(heli);
+
+        stage.setHelicopter(heli);
+        
+        stars = new Stars(SCREEN_WIDTH, SCREEN_HEIGHT, 200);
+
         Gdx.input.setInputProcessor(new InputMultiplexer(this, heli));
 
     }
@@ -128,11 +149,12 @@ public class RescueRaiders extends Game implements InputProcessor {
         Gdx.gl.glClearColor(0, 0, 0, 0);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        camera.position.x = heli.getX();
+        if (!heli.isDestroyed()) {
+            camera.position.x = heli.getX();
+        }
+        
+        stars.render(Gdx.graphics.getDeltaTime());
 
-        //if (heli.hits(floor)) {
-        //	heli.checkCrash();
-        //}
         stage.act();
         stage.draw();
 
@@ -154,62 +176,18 @@ public class RescueRaiders extends Game implements InputProcessor {
         }
         batchMiniMap.end();
 
-    }
-
-    public static float yup(float y) {
-        return SCREEN_HEIGHT - y;
-    }
-
-    public static Texture fillRectangle(int width, int height, Color color) {
-        Pixmap pix = new Pixmap(width, height, Pixmap.Format.RGBA8888);
-        pix.setColor(color);
-        pix.fillRectangle(0, 0, width, height);
-        Texture t = new Texture(pix);
-        pix.dispose();
-        return t;
-    }
-
-    public static Texture makeFloorSection(TextureAtlas atlas, int totalFloorWidth, int numFloorPieces) {
-        // Find the region named "ground" in the atlas
-        AtlasRegion groundRegion = atlas.findRegion("ground");
-        if (groundRegion == null) {
-            throw new IllegalArgumentException("Region 'ground' not found in the atlas.");
+        for (ExplosionTriangle tri : explosionTriangles) {
+            tri.render(Gdx.graphics.getDeltaTime());
         }
 
-        int pieceWidth = groundRegion.getRegionWidth();
-        int pieceHeight = groundRegion.getRegionHeight();
-
-        int numberPiecesInEachSection = (totalFloorWidth / pieceWidth) / numFloorPieces;
-        int finalTextureWidth = numberPiecesInEachSection * pieceWidth;
-
-        // Create a new Pixmap large enough to hold all repeated pieces
-        Pixmap result = new Pixmap(finalTextureWidth, pieceHeight, Pixmap.Format.RGBA8888);
-
-        // Extract the Pixmap from the ground region
-        Texture groundTexture = groundRegion.getTexture();
-        groundTexture.getTextureData().prepare();
-        Pixmap fullPixmap = groundTexture.getTextureData().consumePixmap();
-
-        // Extract only the groundRegion part from the fullPixmap
-        Pixmap groundPixmap = new Pixmap(pieceWidth, pieceHeight, Pixmap.Format.RGBA8888);
-        groundPixmap.drawPixmap(
-                fullPixmap,
-                0, 0, // destX, destY
-                groundRegion.getRegionX(), // srcX
-                groundRegion.getRegionY(), // srcY
-                pieceWidth, pieceHeight // srcWidth, srcHeight
-        );
-
-        // Now tile the groundPixmap into the result
-        for (int x = 0; x < finalTextureWidth; x += pieceWidth) {
-            result.drawPixmap(groundPixmap, x, 0);
+        explosionTriangles.begin();
+        for (int i = 0; i < explosionTriangles.size; i++) {
+            if (explosionTriangles.get(i).getTime() > 1f) {
+                explosionTriangles.removeIndex(i);
+            }
         }
+        explosionTriangles.end();
 
-        // Clean up
-        groundPixmap.dispose();
-        fullPixmap.dispose();
-
-        return new Texture(result, true);
     }
 
     @Override
@@ -291,6 +269,76 @@ public class RescueRaiders extends Game implements InputProcessor {
     @Override
     public boolean scrolled(float f, float f1) {
         return false;
+    }
+
+    public static float yup(float y) {
+        return SCREEN_HEIGHT - y;
+    }
+
+    public void addExplosion(float x, float y, boolean facingWest) {
+        int count = MathUtils.random(3, 5);
+        // base “up‐and‐forward” angle
+        float base = facingWest ? 180f - 30f : 30f;
+
+        for (int i = 0; i < count; i++) {
+            // vary each one by ±15°
+            float spread = MathUtils.random(-15f, 15f);
+            float triAngle = base + spread;
+            explosionTriangles.add(new ExplosionTriangle(shapeRenderer, x, y, triAngle)
+            );
+        }
+    }
+
+    public static Texture fillRectangle(int width, int height, Color color) {
+        Pixmap pix = new Pixmap(width, height, Pixmap.Format.RGBA8888);
+        pix.setColor(color);
+        pix.fillRectangle(0, 0, width, height);
+        Texture t = new Texture(pix);
+        pix.dispose();
+        return t;
+    }
+
+    public static Texture makeFloorSection(TextureAtlas atlas, int totalFloorWidth, int numFloorPieces) {
+        // Find the region named "ground" in the atlas
+        AtlasRegion groundRegion = atlas.findRegion("ground");
+        if (groundRegion == null) {
+            throw new IllegalArgumentException("Region 'ground' not found in the atlas.");
+        }
+
+        int pieceWidth = groundRegion.getRegionWidth();
+        int pieceHeight = groundRegion.getRegionHeight();
+
+        int numberPiecesInEachSection = (totalFloorWidth / pieceWidth) / numFloorPieces;
+        int finalTextureWidth = numberPiecesInEachSection * pieceWidth;
+
+        // Create a new Pixmap large enough to hold all repeated pieces
+        Pixmap result = new Pixmap(finalTextureWidth, pieceHeight, Pixmap.Format.RGBA8888);
+
+        // Extract the Pixmap from the ground region
+        Texture groundTexture = groundRegion.getTexture();
+        groundTexture.getTextureData().prepare();
+        Pixmap fullPixmap = groundTexture.getTextureData().consumePixmap();
+
+        // Extract only the groundRegion part from the fullPixmap
+        Pixmap groundPixmap = new Pixmap(pieceWidth, pieceHeight, Pixmap.Format.RGBA8888);
+        groundPixmap.drawPixmap(
+                fullPixmap,
+                0, 0, // destX, destY
+                groundRegion.getRegionX(), // srcX
+                groundRegion.getRegionY(), // srcY
+                pieceWidth, pieceHeight // srcWidth, srcHeight
+        );
+
+        // Now tile the groundPixmap into the result
+        for (int x = 0; x < finalTextureWidth; x += pieceWidth) {
+            result.drawPixmap(groundPixmap, x, 0);
+        }
+
+        // Clean up
+        groundPixmap.dispose();
+        fullPixmap.dispose();
+
+        return new Texture(result, true);
     }
 
 }

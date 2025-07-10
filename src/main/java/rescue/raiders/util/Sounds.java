@@ -9,7 +9,7 @@ public class Sounds {
 
     private static Map<rescue.raiders.util.Sound, Sound> soundCache = new HashMap<>();
 
-    public static void play(rescue.raiders.util.Sound s) {
+    public static Sound play(rescue.raiders.util.Sound s) {
         Sound sound = get(s);
         if (sound != null) {
             if (s.getLooping()) {
@@ -18,6 +18,7 @@ public class Sounds {
                 sound.play(1f);
             }
         }
+        return sound;
     }
 
     private static Sound get(rescue.raiders.util.Sound s) {
