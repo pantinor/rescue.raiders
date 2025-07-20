@@ -10,6 +10,7 @@ public class TreadTruck extends Actor {
         maxHealth = 10;
     }
 
+    
     @Override
     public void act(float delta) {
         super.act(delta);
