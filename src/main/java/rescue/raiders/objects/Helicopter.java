@@ -21,7 +21,7 @@ import rescue.raiders.util.Sounds;
 
 public class Helicopter extends Actor implements InputProcessor {
 
-    private static final float CRASH_SPEED_THRESHOLD = 7;
+    private static final float CRASH_SPEED_THRESHOLD = 8;
     private static final float GROUND_LEVEL = FIELD_HEIGHT - 5;
 
     /**
@@ -53,17 +53,17 @@ public class Helicopter extends Actor implements InputProcessor {
     private com.badlogic.gdx.audio.Sound copterSound;
 
     public Helicopter(ActorType t) {
-        super(t, AtlasCache.get("copter"), 0.02f, 1f, false);
+        super(t, AtlasCache.get(t.getAtlasName()), 0.02f, 1f, false);
 
-        Array<AtlasRegion> east = AtlasCache.get("copter").findRegions(t.getName());
+        Array<AtlasRegion> east = AtlasCache.get(t.getAtlasName()).findRegions(t.getRegionName());
         for (TextureRegion tr : east) {
             tr.flip(true, false);
         }
 
         this.flipped = new Animation(0.02f, east);
 
-        this.turningRight = AtlasCache.get("copter").findRegions("turning");
-        this.turningLeft = AtlasCache.get("copter").findRegions("turning");
+        this.turningRight = AtlasCache.get(t.getAtlasName()).findRegions("turning");
+        this.turningLeft = AtlasCache.get(t.getAtlasName()).findRegions("turning");
         this.turningLeft.reverse();
 
         healthBar = new TextureRegion(RescueRaiders.fillRectangle(SCREEN_WIDTH, STATUS_BAR_HEIGHT, Color.GREEN));
@@ -80,7 +80,7 @@ public class Helicopter extends Actor implements InputProcessor {
     @Override
     public void draw(Batch batch, float parentAlpha) {
 
-        angle = -ax * 0.008f;// angleFactor = 0.005
+        angle = -ax * 0.008f; //angleFactor
 
         frameCounter += Gdx.graphics.getDeltaTime();
         TextureRegion frame = null;
@@ -161,9 +161,12 @@ public class Helicopter extends Actor implements InputProcessor {
     }
 
     private void crash() {
+
+        boolean goingWest = pvx < 0;
+
         setDestroyed(true);
 
-        GAME.addExplosion(getX(), getY(), west);
+        GAME.addExplosion(getX(), GROUND_LEVEL, goingWest, 10);
 
         Stage stage = getStage();
 
@@ -194,10 +197,11 @@ public class Helicopter extends Actor implements InputProcessor {
         fuelBar.setRegion(0, 0, (int) bar, STATUS_BAR_HEIGHT);
     }
 
-    public void shoot(Stage stage) {
+    @Override
+    public void shoot() {
         float angleInDegrees = west ? 180 + angle * 100 : angle < 0 ? 360 + angle * 100 : angle * 100;
         Bullet b = new Bullet(this, west ? this.getX() + 15 : this.getX() + 55, this.getY() + 10, angleInDegrees);
-        stage.addActor(b);
+        getStage().addActor(b);
         Sounds.play(Sound.INFANTRY_GUNFIRE);
     }
 
@@ -261,6 +265,8 @@ public class Helicopter extends Actor implements InputProcessor {
                 py = SCREEN_HEIGHT - GROUND_LEVEL;
             }
         }
+        
+        //TODO hitting the enemy ballons or chains
 
         setX(px);
         setY(yup(py));

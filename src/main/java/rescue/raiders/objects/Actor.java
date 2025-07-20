@@ -1,9 +1,6 @@
 package rescue.raiders.objects;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.Pixmap;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
@@ -11,7 +8,10 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.Array;
-import static rescue.raiders.game.RescueRaiders.FIELD_HEIGHT;
+import static rescue.raiders.game.RescueRaiders.GAME;
+import static rescue.raiders.game.RescueRaiders.createMiniIcon;
+import rescue.raiders.util.Sound;
+import rescue.raiders.util.Sounds;
 
 public class Actor extends com.badlogic.gdx.scenes.scene2d.Actor {
 
@@ -26,38 +26,36 @@ public class Actor extends com.badlogic.gdx.scenes.scene2d.Actor {
     int health = 20;
     int maxHealth = 20;
 
-    Emitter damagedEmitter;
-    Emitter destroyedEmitter;
-
-    public Actor(ActorType t) {
-        super();
-        this.type = t;
-    }
-
+    //private Emitter damagedEmitter;
+    //private Emitter destroyedEmitter;
+    //stationary actors - hut, pad, base
     public Actor(ActorType t, TextureAtlas atlas, float scale, boolean flip) {
         super();
         this.type = t;
-        setName(t.getName());
+        setName(t.toString().toLowerCase());
         this.scale = scale;
         this.flip = flip;
-        this.tr = atlas.findRegion(t.getName());
-        tr.flip(flip, false);
+        this.tr = atlas.findRegion(t.getRegionName());
+        this.tr.flip(flip, false);
         this.hitbox = new Rectangle(0, 0, tr.getRegionWidth() * scale, tr.getRegionHeight() * scale);
         this.setUserObject(createMiniIcon(t.getIconColor(), 4, 4));
     }
 
-    public Actor(ActorType t, TextureAtlas atlas, float frameRate, float scale, boolean flip) {
+    //moving actors - infantry, engineer, balloon, AAGun, Tank, Jeep, Helicopter
+    public Actor(ActorType t, TextureAtlas atlas, float animframeRate, float scale, boolean flip) {
         super();
         this.type = t;
-        setName(t.getName());
+        setName(t.toString().toLowerCase());
         this.scale = scale;
         this.flip = flip;
-        Array<AtlasRegion> regions = atlas.findRegions(t.getName());
-        this.anim = new Animation(frameRate, regions);
+        Array<AtlasRegion> regions = atlas.findRegions(t.getRegionName());
+        this.anim = new Animation(animframeRate, regions);
         TextureRegion r = anim.getKeyFrame(0, true);
         this.hitbox = new Rectangle(0, 0, r.getRegionWidth() * scale, r.getRegionHeight() * scale);
-        for (TextureRegion tr : regions) {
-            tr.flip(flip, false);
+        if (!t.isEnemy()) {
+            for (TextureRegion ltr : regions) {
+                ltr.flip(flip, false);
+            }
         }
         this.setUserObject(createMiniIcon(t.getIconColor(), 4, 4));
     }
@@ -66,16 +64,10 @@ public class Actor extends com.badlogic.gdx.scenes.scene2d.Actor {
         if (health > 0) {
             health -= damage;
 
-            double percent = (double) this.health / this.maxHealth;
-            
-            if (percent <= 0.25 && damagedEmitter == null) {
-                damagedEmitter = new Emitter(this.getX() + this.hitbox.getWidth() / 2, FIELD_HEIGHT, Emitter.Type.SMOKE);
-                getStage().addActor(damagedEmitter);
-            }
-            
             if (health <= 0) {
-                destroyedEmitter = new Emitter(this.getX() + this.hitbox.getWidth() / 2, FIELD_HEIGHT, Emitter.Type.FIRE);
-                getStage().addActor(destroyedEmitter);
+                Sounds.play(Sound.SPLAT);
+                GAME.addExplosion(getX(), getY(), !this.type.isEnemy(), 10);
+                remove();
             }
         }
     }
@@ -85,15 +77,25 @@ public class Actor extends com.badlogic.gdx.scenes.scene2d.Actor {
     }
 
     public boolean hits(Rectangle r) {
-        if (hitbox.overlaps(r)) {
-            return true;
-        }
-        return false;
+        return hitbox.overlaps(r);
+    }
+
+    public void shoot() {
+        Bullet b = new Bullet(this, this.getX(), this.getY(), 0);
+        getStage().addActor(b);
+        Sounds.play(Sound.INFANTRY_GUNFIRE);
     }
 
     @Override
     public void setPosition(float x, float y) {
         super.setPosition(x, y);
+        hitbox.x = x;
+        hitbox.y = y;
+    }
+
+    @Override
+    public void setPosition(float x, float y, int alignment) {
+        super.setPosition(x, y, alignment);
         hitbox.x = x;
         hitbox.y = y;
     }
@@ -105,24 +107,8 @@ public class Actor extends com.badlogic.gdx.scenes.scene2d.Actor {
         batch.draw(frame, this.getX(), this.getY(), frame.getRegionWidth() * scale, frame.getRegionHeight() * scale);
     }
 
-    @Override
-    public void act(float delta) {
-        super.act(delta);
-        hitbox.x = this.getX();
-        hitbox.y = this.getY();
-    }
-
     public Rectangle getHitBox() {
         return hitbox;
-    }
-
-    public final TextureRegion createMiniIcon(Color c, int w, int h) {
-        Pixmap pix = new Pixmap(w, h, Pixmap.Format.RGBA8888);
-        pix.setColor(c.r, c.g, c.b, .85f);
-        pix.fillRectangle(0, 0, w, h);
-        TextureRegion t = new TextureRegion(new Texture(pix));
-        pix.dispose();
-        return t;
     }
 
 }

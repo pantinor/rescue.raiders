@@ -1,13 +1,11 @@
 package rescue.raiders.objects;
 
-import rescue.raiders.util.AtlasCache;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 
-public class Jeep extends Actor {
+public class ShootableActor extends Actor {
 
-    public Jeep(ActorType t) {
-        super(t, AtlasCache.get(t.getAtlasName()), 0.10f, 1f, true);
-        health = 10;
-        maxHealth = 10;
+    public ShootableActor(ActorType t, TextureAtlas atlas, float frameRate, float scale, boolean flip) {
+        super(t, atlas, frameRate, scale, flip);
     }
 
     @Override
@@ -31,4 +29,5 @@ public class Jeep extends Actor {
         }
 
     }
+
 }

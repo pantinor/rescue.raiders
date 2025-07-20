@@ -12,8 +12,13 @@ import rescue.raiders.objects.ActorType;
 
 public abstract class Level {
 
+    final List<Actor> objects = new ArrayList<>();
+    final Stage stage;
     Object[][] layout;
-    List<Actor> objects = new ArrayList<>();
+
+    public Level(Stage stage) {
+        this.stage = stage;
+    }
 
     public void init() {
         for (int i = 0; i < layout.length; i++) {
@@ -22,11 +27,10 @@ public abstract class Level {
             Actor a = t.getInstance();
             a.setPosition(x, FIELD_HEIGHT);
             objects.add(a);
-
         }
     }
 
-    public void addObjects(Stage stage) {
+    public void addObjects() {
         for (Actor m : objects) {
             stage.addActor(m);
         }

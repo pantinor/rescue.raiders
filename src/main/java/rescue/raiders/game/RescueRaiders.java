@@ -1,5 +1,6 @@
 package rescue.raiders.game;
 
+import com.badlogic.gdx.Application;
 import rescue.raiders.levels.Level;
 import rescue.raiders.levels.Level1;
 import rescue.raiders.objects.Helicopter;
@@ -10,8 +11,8 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.InputProcessor;
-import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
-import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
+import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
+import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Cursor;
 import com.badlogic.gdx.graphics.GL20;
@@ -25,7 +26,6 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.MathUtils;
-import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.DelayedRemovalArray;
@@ -34,7 +34,7 @@ import rescue.raiders.objects.ActorType;
 import rescue.raiders.objects.Engineer;
 import rescue.raiders.objects.Infantry;
 import rescue.raiders.objects.Jeep;
-import rescue.raiders.objects.Stars;
+import rescue.raiders.util.Stars;
 import rescue.raiders.util.ExplosionTriangle;
 
 public class RescueRaiders extends Game implements InputProcessor {
@@ -72,17 +72,17 @@ public class RescueRaiders extends Game implements InputProcessor {
     public static RescueRaiders GAME;
 
     public static void main(String[] args) {
+        Lwjgl3ApplicationConfiguration cfg = new Lwjgl3ApplicationConfiguration();
+        cfg.setTitle("Rescue Raiders");
+        cfg.setWindowedMode(SCREEN_WIDTH, SCREEN_HEIGHT);
+        new Lwjgl3Application(new RescueRaiders(), cfg);
 
-        LwjglApplicationConfiguration cfg = new LwjglApplicationConfiguration();
-        cfg.title = "Test";
-        cfg.width = SCREEN_WIDTH;
-        cfg.height = SCREEN_HEIGHT;
-        new LwjglApplication(new RescueRaiders(), cfg);
+        Gdx.app.setLogLevel(Application.LOG_DEBUG);
     }
 
     @Override
     public void create() {
-        
+
         GAME = this;
 
         FONT = new BitmapFont();
@@ -112,7 +112,6 @@ public class RescueRaiders extends Game implements InputProcessor {
         batch = new SpriteBatch();
 
         shapeRenderer = new ShapeRenderer();
-        shapeRenderer.setProjectionMatrix(stage.getBatch().getProjectionMatrix());
 
         heli = (Helicopter) ActorType.HELI.getInstance();
         heli.setPosition(HELI_START_X, HELI_START_Y);
@@ -122,7 +121,7 @@ public class RescueRaiders extends Game implements InputProcessor {
         for (int i = 0; i < 5; i++) {
             floor = new Image(tr);
             floor.setPosition(fx - 1000, 0);
-            floor.setUserObject(heli.createMiniIcon(Color.GRAY, 435, 3));
+            floor.setUserObject(createMiniIcon(Color.GRAY, 435, 3));
             stage.addActor(floor);
             fx += tr.getRegionWidth();
         }
@@ -130,13 +129,13 @@ public class RescueRaiders extends Game implements InputProcessor {
         hud = new Image(fillRectangle(SCREEN_WIDTH, HUD_HEIGHT, Color.DARK_GRAY));
         hud.setY(SCREEN_HEIGHT - HUD_HEIGHT);
 
-        Level l1 = new Level1();
-        l1.addObjects(stage);
+        Level l1 = new Level1(stage);
+        l1.addObjects();
 
         stage.addActor(heli);
 
         stage.setHelicopter(heli);
-        
+
         stars = new Stars(SCREEN_WIDTH, SCREEN_HEIGHT, 200);
 
         Gdx.input.setInputProcessor(new InputMultiplexer(this, heli));
@@ -152,7 +151,9 @@ public class RescueRaiders extends Game implements InputProcessor {
         if (!heli.isDestroyed()) {
             camera.position.x = heli.getX();
         }
-        
+
+        shapeRenderer.setProjectionMatrix(camera.combined);
+
         stars.render(Gdx.graphics.getDeltaTime());
 
         stage.act();
@@ -161,6 +162,7 @@ public class RescueRaiders extends Game implements InputProcessor {
         batch.begin();
         hud.draw(batch, .7f);
         heli.drawStatusBars(batch);
+        heli.debug(batch);
         batch.end();
 
         batchMiniMap.begin();
@@ -182,7 +184,7 @@ public class RescueRaiders extends Game implements InputProcessor {
 
         explosionTriangles.begin();
         for (int i = 0; i < explosionTriangles.size; i++) {
-            if (explosionTriangles.get(i).getTime() > 1f) {
+            if (explosionTriangles.get(i).getTime() > .8f) {
                 explosionTriangles.removeIndex(i);
             }
         }
@@ -196,24 +198,22 @@ public class RescueRaiders extends Game implements InputProcessor {
         switch (keycode) {
             case Keys.T:
                 Tank tank = (Tank) ActorType.TANK.getInstance();
+                tank.setPosition(SPAWN, FIELD_HEIGHT);
                 stage.addActor(tank);
                 break;
             case Keys.E:
                 Engineer engineer = (Engineer) ActorType.ENGINEER.getInstance();
                 engineer.setPosition(SPAWN, FIELD_HEIGHT);
-                engineer.addAction(Actions.moveTo(FIELD_WIDTH, FIELD_HEIGHT, 160f));
                 stage.addActor(engineer);
                 break;
             case Keys.I:
                 Infantry infantry = (Infantry) ActorType.INFANTRY.getInstance();
                 infantry.setPosition(SPAWN, FIELD_HEIGHT);
-                infantry.addAction(Actions.moveTo(FIELD_WIDTH, FIELD_HEIGHT, 160f));
                 stage.addActor(infantry);
                 break;
             case Keys.J:
                 Jeep jeep = (Jeep) ActorType.JEEP.getInstance();
                 jeep.setPosition(SPAWN, FIELD_HEIGHT);
-                jeep.addAction(Actions.moveTo(FIELD_WIDTH, FIELD_HEIGHT, 160f));
                 stage.addActor(jeep);
                 break;
             case Keys.L:
@@ -241,7 +241,7 @@ public class RescueRaiders extends Game implements InputProcessor {
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
         if (button == 0) {
-            heli.shoot(stage);
+            heli.shoot();
         }
         return false;
     }
@@ -275,17 +275,13 @@ public class RescueRaiders extends Game implements InputProcessor {
         return SCREEN_HEIGHT - y;
     }
 
-    public void addExplosion(float x, float y, boolean facingWest) {
-        int count = MathUtils.random(3, 5);
-        // base “up‐and‐forward” angle
-        float base = facingWest ? 180f - 30f : 30f;
-
+    public void addExplosion(float x, float y, boolean facingWest, int count) {
+        float base = facingWest ? 180f - 20f : 20f;
         for (int i = 0; i < count; i++) {
             // vary each one by ±15°
             float spread = MathUtils.random(-15f, 15f);
             float triAngle = base + spread;
-            explosionTriangles.add(new ExplosionTriangle(shapeRenderer, x, y, triAngle)
-            );
+            explosionTriangles.add(new ExplosionTriangle(shapeRenderer, x, y, triAngle));
         }
     }
 
@@ -339,6 +335,24 @@ public class RescueRaiders extends Game implements InputProcessor {
         fullPixmap.dispose();
 
         return new Texture(result, true);
+    }
+
+    public static float getAngleToTarget(float tx, float ty, float x, float y) {
+        float ang = (float) Math.toDegrees(Math.atan2(tx - x, y - ty));
+        if (ang < 0) {
+            ang = 360 + ang;
+        }
+        ang = (ang - 90) % 360;
+        return ang;
+    }
+
+    public static final TextureRegion createMiniIcon(Color c, int w, int h) {
+        Pixmap pix = new Pixmap(w, h, Pixmap.Format.RGBA8888);
+        pix.setColor(c.r, c.g, c.b, .85f);
+        pix.fillRectangle(0, 0, w, h);
+        TextureRegion t = new TextureRegion(new Texture(pix));
+        pix.dispose();
+        return t;
     }
 
 }

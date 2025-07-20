@@ -1,4 +1,4 @@
-package rescue.raiders.objects;
+package rescue.raiders.util;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;

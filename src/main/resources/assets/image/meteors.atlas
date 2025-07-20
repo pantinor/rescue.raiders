@@ -2,422 +2,632 @@ meteors.png
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
-balloon
+balloon-red
   rotate: false
   xy: 0, 0
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: 0
-balloon
+balloon-red
   rotate: false
   xy: 35, 0
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: 1
-balloon
+balloon-red
   rotate: false
   xy: 70, 0
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: 2
-balloon
+balloon-red
   rotate: false
   xy: 105, 0
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: 3
-balloon
+balloon-red
   rotate: false
   xy: 139, 0
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: 4
-balloon
+balloon-red
   rotate: false
   xy: 173, 0
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: 5
-balloon
+balloon-red
   rotate: false
   xy: 207, 0
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: 6
-balloon
+balloon-red
   rotate: false
   xy: 241, 0
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: 7
-balloon
+balloon-red
   rotate: false
   xy: 275, 0
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: 8
-balloon
+balloon-red
   rotate: false
   xy: 309, 0
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: 9
-balloon
+balloon-red
   rotate: false
   xy: 0, 36
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: 10
-balloon
+balloon-red
   rotate: false
   xy: 34, 36
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: 11
-balloon
+balloon-red
   rotate: false
   xy: 68, 36
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: 12
-balloon
+balloon-red
   rotate: false
   xy: 102, 36
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: 13
-balloon
+balloon-red
   rotate: false
   xy: 136, 36
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: 14
-balloon
+balloon-red
   rotate: false
   xy: 170, 36
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: 15
-balloon
+balloon-red
   rotate: false
   xy: 204, 36
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: 16
-balloon
+balloon-red
   rotate: false
   xy: 238, 36
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: 17
-balloon
+balloon-red
   rotate: false
   xy: 272, 36
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: 18
-balloon
+balloon-red
   rotate: false
   xy: 305, 36
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: 19
-balloon
+balloon-red
   rotate: false
   xy: 0, 69
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: 20
-balloon
+balloon-red
   rotate: false
   xy: 33, 69
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: 21
-balloon
+balloon-red
   rotate: false
   xy: 66, 69
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: 22
-balloon
+balloon-red
   rotate: false
   xy: 99, 69
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: 23
-balloon
+balloon-red
   rotate: false
   xy: 132, 69
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: 24
-balloon
+balloon-red
   rotate: false
   xy: 165, 69
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: 25
-balloon
+balloon-red
   rotate: false
   xy: 198, 69
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: 26
-balloon
+balloon-red
   rotate: false
   xy: 231, 69
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: 27
-balloon
+balloon-red
   rotate: false
   xy: 264, 69
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: 28
-balloon
+balloon-red
   rotate: false
   xy: 297, 69
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: 29
-enemy-balloon
+balloon-green
   rotate: false
-  xy: 0, 0
+  xy: 0, 100
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: 0
-enemy-balloon
+balloon-green
   rotate: false
-  xy: 35, 0
+  xy: 35, 100
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: 1
-enemy-balloon
+balloon-green
   rotate: false
-  xy: 70, 0
+  xy: 70, 100
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: 2
-enemy-balloon
+balloon-green
   rotate: false
-  xy: 105, 0
+  xy: 105, 100
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: 3
-enemy-balloon
+balloon-green
   rotate: false
-  xy: 139, 0
+  xy: 139, 100
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: 4
-enemy-balloon
+balloon-green
   rotate: false
-  xy: 173, 0
+  xy: 173, 100
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: 5
-enemy-balloon
+balloon-green
   rotate: false
-  xy: 207, 0
+  xy: 207, 100
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: 6
-enemy-balloon
+balloon-green
   rotate: false
-  xy: 241, 0
+  xy: 241, 100
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: 7
-enemy-balloon
+balloon-green
   rotate: false
-  xy: 275, 0
+  xy: 275, 100
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: 8
-enemy-balloon
+balloon-green
   rotate: false
-  xy: 309, 0
+  xy: 309, 100
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: 9
-enemy-balloon
+balloon-green
   rotate: false
-  xy: 0, 36
+  xy: 0, 136
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: 10
-enemy-balloon
+balloon-green
   rotate: false
-  xy: 34, 36
+  xy: 34, 136
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: 11
-enemy-balloon
+balloon-green
   rotate: false
-  xy: 68, 36
+  xy: 68, 136
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: 12
-enemy-balloon
+balloon-green
   rotate: false
-  xy: 102, 36
+  xy: 102, 136
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: 13
-enemy-balloon
+balloon-green
   rotate: false
-  xy: 136, 36
+  xy: 136, 136
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: 14
-enemy-balloon
+balloon-green
   rotate: false
-  xy: 170, 36
+  xy: 170, 136
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: 15
-enemy-balloon
+balloon-green
   rotate: false
-  xy: 204, 36
+  xy: 204, 136
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: 16
-enemy-balloon
+balloon-green
   rotate: false
-  xy: 238, 36
+  xy: 238, 136
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: 17
-enemy-balloon
+balloon-green
   rotate: false
-  xy: 272, 36
+  xy: 272, 136
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: 18
-enemy-balloon
+balloon-green
   rotate: false
-  xy: 305, 36
+  xy: 305, 136
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: 19
-enemy-balloon
+balloon-green
   rotate: false
-  xy: 0, 69
+  xy: 0, 169
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: 20
-enemy-balloon
+balloon-green
   rotate: false
-  xy: 33, 69
+  xy: 33, 169
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: 21
-enemy-balloon
+balloon-green
   rotate: false
-  xy: 66, 69
+  xy: 66, 169
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: 22
-enemy-balloon
+balloon-green
   rotate: false
-  xy: 99, 69
+  xy: 99, 169
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: 23
-enemy-balloon
+balloon-green
   rotate: false
-  xy: 132, 69
+  xy: 132, 169
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: 24
-enemy-balloon
+balloon-green
   rotate: false
-  xy: 165, 69
+  xy: 165, 169
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: 25
-enemy-balloon
+balloon-green
   rotate: false
-  xy: 198, 69
+  xy: 198, 169
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: 26
-enemy-balloon
+balloon-green
   rotate: false
-  xy: 231, 69
+  xy: 231, 169
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: 27
-enemy-balloon
+balloon-green
   rotate: false
-  xy: 264, 69
+  xy: 264, 169
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
   index: 28
-enemy-balloon
+balloon-green
   rotate: false
-  xy: 297, 69
+  xy: 297, 169
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: 29
+balloon-blue
+  rotate: false
+  xy: 0, 200
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: 0
+balloon-blue
+  rotate: false
+  xy: 35, 200
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: 1
+balloon-blue
+  rotate: false
+  xy: 70, 200
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: 2
+balloon-blue
+  rotate: false
+  xy: 105, 200
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: 3
+balloon-blue
+  rotate: false
+  xy: 139, 200
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: 4
+balloon-blue
+  rotate: false
+  xy: 173, 200
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: 5
+balloon-blue
+  rotate: false
+  xy: 207, 200
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: 6
+balloon-blue
+  rotate: false
+  xy: 241, 200
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: 7
+balloon-blue
+  rotate: false
+  xy: 275, 200
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: 8
+balloon-blue
+  rotate: false
+  xy: 309, 200
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: 9
+balloon-blue
+  rotate: false
+  xy: 0, 236
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: 10
+balloon-blue
+  rotate: false
+  xy: 34, 236
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: 11
+balloon-blue
+  rotate: false
+  xy: 68, 236
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: 12
+balloon-blue
+  rotate: false
+  xy: 102, 236
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: 13
+balloon-blue
+  rotate: false
+  xy: 136, 236
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: 14
+balloon-blue
+  rotate: false
+  xy: 170, 236
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: 15
+balloon-blue
+  rotate: false
+  xy: 204, 236
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: 16
+balloon-blue
+  rotate: false
+  xy: 238, 236
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: 17
+balloon-blue
+  rotate: false
+  xy: 272, 236
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: 18
+balloon-blue
+  rotate: false
+  xy: 305, 236
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: 19
+balloon-blue
+  rotate: false
+  xy: 0, 269
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: 20
+balloon-blue
+  rotate: false
+  xy: 33, 269
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: 21
+balloon-blue
+  rotate: false
+  xy: 66, 269
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: 22
+balloon-blue
+  rotate: false
+  xy: 99, 269
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: 23
+balloon-blue
+  rotate: false
+  xy: 132, 269
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: 24
+balloon-blue
+  rotate: false
+  xy: 165, 269
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: 25
+balloon-blue
+  rotate: false
+  xy: 198, 269
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: 26
+balloon-blue
+  rotate: false
+  xy: 231, 269
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: 27
+balloon-blue
+  rotate: false
+  xy: 264, 269
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: 28
+balloon-blue
+  rotate: false
+  xy: 297, 269
   size: 32, 32
   orig: 32, 32
   offset: 0, 0

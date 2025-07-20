@@ -5,48 +5,54 @@ import java.lang.reflect.Constructor;
 
 public enum ActorType {
 
-    HELI("copter", Color.BLUE, false, Helicopter.class),
-    ENEMY_HELI("enemy-copter", Color.RED, true, Helicopter.class),
-    TANK("tank", Color.YELLOW, false, Tank.class),
-    ENEMY_TANK("enemy-tank", Color.MAGENTA, true, Tank.class),
-    ENGINEER("engineer", Color.BLUE, false, Engineer.class),
-    ENEMY_ENGINEER("enemy-engineer", Color.RED, true, Engineer.class),
-    INFANTRY("infantry", Color.BLUE, false, Infantry.class),
-    ENEMY_INFANTRY("enemy-infantry", Color.RED, true, Infantry.class),
-    JEEP("jeep", Color.BLUE, false, Jeep.class),
-    ENEMY_JEEP("enemy-jeep", Color.RED, true, Jeep.class),
-    BASE("base", Color.CYAN, false, Base.class),
-    ENEMY_BASE("enemy-base", Color.PURPLE, true, Base.class),
-    TURRET("turret", Color.WHITE, false, AAGun.class),
-    ENEMY_TURRET("enemy-turret", Color.RED, true, AAGun.class),
-    PAD("pad", Color.GREEN, false, Pad.class),
-    ENEMY_PAD("pad", Color.OLIVE, true, Pad.class),
-    BALLON("balloon", Color.ORANGE, false, Balloon.class),
-    ENEMY_BALLON("enemy-balloon", Color.RED, true, Balloon.class),
-    HUT("hut", Color.TEAL, false, Hut.class),
-    ENEMY_HUT("enemy-hut", Color.NAVY, true, Hut.class);
+    HELI("copter", "copter", Color.BLUE, false, Helicopter.class),
+    ENEMY_HELI("copter", "copter", Color.RED, true, Helicopter.class),
+    TANK("tank", "tank", Color.YELLOW, false, Tank.class),
+    ENEMY_TANK("tank", "tank", Color.MAGENTA, true, Tank.class),
+    ENGINEER("soldier", "engineer", Color.BLUE, false, Engineer.class),
+    ENEMY_ENGINEER("soldier", "enemy-engineer", Color.RED, true, Engineer.class),
+    INFANTRY("soldier", "infantry", Color.BLUE, false, Infantry.class),
+    ENEMY_INFANTRY("soldier", "enemy-infantry", Color.RED, true, Infantry.class),
+    JEEP("jeep", "jeep", Color.BLUE, false, Jeep.class),
+    ENEMY_JEEP("jeep", "jeep", Color.RED, true, Jeep.class),
+    BASE("backgrounds", "base", Color.CYAN, false, Base.class),
+    ENEMY_BASE("backgrounds", "enemy-base", Color.PURPLE, true, Base.class),
+    TURRET("turret", "turret", Color.WHITE, false, AAGun.class),
+    ENEMY_TURRET("turret", "enemy-turret", Color.RED, true, AAGun.class),
+    PAD("backgrounds", "pad", Color.GREEN, false, Pad.class),
+    ENEMY_PAD("backgrounds", "pad", Color.OLIVE, true, Pad.class),
+    BALLON("balloon", "balloon-green", Color.ORANGE, false, Balloon.class),
+    ENEMY_BALLON("balloon", "balloon-red", Color.RED, true, Balloon.class),
+    HUT("backgrounds", "hut", Color.TEAL, false, Hut.class),
+    ENEMY_HUT("backgrounds", "hut", Color.NAVY, true, Hut.class);
 
-    private final String name;
+    private final String atlasName;
+    private final String regionName;
     private final Color iconColor;
     private final boolean isEnemy;
     private final Class clazz;
 
-    private ActorType(String name, Color iconColor, boolean isEnemy, Class clazz) {
-        this.name = name;
+    private ActorType(String atlasName, String regionName, Color iconColor, boolean isEnemy, Class clazz) {
+        this.atlasName = atlasName;
+        this.regionName = regionName;
         this.iconColor = iconColor;
         this.isEnemy = isEnemy;
         this.clazz = clazz;
     }
 
-    public String getName() {
-        return name;
+    public String getAtlasName() {
+        return atlasName;
+    }
+
+    public String getRegionName() {
+        return regionName;
     }
 
     public Color getIconColor() {
         return iconColor;
     }
 
-    public boolean isIsEnemy() {
+    public boolean isEnemy() {
         return isEnemy;
     }
 

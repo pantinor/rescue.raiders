@@ -32,9 +32,9 @@ pad
   index: 0
 hut
   rotate: false
-  xy: 129, 120
-  size: 232, 128
-  orig: 232, 128
+  xy: 169, 415
+  size: 61, 78
+  orig: 61, 78
   offset: 0, 0
   index: 0
 base

@@ -2,7 +2,10 @@ package rescue.raiders.objects;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Vector2;
 import rescue.raiders.game.GameStage;
+import static rescue.raiders.game.RescueRaiders.getAngleToTarget;
+import static rescue.raiders.objects.Bullet.MAX_BULLET_DISTANCE_SQUARED;
 import rescue.raiders.util.AtlasCache;
 import rescue.raiders.util.Sound;
 import rescue.raiders.util.Sounds;
@@ -12,7 +15,7 @@ public class AAGun extends Actor {
     long lastShotTime;
 
     public AAGun(ActorType t) {
-        super(t, AtlasCache.get("turret"), .05f, .65f, false);
+        super(t, AtlasCache.get(t.getAtlasName()), .05f, .65f, false);
     }
 
     @Override
@@ -33,8 +36,8 @@ public class AAGun extends Actor {
         TextureRegion frame = anim.getKeyFrames()[(int) index];
         batch.draw(frame, this.getX(), this.getY(), frame.getRegionWidth() * scale, frame.getRegionHeight() * scale);
 
-        float dst = distance(tx, ty, x, y);
-        if (isAlive() && this.type == ActorType.ENEMY_TURRET && dst < 600000 && (25 < ang && ang < 165)) {
+        float distance = Vector2.dst2(tx, ty, x, y);
+        if (isAlive() && this.type == ActorType.ENEMY_TURRET && distance < MAX_BULLET_DISTANCE_SQUARED && (25 < ang && ang < 165)) {
             if (System.currentTimeMillis() - lastShotTime > 200) {
                 Bullet b = new Bullet(this, x + 25, y + 15, ang);
                 this.getStage().addActor(b);
@@ -42,27 +45,6 @@ public class AAGun extends Actor {
                 Sounds.play(Sound.TURRET_GUNFIRE);
             }
         }
-    }
-
-    @Override
-    public void act(float delta) {
-        super.act(delta);
-
-    }
-
-    private float distance(float x1, float y1, float x2, float y2) {
-        final float x_d = x2 - x1;
-        final float y_d = y2 - y1;
-        return x_d * x_d + y_d * y_d;
-    }
-
-    private float getAngleToTarget(float tx, float ty, float x, float y) {
-        float ang = (float) Math.toDegrees(Math.atan2(tx - x, y - ty));
-        if (ang < 0) {
-            ang = 360 + ang;
-        }
-        ang = (ang - 90) % 360;
-        return ang;
     }
 
     private float getFrame(float ang) {
