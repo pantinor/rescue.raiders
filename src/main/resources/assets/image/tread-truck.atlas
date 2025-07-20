@@ -1,31 +1,31 @@
-rescue.png
+tread-truck.png
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
 truck
   rotate: false
-  xy: 4, 64
+  xy: 0, 0
   size: 101, 47
   orig: 101, 47
   offset: 0, 0
   index: 0
 truck
   rotate: false
-  xy: 104, 64
+  xy: 101, 0
   size: 101, 47
   orig: 101, 47
   offset: 0, 0
   index: 1
 truck
   rotate: false
-  xy: 205, 64
+  xy: 202, 0
   size: 101, 47
   orig: 101, 47
   offset: 0, 0
   index: 2
 truck
   rotate: false
-  xy: 306, 64
+  xy: 303, 0
   size: 101, 47
   orig: 101, 47
   offset: 0, 0

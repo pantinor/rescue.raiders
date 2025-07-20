@@ -6,15 +6,24 @@ import java.lang.reflect.Constructor;
 public enum ActorType {
 
     HELI("copter", "copter", Color.BLUE, false, Helicopter.class),
-    ENEMY_HELI("copter", "copter", Color.RED, true, Helicopter.class),
-    TANK("tank", "tank", Color.YELLOW, false, Tank.class),
-    ENEMY_TANK("tank", "tank", Color.MAGENTA, true, Tank.class),
+    ENEMY_HELI("enemy-copter", "copter1", Color.RED, true, EnemyCopter.class),
+    //
     ENGINEER("soldier", "engineer", Color.BLUE, false, Engineer.class),
     ENEMY_ENGINEER("soldier", "enemy-engineer", Color.RED, true, Engineer.class),
     INFANTRY("soldier", "infantry", Color.BLUE, false, Infantry.class),
     ENEMY_INFANTRY("soldier", "enemy-infantry", Color.RED, true, Infantry.class),
+    //
+    TANK("tank", "tank", Color.YELLOW, false, Tank.class),
+    ENEMY_TANK("tank", "tank", Color.MAGENTA, true, Tank.class),
     JEEP("jeep", "jeep", Color.BLUE, false, Jeep.class),
     ENEMY_JEEP("jeep", "jeep", Color.RED, true, Jeep.class),
+    TREAD_TRUCK("tread-truck", "truck", Color.BLUE, false, TreadTruck.class),
+    ENEMY_READ_TRUCK("tread-truck", "truck", Color.RED, true, TreadTruck.class),
+    COVERED_TRUCK("covered-truck", "truck", Color.BLUE, false, CoveredTruck.class),
+    ENEMY_COVERED_TRUCK("covered-truck", "truck", Color.RED, true, CoveredTruck.class),
+    ROCKET_LAUNCHER("rocket-launcher", "launcher", Color.BLUE, false, RocketLauncher.class),
+    ENEMY_ROCKET_LAUNCHER("rocket-launcher", "launcher", Color.RED, true, RocketLauncher.class),
+    //
     BASE("backgrounds", "base", Color.CYAN, false, Base.class),
     ENEMY_BASE("backgrounds", "enemy-base", Color.PURPLE, true, Base.class),
     TURRET("turret", "turret", Color.WHITE, false, AAGun.class),

@@ -1,6 +1,5 @@
 package rescue.raiders.game;
 
-import com.badlogic.gdx.Application;
 import rescue.raiders.levels.Level;
 import rescue.raiders.levels.Level1;
 import rescue.raiders.objects.Helicopter;
@@ -31,9 +30,12 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.DelayedRemovalArray;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import rescue.raiders.objects.ActorType;
+import rescue.raiders.objects.CoveredTruck;
 import rescue.raiders.objects.Engineer;
 import rescue.raiders.objects.Infantry;
 import rescue.raiders.objects.Jeep;
+import rescue.raiders.objects.RocketLauncher;
+import rescue.raiders.objects.TreadTruck;
 import rescue.raiders.util.Stars;
 import rescue.raiders.util.ExplosionTriangle;
 
@@ -76,8 +78,6 @@ public class RescueRaiders extends Game implements InputProcessor {
         cfg.setTitle("Rescue Raiders");
         cfg.setWindowedMode(SCREEN_WIDTH, SCREEN_HEIGHT);
         new Lwjgl3Application(new RescueRaiders(), cfg);
-
-        Gdx.app.setLogLevel(Application.LOG_DEBUG);
     }
 
     @Override
@@ -93,6 +93,7 @@ public class RescueRaiders extends Game implements InputProcessor {
         cursorPixmap.dispose(); // Safe to dispose after setting
 
         AtlasCache.add("copter", "assets/image/wirly-bird.atlas");
+        AtlasCache.add("enemy-copter", "assets/image/enemy-copter.atlas");
         AtlasCache.add("launcher", "assets/image/rocket-launcher.atlas");
         AtlasCache.add("tank", "assets/image/cartoon-tank.atlas");
         AtlasCache.add("jeep", "assets/image/jeep.atlas");
@@ -102,6 +103,10 @@ public class RescueRaiders extends Game implements InputProcessor {
         AtlasCache.add("turret", "assets/image/turret.atlas");
         AtlasCache.add("balloon", "assets/image/meteors.atlas");
         AtlasCache.add("chain", "assets/image/backgrounds.atlas");
+        AtlasCache.add("rocket", "assets/image/rocket.atlas");
+        AtlasCache.add("rocket-launcher", "assets/image/rocket-launcher.atlas");
+        AtlasCache.add("covered-truck", "assets/image/covered-truck.atlas");
+        AtlasCache.add("tread-truck", "assets/image/tread-truck.atlas");
 
         camera = new OrthographicCamera();
         camera.setToOrtho(false, SCREEN_WIDTH, SCREEN_HEIGHT);
@@ -162,7 +167,6 @@ public class RescueRaiders extends Game implements InputProcessor {
         batch.begin();
         hud.draw(batch, .7f);
         heli.drawStatusBars(batch);
-        heli.debug(batch);
         batch.end();
 
         batchMiniMap.begin();
@@ -216,12 +220,21 @@ public class RescueRaiders extends Game implements InputProcessor {
                 jeep.setPosition(SPAWN, FIELD_HEIGHT);
                 stage.addActor(jeep);
                 break;
+            case Keys.Y:
+                TreadTruck truck = (TreadTruck) ActorType.TREAD_TRUCK.getInstance();
+                truck.setPosition(SPAWN, FIELD_HEIGHT);
+                stage.addActor(truck);
+                break;
+            case Keys.C:
+                CoveredTruck ctruck = (CoveredTruck) ActorType.COVERED_TRUCK.getInstance();
+                ctruck.setPosition(SPAWN, FIELD_HEIGHT);
+                stage.addActor(ctruck);
+                break;
             case Keys.L:
-//                Actor launcher = new Actor("launcher-raising", AtlasCache.get("launcher"), 0.05f, 1f, true);
-//                launcher.setPosition(SPAWN, FIELD_HEIGHT);
-//                launcher.addAction(Actions.moveTo(FIELD_WIDTH, FIELD_HEIGHT, 160f));
-//                stage.addActor(launcher);
-//                break;
+                RocketLauncher launcher = (RocketLauncher) ActorType.ROCKET_LAUNCHER.getInstance();
+                launcher.setPosition(SPAWN, FIELD_HEIGHT);
+                stage.addActor(launcher);
+                break;
 
         }
 
