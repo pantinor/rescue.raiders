@@ -23,7 +23,7 @@ public class AAGun extends Actor {
 
         GameStage stage = (GameStage) getStage();
 
-        Helicopter heli = stage.getHelicopter();
+        Copter heli = stage.getHelicopter();
 
         float tx = heli != null ? heli.getX() : 0;
         float ty = heli != null ? heli.getY() : 0;

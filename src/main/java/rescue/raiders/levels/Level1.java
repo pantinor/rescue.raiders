@@ -73,7 +73,7 @@ public class Level1 extends Level {
                 Actions.delay(5f),
                 Actions.run(() -> {
                     EnemyCopter heli = (EnemyCopter) ActorType.ENEMY_HELI.getInstance();
-                    heli.setPosition(ENEMY_SPAWN, FIELD_HEIGHT);
+                    heli.setPosition(600, FIELD_HEIGHT);
                     stage.addActor(heli);
 
                     SequenceAction takeoff = Actions.sequence(

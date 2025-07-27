@@ -100,213 +100,63 @@ turning
   orig: 71, 58
   offset: 0, 0
   index: 6
-blades-1
+blades
   rotate: false
-  xy: 9, 228
-  size: 82, 19
+  xy: 10, 287
+  size: 80, 11
   offset: 0, 0
   index: 0
-blades-1
+blades
   rotate: false
-  xy: 175, 229
-  size: 70, 19
+  xy: 99, 287
+  size: 80, 11
   offset: 0, 0
   index: 1
-blades-1
+blades
   rotate: false
-  xy: 94, 230
-  size: 79, 17
+  xy: 185, 288
+  size: 80, 11
   offset: 0, 0
   index: 2
-blades-1
-  rotate: false
-  xy: 251, 231
-  size: 61, 17
-  offset: 0, 0
-  index: 3
-blades-1
-  rotate: false
-  xy: 318, 234
-  size: 77, 15
-  offset: 0, 0
-  index: 4
-blades-2
-  rotate: false
-  xy: 11, 257
-  size: 80, 12
-  offset: 0, 0
-  index: 0
-blades-2
-  rotate: false
-  xy: 98, 258
-  size: 82, 14
-  offset: 0, 0
-  index: 1
-blades-2
-  rotate: false
-  xy: 184, 259
-  size: 81, 14
-  offset: 0, 0
-  index: 2
-blades-2
-  rotate: false
-  xy: 269, 263
-  size: 68, 12
-  offset: 0, 0
-  index: 3
-blades-2
-  rotate: false
-  xy: 341, 262
-  size: 76, 14
-  offset: 0, 0
-  index: 4
-blades-3
-  rotate: false
-  xy: 9, 286
-  size: 82, 13
-  offset: 0, 0
-  index: 0
-blades-3
-  rotate: false
-  xy: 98, 286
-  size: 82, 13
-  offset: 0, 0
-  index: 1
-blades-3
-  rotate: false
-  xy: 184, 287
-  size: 82, 13
-  offset: 0, 0
-  index: 2
-blades-3
+blades
   rotate: false
   xy: 273, 287
   size: 61, 11
   offset: 0, 0
   index: 3
-blades-3
+blades
   rotate: false
   xy: 341, 289
   size: 62, 11
   offset: 0, 0
   index: 4
-blades-4
+copter-with-blades
   rotate: false
-  xy: 7, 312
-  size: 80, 7
+  xy: 658, 59
+  size: 93, 60
   offset: 0, 0
   index: 0
-blades-4
+copter-with-blades
   rotate: false
-  xy: 89, 312
-  size: 68, 8
+  xy: 651, 141
+  size: 93, 60
   offset: 0, 0
   index: 1
-blades-4
+copter-with-blades
   rotate: false
-  xy: 160, 312
-  size: 60, 8
+  xy: 646, 217
+  size: 93, 60
   offset: 0, 0
   index: 2
-blades-4
+copter-with-blades
   rotate: false
-  xy: 224, 312
-  size: 75, 8
+  xy: 647, 294
+  size: 93, 60
   offset: 0, 0
   index: 3
-blades-4
+copter-with-blades
   rotate: false
-  xy: 307, 312
-  size: 80, 9
+  xy: 645, 366
+  size: 93, 60
   offset: 0, 0
   index: 4
-blades-5
-  rotate: false
-  xy: 94, 333
-  size: 82, 13
-  offset: 0, 0
-  index: 1
-blades-5
-  rotate: false
-  xy: 336, 333
-  size: 64, 13
-  offset: 0, 0
-  index: 4
-blades-5
-  rotate: false
-  xy: 9, 335
-  size: 82, 13
-  offset: 0, 0
-  index: 0
-blades-5
-  rotate: false
-  xy: 182, 335
-  size: 82, 13
-  offset: 0, 0
-  index: 2
-blades-5
-  rotate: false
-  xy: 269, 336
-  size: 63, 13
-  offset: 0, 0
-  index: 3
-blades-6
-  rotate: false
-  xy: 179, 356
-  size: 81, 14
-  offset: 0, 0
-  index: 2
-blades-6
-  rotate: false
-  xy: 335, 356
-  size: 76, 13
-  offset: 0, 0
-  index: 4
-blades-6
-  rotate: false
-  xy: 262, 357
-  size: 70, 14
-  offset: 0, 0
-  index: 3
-blades-6
-  rotate: false
-  xy: 91, 358
-  size: 82, 14
-  offset: 0, 0
-  index: 1
-blades-6
-  rotate: false
-  xy: 6, 360
-  size: 82, 14
-  offset: 0, 0
-  index: 0
-blades-7
-  rotate: false
-  xy: 8, 390
-  size: 80, 17
-  offset: 0, 0
-  index: 0
-blades-7
-  rotate: false
-  xy: 95, 388
-  size: 80, 17
-  offset: 0, 0
-  index: 1
-blades-7
-  rotate: false
-  xy: 329, 379
-  size: 79, 17
-  offset: 0, 0
-  index: 4
-blades-7
-  rotate: false
-  xy: 260, 381
-  size: 64, 19
-  offset: 0, 0
-  index: 3
-blades-7
-  rotate: false
-  xy: 180, 384
-  size: 74, 19
-  offset: 0, 0
-  index: 2

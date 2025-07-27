@@ -5,8 +5,8 @@ import java.lang.reflect.Constructor;
 
 public enum ActorType {
 
-    HELI("copter", "copter", Color.WHITE, false, Helicopter.class),
-    ENEMY_HELI("shobu-copter", "copter", Color.YELLOW, true, EnemyCopter.class),
+    HELI("shobu-copter", "copter-with-blades", Color.WHITE, false, Copter.class),
+    ENEMY_HELI("shobu-copter", "copter-with-blades", Color.YELLOW, true, EnemyCopter.class),
     //
     ENGINEER("soldier", "engineer", Color.ROYAL, false, Engineer.class),
     ENEMY_ENGINEER("soldier", "enemy-engineer", Color.SCARLET, true, Engineer.class),

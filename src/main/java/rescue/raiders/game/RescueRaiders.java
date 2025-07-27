@@ -2,7 +2,7 @@ package rescue.raiders.game;
 
 import rescue.raiders.levels.Level;
 import rescue.raiders.levels.Level1;
-import rescue.raiders.objects.Helicopter;
+import rescue.raiders.objects.Copter;
 import rescue.raiders.util.AtlasCache;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
@@ -69,7 +69,7 @@ public class RescueRaiders extends Game implements InputProcessor {
     private DelayedRemovalArray<ExplosionTriangle> explosionTriangles = new DelayedRemovalArray<>();
     private ShapeRenderer shapeRenderer;
 
-    public Helicopter heli;
+    public Copter heli;
 
     public static BitmapFont FONT;
     public static RescueRaiders GAME;
@@ -122,7 +122,7 @@ public class RescueRaiders extends Game implements InputProcessor {
 
         shapeRenderer = new ShapeRenderer();
 
-        heli = (Helicopter) ActorType.HELI.getInstance();
+        heli = (Copter) ActorType.HELI.getInstance();
         heli.setPosition(HELI_START_X, HELI_START_Y);
 
         TextureRegion tr = new TextureRegion(makeFloorSection(AtlasCache.get("backgrounds"), FIELD_WIDTH + 2000, 5));

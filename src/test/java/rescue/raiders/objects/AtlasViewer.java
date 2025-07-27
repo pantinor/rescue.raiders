@@ -45,12 +45,12 @@ public class AtlasViewer extends ApplicationAdapter {
         batch = new SpriteBatch();
         shapeRenderer = new ShapeRenderer();
 
-        atlas = new TextureAtlas(Gdx.files.internal("assets/image/backgrounds.atlas"));
+        atlas = new TextureAtlas(Gdx.files.internal("assets/image/shobu-copter.atlas"));
         atlasTexture = atlas.getTextures().first();
         regions = atlas.getRegions();
 
-        //Array<TextureAtlas.AtlasRegion> ch = atlas.findRegions("dead");
-        //anim1 = new Animation(0.15f, ch, Animation.PlayMode.LOOP);
+        Array<TextureAtlas.AtlasRegion> ch = atlas.findRegions("copter-with-blades");
+        anim1 = new Animation(0.02f, ch, Animation.PlayMode.LOOP);
 
         //turning = atlas.findRegions("turning");
         //Array<TextureAtlas.AtlasRegion> flipped = flipRegionsWithPixmap(turning);
@@ -102,9 +102,9 @@ public class AtlasViewer extends ApplicationAdapter {
         frameCounter += Gdx.graphics.getDeltaTime();
 
         {
-            //TextureRegion tr = anim1.getKeyFrame(frameCounter);
-            //tr.setRegion(tr.getRegionX(), tr.getRegionY(), tr.getRegionWidth(), tr.getRegionHeight());
-            //batch.draw(tr, 500, 20);
+            TextureRegion tr = anim1.getKeyFrame(frameCounter);
+            tr.setRegion(tr.getRegionX(), tr.getRegionY(), tr.getRegionWidth(), tr.getRegionHeight());
+            batch.draw(tr, 500, 20);
         }
         {
             //TextureRegion tr = anim2.getKeyFrame(frameCounter);
