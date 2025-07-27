@@ -1,0 +1,299 @@
+blue-tank.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+idle
+  rotate: false
+  xy: 120, 0
+  size: 73, 57
+  offset: 0, 0
+  index: 0
+idle
+  rotate: false
+  xy: 199, 0
+  size: 73, 57
+  offset: 0, 0
+  index: 1
+stopping
+  rotate: false
+  xy: 355, 67
+  size: 74, 58
+  offset: 0, 0
+  index: 3
+stopping
+  rotate: false
+  xy: 121, 68
+  size: 73, 58
+  offset: 0, 0
+  index: 0
+stopping
+  rotate: false
+  xy: 432, 68
+  size: 74, 57
+  offset: 0, 0
+  index: 4
+stopping
+  rotate: false
+  xy: 195, 69
+  size: 73, 57
+  offset: 0, 0
+  index: 1
+stopping
+  rotate: false
+  xy: 269, 69
+  size: 72, 57
+  offset: 0, 0
+  index: 2
+stopping
+  rotate: false
+  xy: 511, 69
+  size: 74, 56
+  offset: 0, 0
+  index: 5
+driving
+  rotate: false
+  xy: 340, 160
+  size: 74, 59
+  offset: 0, 0
+  index: 3
+driving
+  rotate: false
+  xy: 489, 160
+  size: 74, 59
+  offset: 0, 0
+  index: 5
+driving
+  rotate: false
+  xy: 117, 161
+  size: 73, 58
+  offset: 0, 0
+  index: 0
+driving
+  rotate: false
+  xy: 191, 161
+  size: 74, 58
+  offset: 0, 0
+  index: 1
+driving
+  rotate: false
+  xy: 266, 161
+  size: 73, 58
+  offset: 0, 0
+  index: 2
+driving
+  rotate: false
+  xy: 415, 161
+  size: 73, 58
+  offset: 0, 0
+  index: 4
+shooting
+  rotate: false
+  xy: 269, 238
+  size: 73, 63
+  offset: 0, 0
+  index: 2
+shooting
+  rotate: false
+  xy: 121, 240
+  size: 73, 61
+  offset: 0, 0
+  index: 0
+shooting
+  rotate: false
+  xy: 195, 240
+  size: 73, 61
+  offset: 0, 0
+  index: 1
+shooting
+  rotate: false
+  xy: 343, 241
+  size: 73, 61
+  offset: 0, 0
+  index: 3
+shooting
+  rotate: false
+  xy: 417, 243
+  size: 73, 58
+  offset: 0, 0
+  index: 4
+shooting
+  rotate: false
+  xy: 491, 243
+  size: 73, 58
+  offset: 0, 0
+  index: 5
+shooting
+  rotate: false
+  xy: 350, 322
+  size: 72, 62
+  offset: 0, 0
+  index: 9
+shooting
+  rotate: false
+  xy: 270, 324
+  size: 73, 60
+  offset: 0, 0
+  index: 8
+shooting
+  rotate: false
+  xy: 119, 325
+  size: 73, 59
+  offset: 0, 0
+  index: 6
+shooting
+  rotate: false
+  xy: 194, 325
+  size: 73, 59
+  offset: 0, 0
+  index: 7
+reverse
+  rotate: false
+  xy: 278, 398
+  size: 72, 61
+  offset: 0, 0
+  index: 2
+reverse
+  rotate: false
+  xy: 352, 402
+  size: 74, 57
+  offset: 0, 0
+  index: 3
+reverse
+  rotate: false
+  xy: 428, 403
+  size: 75, 56
+  offset: 0, 0
+  index: 4
+reverse
+  rotate: false
+  xy: 505, 403
+  size: 74, 56
+  offset: 0, 0
+  index: 5
+reverse
+  rotate: false
+  xy: 126, 404
+  size: 74, 55
+  offset: 0, 0
+  index: 0
+reverse
+  rotate: false
+  xy: 585, 405
+  size: 74, 54
+  offset: 0, 0
+  index: 6
+reverse
+  rotate: false
+  xy: 201, 408
+  size: 74, 51
+  offset: 0, 0
+  index: 1
+effects
+  rotate: false
+  xy: 429, 490
+  size: 63, 50
+  offset: 0, 0
+  index: 7
+effects
+  rotate: false
+  xy: 495, 490
+  size: 64, 50
+  offset: 0, 0
+  index: 8
+effects
+  rotate: false
+  xy: 562, 490
+  size: 62, 50
+  offset: 0, 0
+  index: 9
+effects
+  rotate: false
+  xy: 627, 490
+  size: 57, 50
+  offset: 0, 0
+  index: 10
+effects
+  rotate: false
+  xy: 362, 491
+  size: 64, 48
+  offset: 0, 0
+  index: 6
+effects
+  rotate: false
+  xy: 298, 494
+  size: 61, 43
+  offset: 0, 0
+  index: 5
+effects
+  rotate: false
+  xy: 38, 497
+  size: 37, 36
+  offset: 0, 0
+  index: 0
+effects
+  rotate: false
+  xy: 121, 499
+  size: 50, 36
+  offset: 0, 0
+  index: 2
+effects
+  rotate: false
+  xy: 174, 499
+  size: 55, 35
+  offset: 0, 0
+  index: 3
+effects
+  rotate: false
+  xy: 232, 499
+  size: 63, 35
+  offset: 0, 0
+  index: 4
+effects
+  rotate: false
+  xy: 78, 501
+  size: 40, 30
+  offset: 0, 0
+  index: 1
+effects
+  rotate: false
+  xy: 37, 553
+  size: 53, 49
+  offset: 0, 0
+  index: 11
+effects
+  rotate: false
+  xy: 93, 553
+  size: 52, 49
+  offset: 0, 0
+  index: 12
+effects
+  rotate: false
+  xy: 148, 555
+  size: 52, 45
+  offset: 0, 0
+  index: 13
+effects
+  rotate: false
+  xy: 203, 553
+  size: 48, 46
+  offset: 0, 0
+  index: 14
+effects
+  rotate: false
+  xy: 253, 560
+  size: 46, 38
+  offset: 0, 0
+  index: 15
+effects
+  rotate: false
+  xy: 302, 561
+  size: 34, 35
+  offset: 0, 0
+  index: 16
+effects
+  rotate: false
+  xy: 338, 563
+  size: 26, 31
+  offset: 0, 0
+  index: 17
+

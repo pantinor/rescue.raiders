@@ -3,7 +3,6 @@ package rescue.raiders.game;
 import rescue.raiders.levels.Level;
 import rescue.raiders.levels.Level1;
 import rescue.raiders.objects.Helicopter;
-import rescue.raiders.objects.Tank;
 import rescue.raiders.util.AtlasCache;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
@@ -30,11 +29,13 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.DelayedRemovalArray;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import rescue.raiders.objects.ActorType;
+import rescue.raiders.objects.BlueTank;
 import rescue.raiders.objects.CoveredTruck;
 import rescue.raiders.objects.Engineer;
 import rescue.raiders.objects.Infantry;
 import rescue.raiders.objects.Jeep;
 import rescue.raiders.objects.RocketLauncher;
+import rescue.raiders.objects.TanTank;
 import rescue.raiders.objects.TreadTruck;
 import rescue.raiders.util.Stars;
 import rescue.raiders.util.ExplosionTriangle;
@@ -93,9 +94,12 @@ public class RescueRaiders extends Game implements InputProcessor {
         cursorPixmap.dispose(); // Safe to dispose after setting
 
         AtlasCache.add("copter", "assets/image/wirly-bird.atlas");
-        AtlasCache.add("enemy-copter", "assets/image/enemy-copter.atlas");
+        AtlasCache.add("shobu-copter", "assets/image/shobu-copter.atlas");
         AtlasCache.add("launcher", "assets/image/rocket-launcher.atlas");
-        AtlasCache.add("tank", "assets/image/cartoon-tank.atlas");
+        AtlasCache.add("tan-tank", "assets/image/tan-tank.atlas");
+        AtlasCache.add("grey-tank", "assets/image/grey-tank.atlas");
+        AtlasCache.add("blue-tank", "assets/image/blue-tank.atlas");
+        AtlasCache.add("large-tank", "assets/image/large-tank.atlas");
         AtlasCache.add("jeep", "assets/image/jeep.atlas");
         AtlasCache.add("soldier", "assets/image/soldier.atlas");
         AtlasCache.add("truck", "assets/image/covered-truck.atlas");
@@ -201,7 +205,7 @@ public class RescueRaiders extends Game implements InputProcessor {
 
         switch (keycode) {
             case Keys.T:
-                Tank tank = (Tank) ActorType.TANK.getInstance();
+                TanTank tank = (TanTank) ActorType.TANK.getInstance();
                 tank.setPosition(SPAWN, FIELD_HEIGHT);
                 stage.addActor(tank);
                 break;
@@ -234,6 +238,11 @@ public class RescueRaiders extends Game implements InputProcessor {
                 RocketLauncher launcher = (RocketLauncher) ActorType.ROCKET_LAUNCHER.getInstance();
                 launcher.setPosition(SPAWN, FIELD_HEIGHT);
                 stage.addActor(launcher);
+                break;
+            case Keys.G:
+                BlueTank btank = (BlueTank) ActorType.BLUE_TANK.getInstance();
+                btank.setPosition(SPAWN, FIELD_HEIGHT);
+                stage.addActor(btank);
                 break;
 
         }

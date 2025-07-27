@@ -3,6 +3,7 @@ package rescue.raiders.objects;
 import static rescue.raiders.game.RescueRaiders.*;
 import rescue.raiders.game.RescueRaiders;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.Color;
@@ -44,7 +45,7 @@ public class Helicopter extends Actor implements InputProcessor {
     private final Animation<TextureRegion> flipped;
     private final Array<AtlasRegion> turningLeft;
     private final Array<AtlasRegion> turningRight;
-    private int turningIndex = 0;
+    private int turningIndex = -1;
 
     private int fuel = 100;
     private final TextureRegion healthBar;
@@ -265,9 +266,8 @@ public class Helicopter extends Actor implements InputProcessor {
                 py = SCREEN_HEIGHT - GROUND_LEVEL;
             }
         }
-        
-        //TODO hitting the enemy ballons or chains
 
+        //TODO hitting the enemy ballons or chains
         setX(px);
         setY(yup(py));
 
@@ -325,16 +325,11 @@ public class Helicopter extends Actor implements InputProcessor {
 
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-
-        if (button == 1) {
+        if (button == Input.Buttons.RIGHT) {
             turningIndex = 0;
-            if (west) {
-                west = false;
-            } else {
-                west = true;
-            }
+            west = !west;
+            return true;
         }
-
         return false;
     }
 

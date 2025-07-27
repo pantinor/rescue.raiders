@@ -11,9 +11,9 @@ public class Hut extends Actor {
     private final Balloon balloon;
 
     public Hut(ActorType t) {
-        super(t, AtlasCache.get(t.getAtlasName()), 1f, t.isEnemy());
+        super(t, AtlasCache.get(t.getAtlasName()), 1f, !t.isEnemy());
 
-        this.setUserObject(createMiniIcon(t.getIconColor(), 8, 8));
+        this.setUserObject(createMiniIcon(t.getIconColor(), 4, 4));
 
         ActorType b = t.isEnemy() ? ActorType.ENEMY_BALLON : ActorType.BALLON;
         this.balloon = new Balloon(b);

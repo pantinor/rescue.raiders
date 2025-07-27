@@ -1,0 +1,268 @@
+grey-tank.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+idle
+  rotate: false
+  xy: 0, 23
+  size: 72, 58
+  offset: 0, 0
+  index: 0
+idle
+  rotate: false
+  xy: 73, 23
+  size: 73, 58
+  offset: 0, 0
+  index: 1
+driving
+  rotate: false
+  xy: 222, 113
+  size: 74, 59
+  offset: 0, 0
+  index: 6
+driving
+  rotate: false
+  xy: 371, 113
+  size: 74, 59
+  offset: 0, 0
+  index: 7
+driving
+  rotate: false
+  xy: 0, 114
+  size: 72, 58
+  offset: 0, 0
+  index: 8
+driving
+  rotate: false
+  xy: 73, 114
+  size: 74, 58
+  offset: 0, 0
+  index: 9
+driving
+  rotate: false
+  xy: 148, 114
+  size: 73, 58
+  offset: 0, 0
+  index: 10
+driving
+  rotate: false
+  xy: 297, 114
+  size: 73, 58
+  offset: 0, 0
+  index: 11
+shooting
+  rotate: false
+  xy: 221, 203
+  size: 73, 63
+  offset: 0, 0
+  index: 3
+shooting
+  rotate: false
+  xy: 73, 205
+  size: 73, 61
+  offset: 0, 0
+  index: 1
+shooting
+  rotate: false
+  xy: 147, 205
+  size: 73, 61
+  offset: 0, 0
+  index: 2
+shooting
+  rotate: false
+  xy: 295, 205
+  size: 73, 61
+  offset: 0, 0
+  index: 4
+shooting
+  rotate: false
+  xy: 0, 207
+  size: 72, 59
+  offset: 0, 0
+  index: 0
+shooting
+  rotate: false
+  xy: 369, 208
+  size: 73, 58
+  offset: 0, 0
+  index: 5
+shooting
+  rotate: false
+  xy: 443, 208
+  size: 73, 58
+  offset: 0, 0
+  index: 6
+shooting
+  rotate: false
+  xy: 221, 274
+  size: 72, 62
+  offset: 0, 0
+  index: 10
+shooting
+  rotate: false
+  xy: 147, 276
+  size: 73, 60
+  offset: 0, 0
+  index: 9
+shooting
+  rotate: false
+  xy: 0, 277
+  size: 72, 59
+  offset: 0, 0
+  index: 7
+shooting
+  rotate: false
+  xy: 73, 277
+  size: 73, 59
+  offset: 0, 0
+  index: 8
+reverse
+  rotate: false
+  xy: 149, 371
+  size: 72, 61
+  offset: 0, 0
+  index: 2
+reverse
+  rotate: false
+  xy: 222, 375
+  size: 74, 57
+  offset: 0, 0
+  index: 3
+reverse
+  rotate: false
+  xy: 297, 376
+  size: 75, 56
+  offset: 0, 0
+  index: 4
+reverse
+  rotate: false
+  xy: 373, 376
+  size: 74, 56
+  offset: 0, 0
+  index: 5
+reverse
+  rotate: false
+  xy: 0, 377
+  size: 73, 55
+  offset: 0, 0
+  index: 0
+reverse
+  rotate: false
+  xy: 448, 378
+  size: 73, 54
+  offset: 0, 0
+  index: 6
+reverse
+  rotate: false
+  xy: 74, 381
+  size: 74, 51
+  offset: 0, 0
+  index: 1
+dead
+  rotate: false
+  xy: 76, 464
+  size: 71, 66
+  offset: 0, 0
+  index: 1
+dead
+  rotate: false
+  xy: 148, 471
+  size: 74, 59
+  offset: 0, 0
+  index: 2
+dead
+  rotate: false
+  xy: 0, 475
+  size: 75, 55
+  offset: 0, 0
+  index: 0
+dead
+  rotate: false
+  xy: 223, 476
+  size: 80, 54
+  offset: 0, 0
+  index: 3
+dead
+  rotate: false
+  xy: 304, 477
+  size: 92, 53
+  offset: 0, 0
+  index: 4
+dead
+  rotate: false
+  xy: 397, 477
+  size: 98, 53
+  offset: 0, 0
+  index: 5
+dead
+  rotate: false
+  xy: 197, 538
+  size: 98, 70
+  offset: 0, 0
+  index: 8
+dead
+  rotate: false
+  xy: 98, 539
+  size: 98, 69
+  offset: 0, 0
+  index: 7
+dead
+  rotate: false
+  xy: 0, 543
+  size: 97, 65
+  offset: 0, 0
+  index: 6
+dead
+  rotate: false
+  xy: 296, 544
+  size: 98, 64
+  offset: 0, 0
+  index: 9
+dead
+  rotate: false
+  xy: 395, 552
+  size: 98, 56
+  offset: 0, 0
+  index: 10
+dead
+  rotate: false
+  xy: 296, 614
+  size: 96, 57
+  offset: 0, 0
+  index: 14
+dead
+  rotate: false
+  xy: 0, 616
+  size: 97, 55
+  offset: 0, 0
+  index: 11
+dead
+  rotate: false
+  xy: 98, 616
+  size: 98, 55
+  offset: 0, 0
+  index: 12
+dead
+  rotate: false
+  xy: 197, 617
+  size: 98, 54
+  offset: 0, 0
+  index: 13
+dead
+  rotate: false
+  xy: 393, 619
+  size: 98, 52
+  offset: 0, 0
+  index: 15
+dead
+  rotate: false
+  xy: 0, 679
+  size: 97, 49
+  offset: 0, 0
+  index: 16
+dead
+  rotate: false
+  xy: 98, 686
+  size: 98, 42
+  offset: 0, 0
+  index: 17

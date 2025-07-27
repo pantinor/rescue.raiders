@@ -9,25 +9,11 @@ ground
   orig: 48, 48
   offset: 0, 0
   index: 0    
-tower
-  rotate: false
-  xy: 7, 86
-  size: 88, 97
-  orig: 88, 97
-  offset: 0, 0
-  index: 0
-wall
-  rotate: false
-  xy: 4, 262
-  size: 64, 40
-  orig: 64, 40
-  offset: 0, 0
-  index: 0
 pad
   rotate: false
-  xy: 173, 6
-  size: 288, 77
-  orig: 288, 77
+  xy: 166, 14
+  size: 288, 98
+  orig: 288, 98
   offset: 0, 0
   index: 0
 hut
@@ -39,49 +25,42 @@ hut
   index: 0
 base
   rotate: false
-  xy: 370, 124
-  size: 336, 128
-  orig: 336, 128
-  offset: 0, 0
-  index: 0
-enemy-hut
-  rotate: false
-  xy: 131, 262
-  size: 232, 128
-  orig: 232, 128
+  xy: 438, 499
+  size: 87, 84
+  orig: 87, 84
   offset: 0, 0
   index: 0
 enemy-base
   rotate: false
-  xy: 369, 263
-  size: 336, 128
-  orig: 336, 128
+  xy: 348, 497
+  size: 87, 84
+  orig: 87, 84
   offset: 0, 0
   index: 0
 chain
   rotate: false
-  xy: 25, 309
+  xy: 32, 305
   size: 5, 282
   orig: 5, 282
   offset: 0, 0
   index: 0
 chain
   rotate: false
-  xy: 31, 309
+  xy: 38, 305
   size: 5, 282
   orig: 5, 282
   offset: 0, 0
   index: 1
 chain
   rotate: false
-  xy: 37, 309
+  xy: 44, 305
   size: 5, 282
   orig: 5, 282
   offset: 0, 0
   index: 2
 chain
   rotate: false
-  xy: 43, 309
+  xy: 50, 305
   size: 5, 282
   orig: 5, 282
   offset: 0, 0

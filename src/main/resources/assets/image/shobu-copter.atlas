@@ -1,0 +1,312 @@
+shobu-copter.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+copter
+  rotate: false
+  xy: 7, 22
+  size: 89, 57
+  orig: 89, 57
+  offset: 0, 0
+  index: 0
+copter
+  rotate: false
+  xy: 101, 21
+  size: 89, 54
+  orig: 89, 54
+  offset: 0, 0
+  index: 1
+copter
+  rotate: false
+  xy: 194, 18
+  size: 89, 55
+  orig: 89, 55
+  offset: 0, 0
+  index: 2
+copter
+  rotate: false
+  xy: 288, 15
+  size: 89, 59
+  orig: 89, 59
+  offset: 0, 0
+  index: 3
+copter
+  rotate: false
+  xy: 382, 15
+  size: 89, 58
+  orig: 89, 58
+  offset: 0, 0
+  index: 4
+copter
+  rotate: false
+  xy: 477, 14
+  size: 89, 61
+  orig: 89, 61
+  offset: 0, 0
+  index: 5
+copter
+  rotate: false
+  xy: 568, 11
+  size: 89, 66
+  orig: 89, 66
+  offset: 0, 0
+  index: 6
+turning
+  rotate: false
+  xy: 7, 100
+  size: 84, 60
+  orig: 84, 60
+  offset: 0, 0
+  index: 0
+turning
+  rotate: false
+  xy: 102, 100
+  size: 82, 59
+  orig: 82, 59
+  offset: 0, 0
+  index: 1
+turning
+  rotate: false
+  xy: 191, 100
+  size: 76, 59
+  orig: 76, 59
+  offset: 0, 0
+  index: 2
+turning
+  rotate: false
+  xy: 276, 100
+  size: 71, 59
+  orig: 71, 59
+  offset: 0, 0
+  index: 3
+turning
+  rotate: false
+  xy: 357, 100
+  size: 72, 59
+  orig: 72, 59
+  offset: 0, 0
+  index: 4
+turning
+  rotate: false
+  xy: 436, 101
+  size: 69, 58
+  orig: 69, 58
+  offset: 0, 0
+  index: 5
+turning
+  rotate: false
+  xy: 511, 101
+  size: 71, 58
+  orig: 71, 58
+  offset: 0, 0
+  index: 6
+blades-1
+  rotate: false
+  xy: 9, 228
+  size: 82, 19
+  offset: 0, 0
+  index: 0
+blades-1
+  rotate: false
+  xy: 175, 229
+  size: 70, 19
+  offset: 0, 0
+  index: 1
+blades-1
+  rotate: false
+  xy: 94, 230
+  size: 79, 17
+  offset: 0, 0
+  index: 2
+blades-1
+  rotate: false
+  xy: 251, 231
+  size: 61, 17
+  offset: 0, 0
+  index: 3
+blades-1
+  rotate: false
+  xy: 318, 234
+  size: 77, 15
+  offset: 0, 0
+  index: 4
+blades-2
+  rotate: false
+  xy: 11, 257
+  size: 80, 12
+  offset: 0, 0
+  index: 0
+blades-2
+  rotate: false
+  xy: 98, 258
+  size: 82, 14
+  offset: 0, 0
+  index: 1
+blades-2
+  rotate: false
+  xy: 184, 259
+  size: 81, 14
+  offset: 0, 0
+  index: 2
+blades-2
+  rotate: false
+  xy: 269, 263
+  size: 68, 12
+  offset: 0, 0
+  index: 3
+blades-2
+  rotate: false
+  xy: 341, 262
+  size: 76, 14
+  offset: 0, 0
+  index: 4
+blades-3
+  rotate: false
+  xy: 9, 286
+  size: 82, 13
+  offset: 0, 0
+  index: 0
+blades-3
+  rotate: false
+  xy: 98, 286
+  size: 82, 13
+  offset: 0, 0
+  index: 1
+blades-3
+  rotate: false
+  xy: 184, 287
+  size: 82, 13
+  offset: 0, 0
+  index: 2
+blades-3
+  rotate: false
+  xy: 273, 287
+  size: 61, 11
+  offset: 0, 0
+  index: 3
+blades-3
+  rotate: false
+  xy: 341, 289
+  size: 62, 11
+  offset: 0, 0
+  index: 4
+blades-4
+  rotate: false
+  xy: 7, 312
+  size: 80, 7
+  offset: 0, 0
+  index: 0
+blades-4
+  rotate: false
+  xy: 89, 312
+  size: 68, 8
+  offset: 0, 0
+  index: 1
+blades-4
+  rotate: false
+  xy: 160, 312
+  size: 60, 8
+  offset: 0, 0
+  index: 2
+blades-4
+  rotate: false
+  xy: 224, 312
+  size: 75, 8
+  offset: 0, 0
+  index: 3
+blades-4
+  rotate: false
+  xy: 307, 312
+  size: 80, 9
+  offset: 0, 0
+  index: 4
+blades-5
+  rotate: false
+  xy: 94, 333
+  size: 82, 13
+  offset: 0, 0
+  index: 1
+blades-5
+  rotate: false
+  xy: 336, 333
+  size: 64, 13
+  offset: 0, 0
+  index: 4
+blades-5
+  rotate: false
+  xy: 9, 335
+  size: 82, 13
+  offset: 0, 0
+  index: 0
+blades-5
+  rotate: false
+  xy: 182, 335
+  size: 82, 13
+  offset: 0, 0
+  index: 2
+blades-5
+  rotate: false
+  xy: 269, 336
+  size: 63, 13
+  offset: 0, 0
+  index: 3
+blades-6
+  rotate: false
+  xy: 179, 356
+  size: 81, 14
+  offset: 0, 0
+  index: 2
+blades-6
+  rotate: false
+  xy: 335, 356
+  size: 76, 13
+  offset: 0, 0
+  index: 4
+blades-6
+  rotate: false
+  xy: 262, 357
+  size: 70, 14
+  offset: 0, 0
+  index: 3
+blades-6
+  rotate: false
+  xy: 91, 358
+  size: 82, 14
+  offset: 0, 0
+  index: 1
+blades-6
+  rotate: false
+  xy: 6, 360
+  size: 82, 14
+  offset: 0, 0
+  index: 0
+blades-7
+  rotate: false
+  xy: 8, 390
+  size: 80, 17
+  offset: 0, 0
+  index: 0
+blades-7
+  rotate: false
+  xy: 95, 388
+  size: 80, 17
+  offset: 0, 0
+  index: 1
+blades-7
+  rotate: false
+  xy: 329, 379
+  size: 79, 17
+  offset: 0, 0
+  index: 4
+blades-7
+  rotate: false
+  xy: 260, 381
+  size: 64, 19
+  offset: 0, 0
+  index: 3
+blades-7
+  rotate: false
+  xy: 180, 384
+  size: 74, 19
+  offset: 0, 0
+  index: 2

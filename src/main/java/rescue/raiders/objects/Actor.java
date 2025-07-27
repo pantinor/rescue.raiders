@@ -21,7 +21,6 @@ public class Actor extends com.badlogic.gdx.scenes.scene2d.Actor {
     Animation<TextureRegion> anim;
     float frameCounter = 0;
     float scale;
-    boolean flip;
 
     int health = 20;
     int maxHealth = 20;
@@ -34,9 +33,11 @@ public class Actor extends com.badlogic.gdx.scenes.scene2d.Actor {
         this.type = t;
         setName(t.toString().toLowerCase());
         this.scale = scale;
-        this.flip = flip;
-        this.tr = atlas.findRegion(t.getRegionName());
+        
+        TextureAtlas.AtlasRegion original = atlas.findRegion(t.getRegionName());
+        this.tr = new TextureAtlas.AtlasRegion(original);
         this.tr.flip(flip, false);
+        
         this.hitbox = new Rectangle(0, 0, tr.getRegionWidth() * scale, tr.getRegionHeight() * scale);
         this.setUserObject(createMiniIcon(t.getIconColor(), 4, 4));
     }
@@ -47,7 +48,6 @@ public class Actor extends com.badlogic.gdx.scenes.scene2d.Actor {
         this.type = t;
         setName(t.toString().toLowerCase());
         this.scale = scale;
-        this.flip = flip;
         Array<AtlasRegion> regions = atlas.findRegions(t.getRegionName());
         this.anim = new Animation(animframeRate, regions);
         TextureRegion r = anim.getKeyFrame(0, true);

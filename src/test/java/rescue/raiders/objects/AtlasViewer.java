@@ -6,7 +6,9 @@ import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.TextureData;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -27,7 +29,8 @@ public class AtlasViewer extends ApplicationAdapter {
     private Array<TextureAtlas.AtlasRegion> regions;
     private BitmapFont font;
     private OrthographicCamera camera;
-    private Animation<TextureRegion> anim1, anim2, anim3, anim4, anim5, anim6;
+    private Animation<TextureRegion> anim1, anim2, anim3, anim4, anim5, anim6, anim7, blades;
+    Array<TextureAtlas.AtlasRegion> turning;
     private float frameCounter = 0;
 
     public static void main(String[] args) {
@@ -42,22 +45,20 @@ public class AtlasViewer extends ApplicationAdapter {
         batch = new SpriteBatch();
         shapeRenderer = new ShapeRenderer();
 
-        atlas = new TextureAtlas(Gdx.files.internal("assets/image/enemy-copter.atlas"));
+        atlas = new TextureAtlas(Gdx.files.internal("assets/image/backgrounds.atlas"));
         atlasTexture = atlas.getTextures().first();
         regions = atlas.getRegions();
 
-        Array<TextureAtlas.AtlasRegion> ch = atlas.findRegions("copter1");
-        anim1 = new Animation(0.05f, ch, Animation.PlayMode.LOOP);
-        Array<TextureAtlas.AtlasRegion> ch2 = atlas.findRegions("copter2");
-        anim2 = new Animation(0.05f, ch2, Animation.PlayMode.LOOP);
-        Array<TextureAtlas.AtlasRegion> ch3 = atlas.findRegions("copter3");
-        anim3 = new Animation(0.05f, ch3, Animation.PlayMode.LOOP);
-        Array<TextureAtlas.AtlasRegion> ch4 = atlas.findRegions("copter4");
-        anim4 = new Animation(0.05f, ch4, Animation.PlayMode.LOOP);
-        Array<TextureAtlas.AtlasRegion> ch5 = atlas.findRegions("copter5");
-        anim5 = new Animation(0.05f, ch5, Animation.PlayMode.LOOP);
-        Array<TextureAtlas.AtlasRegion> ch6 = atlas.findRegions("copter6");
-        anim6 = new Animation(0.05f, ch6, Animation.PlayMode.LOOP);
+        //Array<TextureAtlas.AtlasRegion> ch = atlas.findRegions("dead");
+        //anim1 = new Animation(0.15f, ch, Animation.PlayMode.LOOP);
+
+        //turning = atlas.findRegions("turning");
+        //Array<TextureAtlas.AtlasRegion> flipped = flipRegionsWithPixmap(turning);
+        //for (int i = flipped.size - 1; i >= 0; i--) {
+            //turning.add(flipped.get(i));
+        //}
+
+        //anim2 = new Animation(0.15f, turning, Animation.PlayMode.LOOP);
 
         font = new BitmapFont();
         font.setColor(com.badlogic.gdx.graphics.Color.WHITE);
@@ -95,42 +96,28 @@ public class AtlasViewer extends ApplicationAdapter {
         for (TextureAtlas.AtlasRegion region : regions) {
             String meta = "(" + region.getRegionX() + "," + region.getRegionY() + ")" + " " + region.index;
             float drawY = SCREEN_HEIGHT - region.getRegionY() - region.getRegionHeight();
-            font.draw(batch, region.name, region.getRegionX(), drawY + font.getLineHeight());
-            font.draw(batch, meta, region.getRegionX(), drawY);
+            font.draw(batch, region.name + " [" + region.index + "]", region.getRegionX(), drawY);
         }
 
         frameCounter += Gdx.graphics.getDeltaTime();
 
         {
-            TextureRegion tr = anim1.getKeyFrame(frameCounter);
-            tr.setRegion(tr.getRegionX(), tr.getRegionY(), tr.getRegionWidth(), tr.getRegionHeight());
-            batch.draw(tr, 20, 20);
+            //TextureRegion tr = anim1.getKeyFrame(frameCounter);
+            //tr.setRegion(tr.getRegionX(), tr.getRegionY(), tr.getRegionWidth(), tr.getRegionHeight());
+            //batch.draw(tr, 500, 20);
         }
         {
-            TextureRegion tr = anim2.getKeyFrame(frameCounter);
-            tr.setRegion(tr.getRegionX(), tr.getRegionY(), tr.getRegionWidth(), tr.getRegionHeight());
-            batch.draw(tr, 120, 20);
+            //TextureRegion tr = anim2.getKeyFrame(frameCounter);
+            //tr.setRegion(tr.getRegionX(), tr.getRegionY(), tr.getRegionWidth(), tr.getRegionHeight());
+            //batch.draw(tr, 120, 20);
         }
-        {
-            TextureRegion tr = anim3.getKeyFrame(frameCounter);
-            tr.setRegion(tr.getRegionX(), tr.getRegionY(), tr.getRegionWidth(), tr.getRegionHeight());
-            batch.draw(tr, 220, 20);
-        }
-        {
-            TextureRegion tr = anim4.getKeyFrame(frameCounter);
-            tr.setRegion(tr.getRegionX(), tr.getRegionY(), tr.getRegionWidth(), tr.getRegionHeight());
-            batch.draw(tr, 320, 20);
-        }
-        {
-            TextureRegion tr = anim5.getKeyFrame(frameCounter);
-            tr.setRegion(tr.getRegionX(), tr.getRegionY(), tr.getRegionWidth(), tr.getRegionHeight());
-            batch.draw(tr, 420, 20);
-        }
-        {
-            TextureRegion tr = anim6.getKeyFrame(frameCounter);
-            tr.setRegion(tr.getRegionX(), tr.getRegionY(), tr.getRegionWidth(), tr.getRegionHeight());
-            batch.draw(tr, 520, 20);
-        }
+
+//        int x = 0;
+//        for (TextureRegion tr : turning) {
+//            tr.setRegion(tr.getRegionX(), tr.getRegionY(), tr.getRegionWidth(), tr.getRegionHeight());
+//            batch.draw(tr, 10 + x, 120);
+//            x += 80;
+//        }
 
         batch.end();
     }
@@ -142,4 +129,45 @@ public class AtlasViewer extends ApplicationAdapter {
         atlas.dispose();
         font.dispose();
     }
+
+    private Array<TextureAtlas.AtlasRegion> flipRegionsWithPixmap(Array<TextureAtlas.AtlasRegion> regions) {
+        Array<TextureAtlas.AtlasRegion> flipped = new Array<>();
+
+        Texture texture = regions.first().getTexture();
+        TextureData data = texture.getTextureData();
+        if (!data.isPrepared()) {
+            data.prepare();
+        }
+        Pixmap originalPixmap = data.consumePixmap();
+
+        for (TextureAtlas.AtlasRegion region : regions) {
+            int width = region.getRegionWidth();
+            int height = region.getRegionHeight();
+
+            Pixmap cropped = new Pixmap(width, height, originalPixmap.getFormat());
+            cropped.drawPixmap(originalPixmap,
+                    0, 0,
+                    region.getRegionX(), region.getRegionY(),
+                    width, height);
+
+            Pixmap flippedPixmap = new Pixmap(width, height, originalPixmap.getFormat());
+            for (int x = 0; x < width; x++) {
+                for (int y = 0; y < height; y++) {
+                    int pixel = cropped.getPixel(x, y);
+                    flippedPixmap.drawPixel(width - 1 - x, y, pixel);
+                }
+            }
+
+            Texture flippedTexture = new Texture(flippedPixmap);
+            flippedTexture.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
+            TextureAtlas.AtlasRegion flippedRegion = new TextureAtlas.AtlasRegion(new TextureRegion(flippedTexture));
+            flipped.add(flippedRegion);
+
+            cropped.dispose();
+        }
+
+        originalPixmap.dispose();
+        return flipped;
+    }
+
 }

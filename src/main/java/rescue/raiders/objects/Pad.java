@@ -8,4 +8,8 @@ public class Pad extends Actor {
         super(t, AtlasCache.get(t.getAtlasName()), .65f, false);
     }
 
+    @Override
+    public void setPosition(float x, float y) {
+        super.setPosition(x, y - 5);
+    }
 }
