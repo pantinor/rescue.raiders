@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.Array;
+import rescue.raiders.game.GameStage;
 import static rescue.raiders.game.RescueRaiders.GAME;
 import static rescue.raiders.game.RescueRaiders.createMiniIcon;
 import rescue.raiders.util.Sound;
@@ -33,11 +34,11 @@ public class Actor extends com.badlogic.gdx.scenes.scene2d.Actor {
         this.type = t;
         setName(t.toString().toLowerCase());
         this.scale = scale;
-        
+
         TextureAtlas.AtlasRegion original = atlas.findRegion(t.getRegionName());
         this.tr = new TextureAtlas.AtlasRegion(original);
         this.tr.flip(flip, false);
-        
+
         this.hitbox = new Rectangle(0, 0, tr.getRegionWidth() * scale, tr.getRegionHeight() * scale);
         this.setUserObject(createMiniIcon(t.getIconColor(), 4, 4));
     }
@@ -80,12 +81,6 @@ public class Actor extends com.badlogic.gdx.scenes.scene2d.Actor {
         return hitbox.overlaps(r);
     }
 
-    public void shoot() {
-        Bullet b = new Bullet(this, this.getX(), this.getY(), 0);
-        getStage().addActor(b);
-        Sounds.play(Sound.INFANTRY_GUNFIRE);
-    }
-
     @Override
     public void setPosition(float x, float y) {
         super.setPosition(x, y);
@@ -109,6 +104,15 @@ public class Actor extends com.badlogic.gdx.scenes.scene2d.Actor {
 
     public Rectangle getHitBox() {
         return hitbox;
+    }
+
+    @Override
+    public boolean remove() {
+        if (this.getStage() != null) {
+            GameStage gs = (GameStage) this.getStage();
+            gs.removeActor(this);
+        }
+        return super.remove();
     }
 
 }

@@ -5,7 +5,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import rescue.raiders.game.GameStage;
 import static rescue.raiders.game.RescueRaiders.getAngleToTarget;
-import static rescue.raiders.objects.Bullet.MAX_BULLET_DISTANCE_SQUARED;
+import static rescue.raiders.objects.Bullet.MAX_BULLET_DISTANCE;
 import rescue.raiders.util.AtlasCache;
 import rescue.raiders.util.Sound;
 import rescue.raiders.util.Sounds;
@@ -36,10 +36,10 @@ public class AAGun extends Actor {
         TextureRegion frame = anim.getKeyFrames()[(int) index];
         batch.draw(frame, this.getX(), this.getY(), frame.getRegionWidth() * scale, frame.getRegionHeight() * scale);
 
-        float distance = Vector2.dst2(tx, ty, x, y);
-        if (isAlive() && this.type == ActorType.ENEMY_TURRET && distance < MAX_BULLET_DISTANCE_SQUARED && (25 < ang && ang < 165)) {
+        float distance = Vector2.dst(tx, ty, x, y);
+        if (isAlive() && this.type == ActorType.ENEMY_TURRET && distance < MAX_BULLET_DISTANCE && (25 < ang && ang < 165)) {
             if (System.currentTimeMillis() - lastShotTime > 200) {
-                Bullet b = new Bullet(this, x + 25, y + 15, ang);
+                Bullet b = new Bullet(this, x + 25, y + 15, ang, 2);
                 this.getStage().addActor(b);
                 lastShotTime = System.currentTimeMillis();
                 Sounds.play(Sound.TURRET_GUNFIRE);

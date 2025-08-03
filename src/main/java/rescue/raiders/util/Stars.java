@@ -7,6 +7,9 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.utils.Array;
 
 import java.util.Random;
+import static rescue.raiders.game.RescueRaiders.HUD_HEIGHT;
+import static rescue.raiders.game.RescueRaiders.SCREEN_HEIGHT;
+import static rescue.raiders.game.RescueRaiders.STATUS_BAR_HEIGHT;
 
 /**
  * Renders a field of twinkling stars.
@@ -33,18 +36,15 @@ public class Stars {
     private final Random rnd = new Random();
     private float time;
 
-    /**
-     * @param numStars how many points to draw
-     */
     public Stars(int width, int height, int numStars) {
-
+        float maxY = SCREEN_HEIGHT - HUD_HEIGHT - STATUS_BAR_HEIGHT - STATUS_BAR_HEIGHT;
         float cx = width * 0.5f, cy = height * 0.5f;
 
         for (int i = 0; i < numStars; i++) {
             Star s = new Star();
             // uniform random across the full width/height
             s.x = rnd.nextFloat() * width;
-            s.y = rnd.nextFloat() * height;
+            s.y = rnd.nextFloat() * maxY;  // restrict y to below HUD
             s.color = PALETTE[rnd.nextInt(PALETTE.length)];
             // random twinkle speed & phase
             s.speed = 1f + rnd.nextFloat() * 2f;

@@ -42,8 +42,8 @@ import rescue.raiders.util.ExplosionTriangle;
 
 public class RescueRaiders extends Game implements InputProcessor {
 
-    public static final int SCREEN_WIDTH = 1200;
-    public static final int SCREEN_HEIGHT = 768;
+    public static final int SCREEN_WIDTH = 1600;
+    public static final int SCREEN_HEIGHT = 900;
     public static final int HUD_HEIGHT = 100;
     public static final int STATUS_BAR_HEIGHT = 15;
 
@@ -130,12 +130,12 @@ public class RescueRaiders extends Game implements InputProcessor {
         for (int i = 0; i < 5; i++) {
             floor = new Image(tr);
             floor.setPosition(fx - 1000, 0);
-            floor.setUserObject(createMiniIcon(Color.GRAY, 435, 3));
+            floor.setUserObject(createMiniIcon(Color.GREEN, 435, 3));
             stage.addActor(floor);
             fx += tr.getRegionWidth();
         }
 
-        hud = new Image(fillRectangle(SCREEN_WIDTH, HUD_HEIGHT, Color.DARK_GRAY));
+        hud = new Image(fillRectangle(SCREEN_WIDTH, HUD_HEIGHT, Color.FOREST));
         hud.setY(SCREEN_HEIGHT - HUD_HEIGHT);
 
         Level l1 = new Level1(stage);
@@ -309,11 +309,19 @@ public class RescueRaiders extends Game implements InputProcessor {
 
     public static Texture fillRectangle(int width, int height, Color color) {
         Pixmap pix = new Pixmap(width, height, Pixmap.Format.RGBA8888);
-        pix.setColor(color);
-        pix.fillRectangle(0, 0, width, height);
-        Texture t = new Texture(pix);
+
+        for (int y = 0; y < height; y++) {
+            // alpha transitions from 0.25 at top to 1.0 at bottom
+            float t = (float) y / (height - 1); // 0 at top, 1 at bottom
+            float alpha = 0.25f + t * (1.0f - 0.25f); // interpolates from 0.25 to 1.0
+            Color gradientColor = new Color(color.r, color.g, color.b, alpha);
+            pix.setColor(gradientColor);
+            pix.drawLine(0, y, width - 1, y);
+        }
+
+        Texture texture = new Texture(pix);
         pix.dispose();
-        return t;
+        return texture;
     }
 
     public static Texture makeFloorSection(TextureAtlas atlas, int totalFloorWidth, int numFloorPieces) {

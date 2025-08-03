@@ -1,5 +1,8 @@
 package rescue.raiders.objects;
 
+import java.util.List;
+import rescue.raiders.game.GameStage;
+import static rescue.raiders.game.RescueRaiders.FIELD_WIDTH;
 import rescue.raiders.util.AtlasCache;
 
 public class CoveredTruck extends Actor {
@@ -14,13 +17,13 @@ public class CoveredTruck extends Actor {
     public void act(float delta) {
         super.act(delta);
 
+        GameStage stage = (GameStage) getStage();
+        List<rescue.raiders.objects.Actor> actors = stage.gameActors();
+
         boolean move = true;
-        for (com.badlogic.gdx.scenes.scene2d.Actor a : getStage().getActors()) {
-            if (a instanceof Actor) {
-                Actor actor = (Actor) a;
-                if (actor.type.isEnemy()) {
-                    //move = false;
-                }
+        for (rescue.raiders.objects.Actor a : actors) {
+            if (a.type.isEnemy()) {
+                //move = false;
             }
         }
 
@@ -28,6 +31,10 @@ public class CoveredTruck extends Actor {
             setX(type.isEnemy() ? getX() - 1 : getX() + 1);
             hitbox.x = this.getX();
             hitbox.y = this.getY();
+        }
+
+        if (getX() < 0 || getX() > FIELD_WIDTH) {
+            this.remove();
         }
 
     }

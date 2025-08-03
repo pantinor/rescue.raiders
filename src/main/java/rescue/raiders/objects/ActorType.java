@@ -6,7 +6,7 @@ import java.lang.reflect.Constructor;
 public enum ActorType {
 
     HELI("shobu-copter", "copter-with-blades", Color.WHITE, false, Copter.class),
-    ENEMY_HELI("shobu-copter", "copter-with-blades", Color.YELLOW, true, EnemyCopter.class),
+    ENEMY_HELI("copter", "copter", Color.YELLOW, true, EnemyCopter.class),
     //
     ENGINEER("soldier", "engineer", Color.ROYAL, false, Engineer.class),
     ENEMY_ENGINEER("soldier", "enemy-engineer", Color.SCARLET, true, Engineer.class),
@@ -16,7 +16,7 @@ public enum ActorType {
     TANK("tan-tank", "driving", Color.SKY, false, TanTank.class),
     GREY_TANK("grey-tank", "driving", Color.SCARLET, true, GreyTank.class),
     BLUE_TANK("blue-tank", "driving", Color.NAVY, false, BlueTank.class),
-    LARGE_TANK("large-tank", "driving", Color.PINK, true, LargeTank.class),
+    ENEMY_LARGE_TANK("large-tank", "driving", Color.PINK, true, LargeTank.class),
     JEEP("jeep", "jeep", Color.BLUE, false, Jeep.class),
     ENEMY_JEEP("jeep", "jeep", Color.RED, true, Jeep.class),
     TREAD_TRUCK("tread-truck", "truck", Color.BLUE, false, TreadTruck.class),

@@ -55,9 +55,9 @@ public enum Sound {
     VIOLIN_G4_PIZZICATO_NON_VIBRATO("violin-g4-pizzicato-non-vibrato.ogg", false, 0.1f),
     WILHEM_SCREAM("wilhem-scream.ogg", false, 0.1f);
 
-    String file;
-    boolean looping;
-    float volume;
+    private String file;
+    private boolean looping;
+    private float volume;
 
     private Sound(String name, boolean looping, float volume) {
         this.file = name;

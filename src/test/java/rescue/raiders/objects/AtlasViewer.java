@@ -45,11 +45,11 @@ public class AtlasViewer extends ApplicationAdapter {
         batch = new SpriteBatch();
         shapeRenderer = new ShapeRenderer();
 
-        atlas = new TextureAtlas(Gdx.files.internal("assets/image/shobu-copter.atlas"));
+        atlas = new TextureAtlas(Gdx.files.internal("assets/image/soldier.atlas"));
         atlasTexture = atlas.getTextures().first();
         regions = atlas.getRegions();
 
-        Array<TextureAtlas.AtlasRegion> ch = atlas.findRegions("copter-with-blades");
+        Array<TextureAtlas.AtlasRegion> ch = atlas.findRegions("infantry");
         anim1 = new Animation(0.02f, ch, Animation.PlayMode.LOOP);
 
         //turning = atlas.findRegions("turning");

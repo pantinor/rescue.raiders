@@ -228,10 +228,9 @@ public class Copter extends Actor implements InputProcessor {
         fuelBar.setRegion(0, 0, (int) bar, STATUS_BAR_HEIGHT);
     }
 
-    @Override
     public void shoot() {
         float angleInDegrees = west ? 180 + angle * 100 : angle < 0 ? 360 + angle * 100 : angle * 100;
-        Bullet b = new Bullet(this, west ? this.getX() + 15 : this.getX() + 55, this.getY() + 10, angleInDegrees);
+        Bullet b = new Bullet(this, west ? this.getX() + 15 : this.getX() + 55, this.getY() + 10, angleInDegrees, 2);
         getStage().addActor(b);
         Sounds.play(Sound.INFANTRY_GUNFIRE);
     }

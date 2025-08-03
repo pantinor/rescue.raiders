@@ -7,10 +7,10 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
-import com.badlogic.gdx.utils.Array;
+import java.util.List;
+import rescue.raiders.game.GameStage;
 
 public class Bullet extends com.badlogic.gdx.scenes.scene2d.Actor {
 
@@ -19,10 +19,10 @@ public class Bullet extends com.badlogic.gdx.scenes.scene2d.Actor {
     private final rescue.raiders.objects.Actor source;
     private final float startX;
     private final float startY;
+    private final int damage;
 
     private static final float SPEED = 1000f;
-    private static final float MAX_BULLET_DISTANCE = 900;
-    public static final float MAX_BULLET_DISTANCE_SQUARED = MAX_BULLET_DISTANCE * MAX_BULLET_DISTANCE;
+    public static final float MAX_BULLET_DISTANCE = 900;
     private static TextureRegion TEXTURE;
 
     static {
@@ -33,12 +33,13 @@ public class Bullet extends com.badlogic.gdx.scenes.scene2d.Actor {
         pix.dispose();
     }
 
-    public Bullet(rescue.raiders.objects.Actor source, float startX, float startY, float degrees) {
+    public Bullet(rescue.raiders.objects.Actor source, float startX, float startY, float degrees, int damage) {
         this.source = source;
         this.radians = MathUtils.degreesToRadians * degrees;
         this.hitbox = new Rectangle(0, 0, 3, 3);
         this.startX = startX;
         this.startY = startY;
+        this.damage = damage;
 
         setPosition(startX, startY);
 
@@ -76,38 +77,33 @@ public class Bullet extends com.badlogic.gdx.scenes.scene2d.Actor {
         setPosition(newX, newY);
         hitbox.setPosition(newX, newY);
 
-        float distance = Vector2.dst2(startX, startY, newX, newY);
-        if (distance > MAX_BULLET_DISTANCE_SQUARED) {
+        float distance = Vector2.dst(startX, startY, newX, newY);
+        if (distance > MAX_BULLET_DISTANCE) {
             remove();
             return;
         }
 
-        Stage stage = getStage();
+        GameStage stage = (GameStage) getStage();
         if (stage == null) {
             return;
         }
 
-        Array<com.badlogic.gdx.scenes.scene2d.Actor> actors = stage.getActors();
         boolean sourceIsEnemy = source.type.isEnemy();
 
-        for (int i = 0, n = actors.size; i < n; i++) {
-            com.badlogic.gdx.scenes.scene2d.Actor actor = actors.get(i);
-            if (actor == source) {
-                continue;
-            }
-            if (!(actor instanceof rescue.raiders.objects.Actor)) {
+        List<rescue.raiders.objects.Actor> actors = stage.gameActors();
+
+        for (rescue.raiders.objects.Actor target : actors) {
+            if (target == source) {
                 continue;
             }
 
-            float adist = Vector2.dst2(source.getX(), source.getY(), actor.getX(), actor.getY());
-            if (adist > MAX_BULLET_DISTANCE_SQUARED) {
+            float adist = Vector2.dst(source.getX(), source.getY(), target.getX(), target.getY());
+            if (adist > MAX_BULLET_DISTANCE) {
                 continue;
             }
-
-            rescue.raiders.objects.Actor target = (rescue.raiders.objects.Actor) actor;
 
             if (target.hits(hitbox) && target.type.isEnemy() ^ sourceIsEnemy) {
-                target.takeDamage(1);
+                target.takeDamage(this.damage);
                 remove();// remove bullet on impact
                 break;
             }

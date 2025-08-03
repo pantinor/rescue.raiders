@@ -18,9 +18,6 @@ public class EnemyCopter extends Actor {
     private static final float CRASH_SPEED_THRESHOLD = 8;
     private static final float GROUND_LEVEL = FIELD_HEIGHT - 5;
 
-    private float turningTime = 0f;
-    private static final float TURN_FRAME_DURATION = 0.05f;
-
     private float ax, avx, ay, avy, angle;
     private float px, py, pvx, pvy;
 
@@ -75,44 +72,32 @@ public class EnemyCopter extends Actor {
         angle = -ax * 0.008f; //angleFactor
 
         frameCounter += Gdx.graphics.getDeltaTime();
-
         TextureRegion frame = null;
 
-        if (west) {
+        if (west) { //facing west
             if (turningIndex != -1) {
-                turningTime += frameCounter;
-                if (turningTime >= TURN_FRAME_DURATION) {
-                    turningIndex++;
-                    turningTime = 0f;
-                }
-                if (turningIndex >= 14) {
+                frame = turningLeft.get(turningIndex);
+                turningIndex++;
+                if (turningIndex == 6) {
                     turningIndex = -1;
-                } else {
-                    frame = turningLeft.get(turningIndex);
                 }
-            }
-            if (frame == null) {
+            } else {
                 frame = anim.getKeyFrame(frameCounter, true);
             }
         } else {
             if (turningIndex != -1) {
-                turningTime += frameCounter;
-                if (turningTime >= TURN_FRAME_DURATION) {
-                    turningIndex++;
-                    turningTime = 0f;
-                }
-                if (turningIndex >= 14) {
+                frame = turningRight.get(turningIndex);
+                turningIndex++;
+                if (turningIndex == 6) {
                     turningIndex = -1;
-                } else {
-                    frame = turningRight.get(turningIndex);
                 }
-            }
-            if (frame == null) {
+            } else {
                 frame = flipped.getKeyFrame(frameCounter, true);
             }
         }
 
         batch.draw(frame, this.getX(), this.getY(), 0, 0, frame.getRegionWidth() * scale, frame.getRegionHeight() * scale, 1, 1, 100 * angle);
+
     }
 
     @Override

@@ -1,15 +1,48 @@
 package rescue.raiders.objects;
 
+import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.utils.Array;
 import static rescue.raiders.game.RescueRaiders.createMiniIcon;
 import rescue.raiders.util.AtlasCache;
+import rescue.raiders.util.Sound;
 
 public class TanTank extends ShootableActor {
+
+    private final Animation<TextureRegion> shootingAnimation;
 
     public TanTank(ActorType t) {
         super(t, AtlasCache.get(t.getAtlasName()), 0.10f, 1f, true);
         health = 20;
         maxHealth = 20;
         this.setUserObject(createMiniIcon(t.getIconColor(), 6, 6));
+
+        Array<TextureAtlas.AtlasRegion> ch = AtlasCache.get(t.getAtlasName()).findRegions("shooting");
+        for (TextureRegion tr : ch) {
+            tr.flip(true, false);
+        }
+        this.shootingAnimation = new Animation(0.2f, ch, Animation.PlayMode.LOOP);
+    }
+
+    @Override
+    public Animation<TextureRegion> shootingAnim() {
+        return this.shootingAnimation;
+    }
+
+    @Override
+    public float shootingTimeDuration() {
+        return 8 * 0.2f;
+    }
+
+    @Override
+    public int bulletDamage() {
+        return 3;
+    }
+
+    @Override
+    public Sound shootingSound() {
+        return Sound.GENERIC_BOOM;
     }
 
 }
