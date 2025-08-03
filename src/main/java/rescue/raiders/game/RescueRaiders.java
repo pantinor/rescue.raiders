@@ -1,7 +1,6 @@
 package rescue.raiders.game;
 
 import rescue.raiders.levels.Level;
-import rescue.raiders.levels.Level1;
 import rescue.raiders.objects.Copter;
 import rescue.raiders.util.AtlasCache;
 import com.badlogic.gdx.Game;
@@ -24,10 +23,10 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.MathUtils;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.DelayedRemovalArray;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
+import rescue.raiders.levels.Level1;
 import rescue.raiders.objects.ActorType;
 import rescue.raiders.objects.BlueTank;
 import rescue.raiders.objects.CoveredTruck;
@@ -62,11 +61,16 @@ public class RescueRaiders extends Game implements InputProcessor {
     private SpriteBatch batchMiniMap;
 
     private GameStage stage;
-    private Image hud;
-    private Image floor;
+
+    private Texture hud;
+    private Texture floor;
+    private Texture turretRangeTexture;
+    private Texture enemyTurretRangeTexture;
+
     private Stars stars;
 
     private DelayedRemovalArray<ExplosionTriangle> explosionTriangles = new DelayedRemovalArray<>();
+
     private ShapeRenderer shapeRenderer;
 
     public Copter heli;
@@ -125,18 +129,11 @@ public class RescueRaiders extends Game implements InputProcessor {
         heli = (Copter) ActorType.HELI.getInstance();
         heli.setPosition(HELI_START_X, HELI_START_Y);
 
-        TextureRegion tr = new TextureRegion(makeFloorSection(AtlasCache.get("backgrounds"), FIELD_WIDTH + 2000, 5));
-        int fx = 0;
-        for (int i = 0; i < 5; i++) {
-            floor = new Image(tr);
-            floor.setPosition(fx - 1000, 0);
-            floor.setUserObject(createMiniIcon(Color.GREEN, 435, 3));
-            stage.addActor(floor);
-            fx += tr.getRegionWidth();
-        }
+        floor = makeGroundTexture(AtlasCache.get("backgrounds"), FIELD_WIDTH + 2000, 1);
+        hud = miniDisplayBackground(SCREEN_WIDTH, HUD_HEIGHT);
 
-        hud = new Image(fillRectangle(SCREEN_WIDTH, HUD_HEIGHT, Color.FOREST));
-        hud.setY(SCREEN_HEIGHT - HUD_HEIGHT);
+        turretRangeTexture = filledSemiCircleUp(180, Color.GREEN);
+        enemyTurretRangeTexture = filledSemiCircleUp(180, Color.SCARLET);
 
         Level l1 = new Level1(stage);
         l1.addObjects();
@@ -169,19 +166,33 @@ public class RescueRaiders extends Game implements InputProcessor {
         stage.draw();
 
         batch.begin();
-        hud.draw(batch, .7f);
+        batch.draw(floor, -1000, 0);
+        batch.draw(hud, 0, SCREEN_HEIGHT - HUD_HEIGHT);
         heli.drawStatusBars(batch);
         batch.end();
 
         batchMiniMap.begin();
         Array<com.badlogic.gdx.scenes.scene2d.Actor> actors = stage.getActors();
         for (com.badlogic.gdx.scenes.scene2d.Actor actor : actors) {
+            float x = (actor.getX() / FIELD_WIDTH) * hud.getWidth();
+            float y = (actor.getY() / SCREEN_HEIGHT) * hud.getHeight() + SCREEN_HEIGHT - HUD_HEIGHT - 2;
+            if (actor instanceof rescue.raiders.objects.Actor ga) {
+                if (ga.type() == ActorType.TURRET) {
+                    batchMiniMap.draw(turretRangeTexture, x - 90, y);
+                } else if (ga.type() == ActorType.ENEMY_TURRET) {
+                    batchMiniMap.draw(enemyTurretRangeTexture, x - 90, y);
+                }
+            }
+        }
+        for (com.badlogic.gdx.scenes.scene2d.Actor actor : actors) {
+            float x = (actor.getX() / FIELD_WIDTH) * hud.getWidth();
+            float y = (actor.getY() / SCREEN_HEIGHT) * hud.getHeight() + SCREEN_HEIGHT - HUD_HEIGHT - 2;
             Object obj = actor.getUserObject();
-            if (obj != null && obj instanceof TextureRegion) {
-                float x = ((actor.getX() / FIELD_WIDTH) * hud.getWidth());
-                float y = ((actor.getY() / SCREEN_HEIGHT) * hud.getHeight()) + SCREEN_HEIGHT - HUD_HEIGHT;
-                TextureRegion tr = (TextureRegion) obj;
-                batchMiniMap.draw(tr, x, y);
+            if (obj != null && obj instanceof Texture tx) {
+                batchMiniMap.draw(tx, x, y);
+            }
+            if (obj != null && obj instanceof TextureRegion tx) {
+                batchMiniMap.draw(tx, x, y);
             }
         }
         batchMiniMap.end();
@@ -307,13 +318,39 @@ public class RescueRaiders extends Game implements InputProcessor {
         }
     }
 
-    public static Texture fillRectangle(int width, int height, Color color) {
+    public static final Texture fillRectangle(Color c, int w, int h) {
+        Pixmap pix = new Pixmap(w, h, Pixmap.Format.RGBA8888);
+        pix.setColor(c.r, c.g, c.b, .85f);
+        pix.fillRectangle(0, 0, w, h);
+        Texture t = new Texture(pix);
+        pix.dispose();
+        return t;
+    }
+
+    public static Texture fillRectangleGradient(int width, int height, Color color) {
         Pixmap pix = new Pixmap(width, height, Pixmap.Format.RGBA8888);
 
+        float topGradientHeight = height * 0.45f;
+        float bottomGradientHeight = height * 0.45f;
+        float middleStart = bottomGradientHeight;
+        float middleEnd = height - topGradientHeight;
+
         for (int y = 0; y < height; y++) {
-            // alpha transitions from 0.25 at top to 1.0 at bottom
-            float t = (float) y / (height - 1); // 0 at top, 1 at bottom
-            float alpha = 0.25f + t * (1.0f - 0.25f); // interpolates from 0.25 to 1.0
+            float alpha;
+
+            if (y < middleStart) {
+                // Bottom 45%: fade in from 25% to 100%
+                float t = y / bottomGradientHeight;
+                alpha = 0.25f + t * (1.0f - 0.25f);
+            } else if (y > middleEnd) {
+                // Top 45%: fade out from 100% to 25%
+                float t = (y - middleEnd) / topGradientHeight;
+                alpha = 1.0f - t * (1.0f - 0.25f);
+            } else {
+                // Middle 60%: fully opaque
+                alpha = 1.0f;
+            }
+
             Color gradientColor = new Color(color.r, color.g, color.b, alpha);
             pix.setColor(gradientColor);
             pix.drawLine(0, y, width - 1, y);
@@ -324,7 +361,51 @@ public class RescueRaiders extends Game implements InputProcessor {
         return texture;
     }
 
-    public static Texture makeFloorSection(TextureAtlas atlas, int totalFloorWidth, int numFloorPieces) {
+    public static Texture miniDisplayBackground(int width, int height) {
+        Color color = Color.FOREST;
+        Pixmap pix = new Pixmap(width, height, Pixmap.Format.RGBA8888);
+        for (int y = 0; y < height; y++) {
+            float t = (float) y / (height - 1);
+            float alpha = 0.25f + t * (1.0f - 0.25f);
+            Color gradientColor = new Color(color.r, color.g, color.b, alpha);
+            pix.setColor(gradientColor);
+            pix.drawLine(0, y, width - 1, y);
+        }
+
+        pix.setColor(Color.GREEN);
+        pix.fillRectangle(0, height - 3, width, 3);
+
+        Texture texture = new Texture(pix);
+        pix.dispose();
+        return texture;
+    }
+
+    private static Texture filledSemiCircleUp(int diameter, Color color) {
+        int height = diameter / 2;
+        Pixmap pixmap = new Pixmap(diameter, height, Pixmap.Format.RGBA8888);
+        pixmap.setBlending(Pixmap.Blending.None);
+        pixmap.setColor(color.r, color.g, color.b, 0.25f);
+
+        float radius = diameter / 2f;
+        float centerX = radius;
+        float centerY = height;
+
+        for (int y = 0; y < height; y++) {
+            for (int x = 0; x < diameter; x++) {
+                float dx = x - centerX;
+                float dy = y - centerY;
+                if (dx * dx + dy * dy <= radius * radius) {
+                    pixmap.drawPixel(x, y);
+                }
+            }
+        }
+
+        Texture texture = new Texture(pixmap);
+        pixmap.dispose();
+        return texture;
+    }
+
+    public static Texture makeGroundTexture(TextureAtlas atlas, int totalFloorWidth, int numFloorPieces) {
         // Find the region named "ground" in the atlas
         AtlasRegion groundRegion = atlas.findRegion("ground");
         if (groundRegion == null) {
@@ -374,15 +455,6 @@ public class RescueRaiders extends Game implements InputProcessor {
         }
         ang = (ang - 90) % 360;
         return ang;
-    }
-
-    public static final TextureRegion createMiniIcon(Color c, int w, int h) {
-        Pixmap pix = new Pixmap(w, h, Pixmap.Format.RGBA8888);
-        pix.setColor(c.r, c.g, c.b, .85f);
-        pix.fillRectangle(0, 0, w, h);
-        TextureRegion t = new TextureRegion(new Texture(pix));
-        pix.dispose();
-        return t;
     }
 
 }

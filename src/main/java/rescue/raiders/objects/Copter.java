@@ -9,10 +9,13 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import com.badlogic.gdx.utils.Array;
+import java.util.List;
+import rescue.raiders.game.GameStage;
 import rescue.raiders.game.RescueRaiders;
 import static rescue.raiders.game.RescueRaiders.FIELD_HEIGHT;
 import static rescue.raiders.game.RescueRaiders.FIELD_WIDTH;
@@ -83,14 +86,14 @@ public class Copter extends Actor implements InputProcessor {
             copy.flip(true, false);
             this.turningLeft.add(copy);
         }
-        
+
         ax = 0.0f;
         ay = 0.0f;
         avx = 0.0f;
         avy = 0.0f;
 
-        healthBar = new TextureRegion(RescueRaiders.fillRectangle(SCREEN_WIDTH, STATUS_BAR_HEIGHT, Color.GREEN));
-        fuelBar = new TextureRegion(RescueRaiders.fillRectangle(SCREEN_WIDTH, STATUS_BAR_HEIGHT, Color.ORANGE));
+        healthBar = new TextureRegion(RescueRaiders.fillRectangleGradient(SCREEN_WIDTH, STATUS_BAR_HEIGHT, new Color(0x66a0f1)));
+        fuelBar = new TextureRegion(RescueRaiders.fillRectangleGradient(SCREEN_WIDTH, STATUS_BAR_HEIGHT, Color.ORANGE));
 
         copterSound = Sounds.play(Sound.HELICOPTER_ENGINE);
 
@@ -99,7 +102,7 @@ public class Copter extends Actor implements InputProcessor {
     @Override
     public void draw(Batch batch, float parentAlpha) {
 
-        angle = -ax * 0.008f; //angleFactor
+        angle = -ax * 0.008f;
 
         frameCounter += Gdx.graphics.getDeltaTime();
 
@@ -197,7 +200,7 @@ public class Copter extends Actor implements InputProcessor {
 
         setDestroyed(true);
 
-        GAME.addExplosion(getX(), GROUND_LEVEL, goingWest, 10);
+        GAME.addExplosion(getX(), getY() < GROUND_LEVEL ? GROUND_LEVEL : getY(), goingWest, 10);
 
         Stage stage = getStage();
 
@@ -294,6 +297,22 @@ public class Copter extends Actor implements InputProcessor {
             } else {
                 py = SCREEN_HEIGHT - GROUND_LEVEL;
             }
+        }
+
+        GameStage stage = (GameStage) getStage();
+        List<rescue.raiders.objects.Actor> actors = stage.gameActors();
+        boolean crashed = false;
+        for (rescue.raiders.objects.Actor other : actors) {
+            if (other == this) {
+                continue;
+            }
+            if (other.type.isEnemy() && other.canCollide && hits(other.hitbox)) {
+                crashed = true;
+                break;
+            }
+        }
+        if (crashed) {
+            crash();
         }
 
         setX(px);

@@ -32,7 +32,7 @@ public class Balloon extends Actor {
 
             SequenceAction seq1 = Actions.action(SequenceAction.class);
 
-            seq1.addAction(Actions.moveTo(x, 400, 8f));
+            seq1.addAction(Actions.moveTo(x, 600, 12f));
 
             seq1.addAction(Actions.run(new Runnable() {
                 public void run() {
@@ -40,7 +40,7 @@ public class Balloon extends Actor {
                 }
             }));
 
-            seq1.addAction(Actions.moveTo(x, 135, 8f));
+            seq1.addAction(Actions.moveTo(x, FIELD_HEIGHT + 45, 12f));
 
             seq1.addAction(Actions.run(new Runnable() {
                 public void run() {
@@ -57,9 +57,9 @@ public class Balloon extends Actor {
     public void draw(Batch batch, float parentAlpha) {
 
         TextureRegion ctr = chain.getKeyFrame(frameCounter);
-        int h = (int) (getY() - 282 + 175);
+        int h = (int) (getY() - 70);
         ctr.setRegion(ctr.getRegionX(), ctr.getRegionY(), ctr.getRegionWidth(), h);
-        batch.draw(ctr, this.getX() + 15, FIELD_HEIGHT + 67);
+        batch.draw(ctr, this.getX() + 25, FIELD_HEIGHT + 45);
 
         super.draw(batch, parentAlpha);
 

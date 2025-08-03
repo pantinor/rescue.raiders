@@ -11,9 +11,11 @@ public class Infantry extends ShootableActor {
         super(t, AtlasCache.get(t.getAtlasName()), 0.10f, 1f, true);
         health = 5;
         maxHealth = 5;
+        canCollide = false;
         String sname = t.isEnemy() ? "enemy-infantry-shooting" : "infantry-shooting";
         shootingFrame = AtlasCache.get(t.getAtlasName()).findRegion(sname, 0);
         shootingFrame.flip(!t.isEnemy(), false);
+        this.setUserObject(AtlasCache.get("backgrounds").findRegion(t.isEnemy() ? "enemy-infantry-icon" : "infantry-icon"));
     }
 
     @Override

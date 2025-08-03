@@ -16,6 +16,7 @@ public class AAGun extends Actor {
 
     public AAGun(ActorType t) {
         super(t, AtlasCache.get(t.getAtlasName()), .05f, .65f, false);
+        this.setUserObject(AtlasCache.get("backgrounds").findRegion(t.isEnemy() ? "enemy-turret-icon" : "turret-icon"));
     }
 
     @Override

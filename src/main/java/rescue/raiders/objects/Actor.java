@@ -10,9 +10,9 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.Array;
 import rescue.raiders.game.GameStage;
 import static rescue.raiders.game.RescueRaiders.GAME;
-import static rescue.raiders.game.RescueRaiders.createMiniIcon;
 import rescue.raiders.util.Sound;
 import rescue.raiders.util.Sounds;
+import static rescue.raiders.game.RescueRaiders.fillRectangle;
 
 public class Actor extends com.badlogic.gdx.scenes.scene2d.Actor {
 
@@ -25,6 +25,7 @@ public class Actor extends com.badlogic.gdx.scenes.scene2d.Actor {
 
     int health = 20;
     int maxHealth = 20;
+    boolean canCollide = true;
 
     //private Emitter damagedEmitter;
     //private Emitter destroyedEmitter;
@@ -40,7 +41,7 @@ public class Actor extends com.badlogic.gdx.scenes.scene2d.Actor {
         this.tr.flip(flip, false);
 
         this.hitbox = new Rectangle(0, 0, tr.getRegionWidth() * scale, tr.getRegionHeight() * scale);
-        this.setUserObject(createMiniIcon(t.getIconColor(), 4, 4));
+        this.setUserObject(fillRectangle(t.getIconColor(), 4, 4));
     }
 
     //moving actors - infantry, engineer, balloon, AAGun, Tank, Jeep, Helicopter
@@ -58,7 +59,11 @@ public class Actor extends com.badlogic.gdx.scenes.scene2d.Actor {
                 ltr.flip(flip, false);
             }
         }
-        this.setUserObject(createMiniIcon(t.getIconColor(), 4, 4));
+        this.setUserObject(fillRectangle(t.getIconColor(), 4, 4));
+    }
+    
+    public ActorType type() {
+        return this.type;
     }
 
     public void takeDamage(int damage) {

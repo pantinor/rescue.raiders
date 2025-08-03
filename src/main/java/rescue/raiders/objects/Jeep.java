@@ -11,6 +11,7 @@ public class Jeep extends Actor {
         super(t, AtlasCache.get(t.getAtlasName()), 0.10f, 1f, true);
         health = 10;
         maxHealth = 10;
+        this.setUserObject(AtlasCache.get("backgrounds").findRegion(t.isEnemy() ? "enemy-jeep-icon" : "jeep-icon"));
     }
 
     @Override

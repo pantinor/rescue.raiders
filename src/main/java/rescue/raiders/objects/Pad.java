@@ -6,6 +6,7 @@ public class Pad extends Actor {
 
     public Pad(ActorType t) {
         super(t, AtlasCache.get(t.getAtlasName()), .65f, false);
+        canCollide = false;
     }
 
     @Override

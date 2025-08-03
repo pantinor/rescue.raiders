@@ -2,9 +2,10 @@ package rescue.raiders.objects;
 
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import java.util.Random;
+import static rescue.raiders.game.RescueRaiders.FIELD_HEIGHT;
 
 import rescue.raiders.util.AtlasCache;
-import static rescue.raiders.game.RescueRaiders.createMiniIcon;
+import static rescue.raiders.game.RescueRaiders.fillRectangle;
 
 public class Hut extends Actor {
 
@@ -12,14 +13,14 @@ public class Hut extends Actor {
 
     public Hut(ActorType t) {
         super(t, AtlasCache.get(t.getAtlasName()), 1f, !t.isEnemy());
-        this.setUserObject(createMiniIcon(t.getIconColor(), 4, 4));
+        this.setUserObject(AtlasCache.get("backgrounds").findRegion(t.isEnemy() ? "enemy-hut-icon" : "hut-icon"));
 
         health = 30;
         maxHealth = 30;
 
         ActorType b = t.isEnemy() ? ActorType.ENEMY_BALLON : ActorType.BALLON;
         this.balloon = new Balloon(b);
-        this.balloon.setUserObject(createMiniIcon(b.getIconColor(), 3, 3));
+        this.balloon.setUserObject(fillRectangle(b.getIconColor(), 4, 4));
     }
 
     @Override
@@ -34,8 +35,8 @@ public class Hut extends Actor {
 
     @Override
     public void setPosition(float x, float y) {
-        super.setPosition(x, y - 5);
-        this.balloon.setPosition(x + 10, new Random().nextInt(400 - 135) + 135);
+        super.setPosition(x, y);
+        this.balloon.setPosition(x - 5, new Random().nextInt(600 - FIELD_HEIGHT - 45));
     }
 
 }

@@ -4,7 +4,6 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.Array;
-import static rescue.raiders.game.RescueRaiders.createMiniIcon;
 import rescue.raiders.util.AtlasCache;
 import rescue.raiders.util.Sound;
 
@@ -16,7 +15,7 @@ public class GreyTank extends ShootableActor {
         super(t, AtlasCache.get(t.getAtlasName()), 0.10f, 1f, true);
         health = 20;
         maxHealth = 20;
-        this.setUserObject(createMiniIcon(t.getIconColor(), 6, 6));
+        this.setUserObject(AtlasCache.get("backgrounds").findRegion(t.isEnemy() ? "enemy-tank-icon" : "tank-icon"));
 
         Array<TextureAtlas.AtlasRegion> ch = AtlasCache.get(t.getAtlasName()).findRegions("shooting");
         for (TextureRegion tr : ch) {

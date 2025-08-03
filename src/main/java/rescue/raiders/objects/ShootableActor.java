@@ -45,19 +45,26 @@ public class ShootableActor extends Actor {
         List<rescue.raiders.objects.Actor> actors = stage.gameActors();
 
         for (rescue.raiders.objects.Actor other : actors) {
+
             if (other == this) {
                 continue;
             }
 
-            if (other.getX() > this.getX()) {
+            if (type.isEnemy() && other.getX() > this.getX()) {
+                continue;
+            }
+
+            if (!type.isEnemy() && other.getX() < this.getX()) {
                 continue;
             }
 
             boolean enemies = this.type.isEnemy() != other.type.isEnemy();
 
             if (enemies) {
+
                 Vector2 otherPos = new Vector2(other.getX(), other.getY());
                 float distance = thisPos.dst(otherPos);
+
                 if (distance <= 200) {
                     shoot();
                     move = false;

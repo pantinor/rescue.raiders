@@ -14,7 +14,7 @@ import rescue.raiders.game.GameStage;
 
 public class Bullet extends com.badlogic.gdx.scenes.scene2d.Actor {
 
-    private Rectangle hitbox;
+    private final Rectangle hitbox;
     private final float radians;
     private final rescue.raiders.objects.Actor source;
     private final float startX;
@@ -23,7 +23,7 @@ public class Bullet extends com.badlogic.gdx.scenes.scene2d.Actor {
 
     private static final float SPEED = 1000f;
     public static final float MAX_BULLET_DISTANCE = 900;
-    private static TextureRegion TEXTURE;
+    private final static TextureRegion TEXTURE;
 
     static {
         Pixmap pix = new Pixmap(2, 2, Pixmap.Format.RGBA8888);
@@ -50,10 +50,7 @@ public class Bullet extends com.badlogic.gdx.scenes.scene2d.Actor {
     }
 
     public boolean hits(Rectangle r) {
-        if (hitbox.overlaps(r)) {
-            return true;
-        }
-        return false;
+        return hitbox.overlaps(r);
     }
 
     @Override

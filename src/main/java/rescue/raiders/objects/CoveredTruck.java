@@ -1,5 +1,9 @@
 package rescue.raiders.objects;
 
+import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.utils.Array;
 import java.util.List;
 import rescue.raiders.game.GameStage;
 import static rescue.raiders.game.RescueRaiders.FIELD_WIDTH;
@@ -11,6 +15,14 @@ public class CoveredTruck extends Actor {
         super(t, AtlasCache.get(t.getAtlasName()), 0.10f, 1f, false);
         health = 10;
         maxHealth = 10;
+        
+        Array<TextureAtlas.AtlasRegion> regions = AtlasCache.get(t.getAtlasName()).findRegions(t.getRegionName());
+        this.anim = new Animation(0.10f, regions);
+        if (t.isEnemy()) {
+            for (TextureRegion ltr : regions) {
+                ltr.flip(true, false);
+            }
+        }
     }
 
     @Override

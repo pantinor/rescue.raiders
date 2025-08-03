@@ -14,7 +14,7 @@ public enum ActorType {
     ENEMY_INFANTRY("soldier", "enemy-infantry", Color.RED, true, Infantry.class),
     //
     TANK("tan-tank", "driving", Color.SKY, false, TanTank.class),
-    GREY_TANK("grey-tank", "driving", Color.SCARLET, true, GreyTank.class),
+    ENEMY_TANK("grey-tank", "driving", Color.SCARLET, true, GreyTank.class),
     BLUE_TANK("blue-tank", "driving", Color.NAVY, false, BlueTank.class),
     ENEMY_LARGE_TANK("large-tank", "driving", Color.PINK, true, LargeTank.class),
     JEEP("jeep", "jeep", Color.BLUE, false, Jeep.class),
@@ -32,10 +32,10 @@ public enum ActorType {
     ENEMY_TURRET("turret", "enemy-turret", Color.RED, true, AAGun.class),
     PAD("backgrounds", "pad", Color.GREEN, false, Pad.class),
     ENEMY_PAD("backgrounds", "pad", Color.ORANGE, true, Pad.class),
-    BALLON("balloon", "balloon-green", Color.GRAY, false, Balloon.class),
-    ENEMY_BALLON("balloon", "balloon-red", Color.RED, true, Balloon.class),
+    BALLON("backgrounds", "blimp", Color.GRAY, false, Balloon.class),
+    ENEMY_BALLON("backgrounds", "enemy-blimp", Color.RED, true, Balloon.class),
     HUT("backgrounds", "hut", Color.GRAY, false, Hut.class),
-    ENEMY_HUT("backgrounds", "hut", Color.RED, true, Hut.class);
+    ENEMY_HUT("backgrounds", "enemy-hut", Color.RED, true, Hut.class);
 
     private final String atlasName;
     private final String regionName;
