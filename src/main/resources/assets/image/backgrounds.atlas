@@ -142,3 +142,13 @@ enemy-turret-icon
   xy: 324, 613
   size: 6, 7
   index: 0
+balloon-icon
+  rotate: false
+  xy: 341, 624
+  size: 9, 5
+  index: 0
+enemy-balloon-icon
+  rotate: false
+  xy: 350, 624
+  size: 9, 5
+  index: 0

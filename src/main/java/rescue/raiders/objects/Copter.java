@@ -9,7 +9,6 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
@@ -17,6 +16,7 @@ import com.badlogic.gdx.utils.Array;
 import java.util.List;
 import rescue.raiders.game.GameStage;
 import rescue.raiders.game.RescueRaiders;
+import static rescue.raiders.game.RescueRaiders.BOMB;
 import static rescue.raiders.game.RescueRaiders.FIELD_HEIGHT;
 import static rescue.raiders.game.RescueRaiders.FIELD_WIDTH;
 import static rescue.raiders.game.RescueRaiders.GAME;
@@ -236,6 +236,11 @@ public class Copter extends Actor implements InputProcessor {
         Bullet b = new Bullet(this, west ? this.getX() + 15 : this.getX() + 55, this.getY() + 10, angleInDegrees, 2);
         getStage().addActor(b);
         Sounds.play(Sound.INFANTRY_GUNFIRE);
+    }
+
+    public void bomb() {
+        Bomb b = new Bomb(this, BOMB, west ? this.getX() + 15 : this.getX() + 55, this.getY() + 10, 6);
+        getStage().addActor(b);
     }
 
     @Override

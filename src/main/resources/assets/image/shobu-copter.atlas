@@ -160,3 +160,95 @@ copter-with-blades
   size: 93, 60
   offset: 0, 0
   index: 4
+rocket
+  xy: 7,433
+  size: 37,16
+  index: 0
+rocket
+  xy: 62,433
+  size: 55,16
+  index: 1
+rocket
+  xy: 118,433
+  size: 52,16
+  index: 2
+rocket
+  xy: 172,433
+  size: 55,16
+  index: 3
+rocket
+  xy: 228,433
+  size: 52,16
+  index: 4
+rocket
+  xy: 282,433
+  size: 55,16
+  index: 5
+rocket
+  xy: 338,433
+  size: 51,16
+  index: 6
+rocket
+  xy: 392,433
+  size: 55,16
+  index: 7
+rocket
+  xy: 448,433
+  size: 51,16
+  index: 8
+rocket
+  xy: 502,433
+  size: 44,16
+  index: 9
+rocket
+  xy: 557,433
+  size: 38,16
+  index: 10
+rocket
+  xy: 612,433
+  size: 43,16
+  index: 11
+rocket
+  xy: 667,433
+  size: 38,16
+  index: 12
+rocket
+  xy: 722,433
+  size: 43,16
+  index: 13
+rocket
+  xy: 7,456
+  size: 38,16
+  index: 14
+rocket
+  xy: 62,456
+  size: 43,16
+  index: 15
+rocket
+  xy: 117,456
+  size: 38,16
+  index: 16
+rocket
+  xy: 161,456
+  size: 43,16
+  index: 17
+rocket
+  xy: 216,456
+  size: 38,16
+  index: 18
+rocket
+  xy: 271,456
+  size: 43,16
+  index: 19
+rocket
+  xy: 326,456
+  size: 38,16
+  index: 20
+rocket
+  xy: 381,456
+  size: 43,16
+  index: 21
+bomb
+  xy: 54,479
+  size: 12,25
+  index: 0

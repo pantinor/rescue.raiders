@@ -16,12 +16,14 @@ public class Balloon extends Actor {
     private boolean actionsAdded = false;
 
     public Balloon(ActorType t) {
-        super(t, AtlasCache.get(t.getAtlasName()), .2f, 1f, false);
+        super(t, AtlasCache.get(t.getAtlasName()), .2f, 1f, true);
         health = 5;
         maxHealth = 5;
 
         Array<TextureAtlas.AtlasRegion> ch = AtlasCache.get("chain").findRegions("chain");
         this.chain = new Animation(0.05f, ch, Animation.PlayMode.LOOP);
+
+        this.setUserObject(AtlasCache.get("backgrounds").findRegion(t.isEnemy() ? "enemy-balloon-icon" : "balloon-icon"));
     }
 
     @Override

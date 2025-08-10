@@ -5,6 +5,7 @@ import rescue.raiders.objects.Copter;
 import rescue.raiders.util.AtlasCache;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.InputProcessor;
@@ -77,6 +78,7 @@ public class RescueRaiders extends Game implements InputProcessor {
 
     public static BitmapFont FONT;
     public static RescueRaiders GAME;
+    public static Texture BOMB;
 
     public static void main(String[] args) {
         Lwjgl3ApplicationConfiguration cfg = new Lwjgl3ApplicationConfiguration();
@@ -111,7 +113,7 @@ public class RescueRaiders extends Game implements InputProcessor {
         AtlasCache.add("turret", "assets/image/turret.atlas");
         AtlasCache.add("balloon", "assets/image/meteors.atlas");
         AtlasCache.add("chain", "assets/image/backgrounds.atlas");
-        AtlasCache.add("rocket", "assets/image/rocket.atlas");
+        AtlasCache.add("explosions", "assets/image/explosions.atlas");
         AtlasCache.add("rocket-launcher", "assets/image/rocket-launcher.atlas");
         AtlasCache.add("covered-truck", "assets/image/covered-truck.atlas");
         AtlasCache.add("tread-truck", "assets/image/tread-truck.atlas");
@@ -134,6 +136,8 @@ public class RescueRaiders extends Game implements InputProcessor {
 
         turretRangeTexture = filledSemiCircleUp(180, Color.GREEN);
         enemyTurretRangeTexture = filledSemiCircleUp(180, Color.SCARLET);
+        
+        BOMB = bombTexture(AtlasCache.get("shobu-copter"));
 
         Level l1 = new Level1(stage);
         l1.addObjects();
@@ -221,12 +225,12 @@ public class RescueRaiders extends Game implements InputProcessor {
                 stage.addActor(tank);
                 break;
             case Keys.E:
-                Engineer engineer = (Engineer) ActorType.ENGINEER.getInstance();
+                Engineer engineer = (Engineer) ActorType.getEngineer(false);
                 engineer.setPosition(SPAWN, FIELD_HEIGHT);
                 stage.addActor(engineer);
                 break;
             case Keys.I:
-                Infantry infantry = (Infantry) ActorType.INFANTRY.getInstance();
+                Infantry infantry = (Infantry) ActorType.getInfantry(false);
                 infantry.setPosition(SPAWN, FIELD_HEIGHT);
                 stage.addActor(infantry);
                 break;
@@ -273,8 +277,11 @@ public class RescueRaiders extends Game implements InputProcessor {
 
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-        if (button == 0) {
+        if (button == Input.Buttons.LEFT) {
             heli.shoot();
+        }
+        if (button == Input.Buttons.MIDDLE) {
+            heli.bomb();
         }
         return false;
     }
@@ -443,6 +450,25 @@ public class RescueRaiders extends Game implements InputProcessor {
 
         // Clean up
         groundPixmap.dispose();
+        fullPixmap.dispose();
+
+        return new Texture(result, true);
+    }
+
+    public static Texture bombTexture(TextureAtlas atlas) {
+        AtlasRegion region = atlas.findRegion("bomb");
+
+        int pieceWidth = region.getRegionWidth();
+        int pieceHeight = region.getRegionHeight();
+
+        Pixmap result = new Pixmap(pieceWidth, pieceHeight, Pixmap.Format.RGBA8888);
+
+        Texture txt = region.getTexture();
+        txt.getTextureData().prepare();
+        Pixmap fullPixmap = txt.getTextureData().consumePixmap();
+
+        result.drawPixmap(fullPixmap, 0, 0, region.getRegionX(), region.getRegionY(), pieceWidth, pieceHeight);
+
         fullPixmap.dispose();
 
         return new Texture(result, true);

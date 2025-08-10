@@ -45,12 +45,12 @@ public class AtlasViewer extends ApplicationAdapter {
         batch = new SpriteBatch();
         shapeRenderer = new ShapeRenderer();
 
-        atlas = new TextureAtlas(Gdx.files.internal("assets/image/soldier.atlas"));
+        atlas = new TextureAtlas(Gdx.files.internal("assets/image/explosions.atlas"));
         atlasTexture = atlas.getTextures().first();
         regions = atlas.getRegions();
 
-        Array<TextureAtlas.AtlasRegion> ch = atlas.findRegions("infantry");
-        anim1 = new Animation(0.02f, ch, Animation.PlayMode.LOOP);
+        Array<TextureAtlas.AtlasRegion> ch = atlas.findRegions("huge-explosion");
+        anim1 = new Animation(0.05f, ch, Animation.PlayMode.LOOP);
 
         //turning = atlas.findRegions("turning");
         //Array<TextureAtlas.AtlasRegion> flipped = flipRegionsWithPixmap(turning);
@@ -81,6 +81,7 @@ public class AtlasViewer extends ApplicationAdapter {
 
         batch.begin();
         batch.draw(atlasTexture, 0, SCREEN_HEIGHT - texHeight - 10);
+        //batch.draw(atlasTexture, 0, SCREEN_HEIGHT - texHeight - 10 + 2400);
         batch.end();
 
         shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
@@ -88,6 +89,7 @@ public class AtlasViewer extends ApplicationAdapter {
 
         for (TextureAtlas.AtlasRegion region : regions) {
             float drawY = SCREEN_HEIGHT - region.getRegionY() - region.getRegionHeight() - 10;
+            //float drawY = SCREEN_HEIGHT - region.getRegionY() - region.getRegionHeight() - 10 + 2400;
             shapeRenderer.rect(region.getRegionX(), drawY, region.getRegionWidth(), region.getRegionHeight());
         }
         shapeRenderer.end();
@@ -96,7 +98,9 @@ public class AtlasViewer extends ApplicationAdapter {
         for (TextureAtlas.AtlasRegion region : regions) {
             String meta = "(" + region.getRegionX() + "," + region.getRegionY() + ")" + " " + region.index;
             float drawY = SCREEN_HEIGHT - region.getRegionY() - region.getRegionHeight();
-            font.draw(batch, region.name + " [" + region.index + "]", region.getRegionX(), drawY);
+            //float drawY = SCREEN_HEIGHT - region.getRegionY() - region.getRegionHeight() + 2400;
+            //font.draw(batch, region.name + " [" + region.index + "]", region.getRegionX(), drawY);
+            font.draw(batch,  region.index + "", region.getRegionX(), drawY);
         }
 
         frameCounter += Gdx.graphics.getDeltaTime();

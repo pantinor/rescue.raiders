@@ -7,8 +7,6 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.scenes.scene2d.actions.Actions;
-import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import java.util.List;
 import rescue.raiders.game.GameStage;
 
@@ -42,15 +40,6 @@ public class Bullet extends com.badlogic.gdx.scenes.scene2d.Actor {
         this.damage = damage;
 
         setPosition(startX, startY);
-
-        SequenceAction seq1 = Actions.action(SequenceAction.class);
-        seq1.addAction(Actions.delay(1.5f));
-        seq1.addAction(Actions.removeActor(this));
-        addAction(seq1);
-    }
-
-    public boolean hits(Rectangle r) {
-        return hitbox.overlaps(r);
     }
 
     @Override
@@ -71,8 +60,8 @@ public class Bullet extends com.badlogic.gdx.scenes.scene2d.Actor {
 
         float newX = getX() + SPEED * (float) Math.cos(radians) * delta;
         float newY = getY() + SPEED * (float) Math.sin(radians) * delta;
+        
         setPosition(newX, newY);
-        hitbox.setPosition(newX, newY);
 
         float distance = Vector2.dst(startX, startY, newX, newY);
         if (distance > MAX_BULLET_DISTANCE) {
@@ -106,10 +95,6 @@ public class Bullet extends com.badlogic.gdx.scenes.scene2d.Actor {
             }
         }
 
-    }
-
-    public Rectangle getHitBox() {
-        return hitbox;
     }
 
 }

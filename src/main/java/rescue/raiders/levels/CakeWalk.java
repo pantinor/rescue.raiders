@@ -11,7 +11,7 @@ public class CakeWalk extends Level {
         this.layout = new Object[][]{
             {ActorType.BASE, 24},
             {ActorType.PAD, 320},
-            {ActorType.INFANTRY, 448},
+            {ActorType.RIFLEMAN, 448},
             {ActorType.COVERED_TRUCK, 512},
             {ActorType.TANK, 576},
             {ActorType.TANK, 640},
@@ -21,7 +21,7 @@ public class CakeWalk extends Level {
             {ActorType.HUT, 3072},
             {ActorType.HUT, 3584},
             {ActorType.HUT, 5120},
-            {ActorType.ENEMY_INFANTRY, 5120},
+            {ActorType.ENEMY_RIFLEMAN, 5120},
             {ActorType.HUT, 5632},
             {ActorType.HUT, 6656},
             {ActorType.ENEMY_TANK, 1536},

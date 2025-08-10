@@ -1,0 +1,520 @@
+explosions.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+bomb-explosion
+  xy: 0, 0
+  size: 52, 101
+  index: 0
+bomb-explosion
+  xy: 52, 0
+  size: 52, 101
+  index: 1
+bomb-explosion
+  xy: 104, 0
+  size: 52, 101
+  index: 2
+bomb-explosion
+  xy: 156, 0
+  size: 52, 101
+  index: 3
+bomb-explosion
+  xy: 208, 0
+  size: 52, 101
+  index: 4
+bomb-explosion
+  xy: 260, 0
+  size: 52, 101
+  index: 5
+bomb-explosion
+  xy: 312, 0
+  size: 52, 101
+  index: 6
+bomb-explosion
+  xy: 364, 0
+  size: 52, 101
+  index: 7
+bomb-explosion
+  xy: 416, 0
+  size: 52, 101
+  index: 8
+bomb-explosion
+  xy: 468, 0
+  size: 52, 101
+  index: 9
+bomb-explosion
+  xy: 520, 0
+  size: 52, 101
+  index: 10
+bomb-explosion
+  xy: 572, 0
+  size: 52, 101
+  index: 11
+bomb-explosion
+  xy: 624, 0
+  size: 52, 101
+  index: 12
+bomb-explosion
+  xy: 676, 0
+  size: 52, 101
+  index: 13
+bomb-explosion
+  xy: 728, 0
+  size: 52, 101
+  index: 14
+bomb-explosion
+  xy: 780, 0
+  size: 52, 101
+  index: 15
+bomb-explosion
+  xy: 832, 0
+  size: 52, 101
+  index: 16
+bomb-explosion
+  xy: 884, 0
+  size: 52, 101
+  index: 17
+bomb-explosion
+  xy: 936, 0
+  size: 52, 101
+  index: 18
+bomb-explosion
+  xy: 988, 0
+  size: 52, 101
+  index: 19
+bomb-explosion
+  xy: 1040, 0
+  size: 52, 101
+  index: 20
+bomb-explosion
+  xy: 1092, 0
+  size: 52, 101
+  index: 21
+bomb-explosion
+  xy: 1144, 0
+  size: 52, 101
+  index: 22
+bomb-explosion
+  xy: 1196, 0
+  size: 52, 101
+  index: 23
+bomb-explosion
+  xy: 1248, 0
+  size: 52, 101
+  index: 24
+bomb-explosion
+  xy: 1300, 0
+  size: 52, 101
+  index: 25
+bomb-explosion
+  xy: 1352, 0
+  size: 52, 101
+  index: 26
+huge-explosion
+  xy: 0, 111
+  size: 108, 121
+  index: 0
+huge-explosion
+  xy: 108, 111
+  size: 108, 121
+  index: 1
+huge-explosion
+  xy: 216, 111
+  size: 108, 121
+  index: 2
+huge-explosion
+  xy: 324, 111
+  size: 108, 121
+  index: 3
+huge-explosion
+  xy: 432, 111
+  size: 108, 121
+  index: 4
+huge-explosion
+  xy: 540, 111
+  size: 108, 121
+  index: 5
+huge-explosion
+  xy: 648, 111
+  size: 108, 121
+  index: 6
+huge-explosion
+  xy: 756, 111
+  size: 108, 121
+  index: 7
+huge-explosion
+  xy: 864, 111
+  size: 108, 121
+  index: 8
+huge-explosion
+  xy: 972, 111
+  size: 108, 121
+  index: 9
+huge-explosion
+  xy: 1080, 111
+  size: 108, 121
+  index: 10
+huge-explosion
+  xy: 1188, 111
+  size: 108, 121
+  index: 11
+huge-explosion
+  xy: 1296, 111
+  size: 108, 121
+  index: 12
+huge-explosion
+  xy: 1404, 111
+  size: 108, 121
+  index: 13
+huge-explosion
+  xy: 1512, 111
+  size: 108, 121
+  index: 14
+huge-explosion
+  xy: 1620, 111
+  size: 108, 121
+  index: 15
+huge-explosion
+  xy: 1728, 111
+  size: 108, 121
+  index: 16
+huge-explosion
+  xy: 1836, 111
+  size: 108, 121
+  index: 17
+huge-explosion
+  xy: 1944, 111
+  size: 108, 121
+  index: 18
+huge-explosion
+  xy: 2052, 111
+  size: 108, 121
+  index: 19
+huge-explosion
+  xy: 2160, 111
+  size: 108, 121
+  index: 20
+huge-explosion
+  xy: 2268, 111
+  size: 108, 121
+  index: 21
+huge-explosion
+  xy: 2376, 111
+  size: 108, 121
+  index: 22
+huge-explosion
+  xy: 2484, 111
+  size: 108, 121
+  index: 23
+large-explosion
+  xy: 0, 242
+  size: 73, 60
+  index: 0
+large-explosion
+  xy: 73, 242
+  size: 78, 66
+  index: 1
+large-explosion
+  xy: 151, 242
+  size: 80, 68
+  index: 2
+large-explosion
+  xy: 231, 242
+  size: 77, 69
+  index: 3
+large-explosion
+  xy: 308, 242
+  size: 78, 72
+  index: 4
+large-explosion
+  xy: 386, 242
+  size: 79, 75
+  index: 5
+large-explosion
+  xy: 465, 242
+  size: 75, 77
+  index: 6
+large-explosion
+  xy: 540, 242
+  size: 75, 78
+  index: 7
+large-explosion
+  xy: 615, 242
+  size: 75, 81
+  index: 8
+large-explosion
+  xy: 690, 242
+  size: 75, 79
+  index: 9
+large-explosion
+  xy: 765, 242
+  size: 75, 81
+  index: 10
+large-explosion
+  xy: 840, 242
+  size: 75, 84
+  index: 11
+large-explosion
+  xy: 915, 242
+  size: 75, 83
+  index: 12
+large-explosion
+  xy: 990, 242
+  size: 71, 80
+  index: 13
+large-explosion
+  xy: 1061, 242
+  size: 67, 80
+  index: 14
+large-explosion
+  xy: 1128, 242
+  size: 67, 80
+  index: 15
+large-explosion
+  xy: 1195, 242
+  size: 65, 80
+  index: 16
+large-explosion
+  xy: 1260, 242
+  size: 63, 81
+  index: 17
+large-explosion
+  xy: 1323, 242
+  size: 58, 79
+  index: 18
+large-explosion
+  xy: 1381, 242
+  size: 59, 79
+  index: 19
+large-explosion
+  xy: 1440, 242
+  size: 56, 74
+  index: 20
+large-explosion
+  xy: 1496, 242
+  size: 55, 73
+  index: 21
+large-explosion
+  xy: 1551, 242
+  size: 52, 67
+  index: 22
+large-explosion
+  xy: 1603, 242
+  size: 53, 70
+  index: 23
+large-explosion
+  xy: 1656, 242
+  size: 52, 67
+  index: 24
+large-explosion
+  xy: 1708, 242
+  size: 52, 67
+  index: 25
+medium-explosion
+  xy: 0, 336
+  size: 42, 34
+  index: 0
+medium-explosion
+  xy: 42, 336
+  size: 42, 36
+  index: 1
+medium-explosion
+  xy: 84, 336
+  size: 44, 38
+  index: 2
+medium-explosion
+  xy: 128, 336
+  size: 44, 40
+  index: 3
+medium-explosion
+  xy: 172, 336
+  size: 44, 41
+  index: 4
+medium-explosion
+  xy: 216, 336
+  size: 45, 43
+  index: 5
+medium-explosion
+  xy: 261, 336
+  size: 45, 44
+  index: 6
+medium-explosion
+  xy: 306, 336
+  size: 45, 44
+  index: 7
+medium-explosion
+  xy: 351, 336
+  size: 45, 46
+  index: 8
+medium-explosion
+  xy: 396, 336
+  size: 45, 46
+  index: 9
+medium-explosion
+  xy: 441, 336
+  size: 44, 46
+  index: 10
+medium-explosion
+  xy: 485, 336
+  size: 44, 47
+  index: 11
+medium-explosion
+  xy: 529, 336
+  size: 44, 47
+  index: 12
+medium-explosion
+  xy: 573, 336
+  size: 42, 47
+  index: 13
+medium-explosion
+  xy: 615, 336
+  size: 39, 45
+  index: 14
+medium-explosion
+  xy: 654, 336
+  size: 39, 45
+  index: 17
+medium-explosion
+  xy: 693, 336
+  size: 39, 45
+  index: 18
+medium-explosion
+  xy: 732, 336
+  size: 39, 46
+  index: 19
+medium-explosion
+  xy: 771, 336
+  size: 35, 43
+  index: 20
+medium-explosion
+  xy: 806, 336
+  size: 36, 44
+  index: 21
+medium-explosion
+  xy: 842, 336
+  size: 36, 43
+  index: 22
+medium-explosion
+  xy: 878, 336
+  size: 34, 42
+  index: 23
+medium-explosion
+  xy: 912, 336
+  size: 36, 43
+  index: 24
+medium-explosion
+  xy: 948, 336
+  size: 36, 43
+  index: 25
+medium-explosion
+  xy: 984, 336
+  size: 35, 24
+  index: 26
+medium-explosion
+  xy: 1019, 336
+  size: 35, 24
+  index: 27
+small-explosion
+  xy: 0, 393
+  size: 28, 26
+  index: 0
+small-explosion
+  xy: 28, 393
+  size: 28, 27
+  index: 1
+small-explosion
+  xy: 56, 393
+  size: 30, 28
+  index: 2
+small-explosion
+  xy: 86, 393
+  size: 30, 29
+  index: 3
+small-explosion
+  xy: 116, 393
+  size: 30, 31
+  index: 4
+small-explosion
+  xy: 146, 393
+  size: 30, 32
+  index: 5
+small-explosion
+  xy: 176, 393
+  size: 30, 33
+  index: 6
+small-explosion
+  xy: 206, 393
+  size: 30, 33
+  index: 7
+small-explosion
+  xy: 236, 393
+  size: 30, 34
+  index: 8
+small-explosion
+  xy: 266, 393
+  size: 30, 34
+  index: 9
+small-explosion
+  xy: 296, 393
+  size: 29, 34
+  index: 10
+small-explosion
+  xy: 325, 393
+  size: 30, 34
+  index: 11
+small-explosion
+  xy: 355, 393
+  size: 29, 33
+  index: 12
+small-explosion
+  xy: 384, 393
+  size: 28, 34
+  index: 13
+small-explosion
+  xy: 412, 393
+  size: 26, 32
+  index: 14
+small-explosion
+  xy: 438, 393
+  size: 25, 34
+  index: 15
+small-explosion
+  xy: 463, 393
+  size: 26, 34
+  index: 16
+small-explosion
+  xy: 489, 393
+  size: 24, 31
+  index: 17
+small-explosion
+  xy: 513, 393
+  size: 23, 31
+  index: 18
+small-explosion
+  xy: 536, 393
+  size: 22, 31
+  index: 19
+small-explosion
+  xy: 558, 393
+  size: 22, 31
+  index: 20
+small-explosion
+  xy: 580, 393
+  size: 22, 31
+  index: 21
+small-explosion
+  xy: 602, 393
+  size: 22, 31
+  index: 22
+small-explosion
+  xy: 624, 393
+  size: 22, 31
+  index: 23
+small-explosion
+  xy: 646, 393
+  size: 20, 28
+  index: 24
+small-explosion
+  xy: 666, 393
+  size: 22, 31
+  index: 25

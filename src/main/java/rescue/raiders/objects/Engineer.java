@@ -12,8 +12,7 @@ public class Engineer extends ShootableActor {
         health = 5;
         maxHealth = 5;
         canCollide = false;
-        String sname = t.isEnemy() ? "enemy-engineer-shooting" : "engineer-shooting";
-        shootingFrame = AtlasCache.get(t.getAtlasName()).findRegion(sname, 0);
+        shootingFrame = AtlasCache.get(t.getAtlasName()).findRegion(t.getAimingName(), 0);
         shootingFrame.flip(!t.isEnemy(), false);
         this.setUserObject(AtlasCache.get("backgrounds").findRegion(t.isEnemy() ? "enemy-engineer-icon" : "engineer-icon"));
     }

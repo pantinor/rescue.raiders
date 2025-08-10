@@ -27,8 +27,6 @@ public class Actor extends com.badlogic.gdx.scenes.scene2d.Actor {
     int maxHealth = 20;
     boolean canCollide = true;
 
-    //private Emitter damagedEmitter;
-    //private Emitter destroyedEmitter;
     //stationary actors - hut, pad, base
     public Actor(ActorType t, TextureAtlas atlas, float scale, boolean flip) {
         super();

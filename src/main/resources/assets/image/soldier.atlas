@@ -2,199 +2,339 @@ soldiers.png
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
-infantry-shooting
-  rotate: false
-  xy: 0, 30
-  size: 31, 29
-  orig: 31, 29
-  offset: 0, 0
+bazooka-aiming
+  xy: 7,0
+  size: 29,29
   index: 0
-infantry
-  rotate: false
-  xy: 40, 29
-  size: 22, 29
-  orig: 22, 29
-  offset: 0, 0
+bazooka-running
+  xy: 41,2
+  size: 22,27
   index: 0
-infantry
-  rotate: false
-  xy: 72, 29
-  size: 22, 29
-  orig: 22, 29
-  offset: 0, 0
+bazooka-running
+  xy: 73,2
+  size: 22,27
   index: 1
-infantry
-  rotate: false
-  xy: 104, 29
-  size: 22, 29
-  orig: 22, 29
-  offset: 0, 0
+bazooka-running
+  xy: 104,1
+  size: 24,28
   index: 2
-infantry
-  rotate: false
-  xy: 136, 29
-  size: 22, 29
-  orig: 22, 29
-  offset: 0, 0
+bazooka-running
+  xy: 137,2
+  size: 23,27
   index: 3
-infantry
-  rotate: false
-  xy: 168, 29
-  size: 22, 29
-  orig: 22, 29
-  offset: 0, 0
+bazooka-running
+  xy: 169,2
+  size: 22,27
   index: 4
-infantry
-  rotate: false
-  xy: 200, 29
-  size: 22, 29
-  orig: 22, 29
-  offset: 0, 0
+bazooka-running
+  xy: 200,1
+  size: 24,27
   index: 5
-engineer-shooting
-  rotate: false
-  xy: 9, 155
-  size: 25, 29
-  orig: 25, 29
-  offset: 0, 0
+flame-aiming
+  xy: 7,156
+  size: 27,28
   index: 0
-engineer
-  rotate: false
-  xy: 44, 155
-  size: 25, 29
-  orig: 25, 29
-  offset: 0, 0
+flame-running
+  xy: 44,155
+  size: 24,28
   index: 0
-engineer
-  rotate: false
-  xy: 74, 155
-  size: 24, 29
-  orig: 24, 29
-  offset: 0, 0
+flame-running
+  xy: 74,155
+  size: 23,28
   index: 1
-engineer
-  rotate: false
-  xy: 108, 155
-  size: 24, 29
-  orig: 24, 29
-  offset: 0, 0
+flame-running
+  xy: 108,155
+  size: 23,29
   index: 2
-engineer
-  rotate: false
-  xy: 140, 155
-  size: 24, 29
-  orig: 24, 29
-  offset: 0, 0
+flame-running
+  xy: 140,155
+  size: 23,28
   index: 3
-engineer
-  rotate: false
-  xy: 174, 155
-  size: 24, 29
-  orig: 24, 29
-  offset: 0, 0
+flame-running
+  xy: 174,155
+  size: 23,28
   index: 4
-engineer
-  rotate: false
-  xy: 205, 155
-  size: 24, 29
-  orig: 24, 29
-  offset: 0, 0
+flame-running
+  xy: 205,155
+  size: 23,29
   index: 5
-enemy-infantry-shooting
-  rotate: false
-  xy: 7, 225
-  size: 31, 29
-  orig: 31, 29
-  offset: 0, 0
+gray-bazooka-aiming
+  xy: 16,386
+  size: 29,29
   index: 0
-enemy-infantry
-  rotate: false
-  xy: 47, 224
-  size: 22, 29
-  orig: 22, 29
-  offset: 0, 0
+gray-bazooka-running
+  xy: 50,388
+  size: 22,27
   index: 0
-enemy-infantry
-  rotate: false
-  xy: 79, 224
-  size: 22, 29
-  orig: 22, 29
-  offset: 0, 0
+gray-bazooka-running
+  xy: 82,388
+  size: 22,27
   index: 1
-enemy-infantry
-  rotate: false
-  xy: 111, 224
-  size: 22, 29
-  orig: 22, 29
-  offset: 0, 0
+gray-bazooka-running
+  xy: 114,387
+  size: 22,28
   index: 2
-enemy-infantry
-  rotate: false
-  xy: 143, 224
-  size: 22, 29
-  orig: 22, 29
-  offset: 0, 0
+gray-bazooka-running
+  xy: 146,388
+  size: 23,27
   index: 3
-enemy-infantry
-  rotate: false
-  xy: 175, 224
-  size: 22, 29
-  orig: 22, 29
-  offset: 0, 0
+gray-bazooka-running
+  xy: 178,388
+  size: 22,27
   index: 4
-enemy-infantry
-  rotate: false
-  xy: 207, 224
-  size: 22, 29
-  orig: 22, 29
-  offset: 0, 0
+gray-bazooka-running
+  xy: 210,387
+  size: 22,28
   index: 5
-enemy-engineer-shooting
-  rotate: false
-  xy: 16, 351
-  size: 25, 29
-  orig: 25, 29
-  offset: 0, 0
+gray-flame-aiming
+  xy: 16,351
+  size: 25,29
   index: 0
-enemy-engineer
-  rotate: false
-  xy: 51, 350
-  size: 25, 29
-  orig: 25, 29
-  offset: 0, 0
+gray-flame-running
+  xy: 51,351
+  size: 24,28
   index: 0
-enemy-engineer
-  rotate: false
-  xy: 81, 350
-  size: 24, 29
-  orig: 24, 29
-  offset: 0, 0
+gray-flame-running
+  xy: 81,351
+  size: 23,28
   index: 1
-enemy-engineer
-  rotate: false
-  xy: 115, 350
-  size: 24, 29
-  orig: 24, 29
-  offset: 0, 0
+gray-flame-running
+  xy: 115,350
+  size: 23,29
   index: 2
-enemy-engineer
-  rotate: false
-  xy: 147, 350
-  size: 24, 29
-  orig: 24, 29
-  offset: 0, 0
+gray-flame-running
+  xy: 147,351
+  size: 23,28
   index: 3
-enemy-engineer
-  rotate: false
-  xy: 181, 350
-  size: 24, 29
-  orig: 24, 29
-  offset: 0, 0
+gray-flame-running
+  xy: 181,351
+  size: 23,28
   index: 4
-enemy-engineer
-  rotate: false
-  xy: 213, 350
-  size: 24, 29
-  orig: 24, 29
-  offset: 0, 0
+gray-flame-running
+  xy: 213,350
+  size: 23,29
+  index: 5
+gray-m60-aiming
+  xy: 43,285
+  size: 31,28
+  index: 0
+gray-m60-running
+  xy: 8,285
+  size: 31,28
+  index: 0
+gray-m60-running
+  xy: 75,285
+  size: 31,28
+  index: 1
+gray-m60-running
+  xy: 107,284
+  size: 31,29
+  index: 2
+gray-m60-running
+  xy: 139,285
+  size: 31,28
+  index: 3
+gray-m60-running
+  xy: 171,285
+  size: 31,28
+  index: 4
+gray-m60-running
+  xy: 203,284
+  size: 31,29
+  index: 5
+gray-mg-aiming
+  xy: 14,320
+  size: 27,28
+  index: 0
+gray-mg-running
+  xy: 49,319
+  size: 23,28
+  index: 0
+gray-mg-running
+  xy: 81,319
+  size: 23,28
+  index: 1
+gray-mg-running
+  xy: 113,318
+  size: 23,29
+  index: 2
+gray-mg-running
+  xy: 145,319
+  size: 24,28
+  index: 3
+gray-mg-running
+  xy: 177,319
+  size: 23,28
+  index: 4
+gray-mg-running
+  xy: 209,318
+  size: 23,29
+  index: 5
+gray-rifle-aiming
+  xy: 7,226
+  size: 31,28
+  index: 0
+gray-rifle-running
+  xy: 47,225
+  size: 22,28
+  index: 0
+gray-rifle-running
+  xy: 79,225
+  size: 22,28
+  index: 1
+gray-rifle-running
+  xy: 111,224
+  size: 22,29
+  index: 2
+gray-rifle-running
+  xy: 143,225
+  size: 23,28
+  index: 3
+gray-rifle-running
+  xy: 175,225
+  size: 22,28
+  index: 4
+gray-rifle-running
+  xy: 207,224
+  size: 22,29
+  index: 5
+gray-tommy-aiming
+  xy: 12,256
+  size: 27,28
+  index: 0
+gray-tommy-running
+  xy: 45,256
+  size: 24,27
+  index: 0
+gray-tommy-running
+  xy: 77,256
+  size: 24,27
+  index: 1
+gray-tommy-running
+  xy: 109,255
+  size: 24,28
+  index: 2
+gray-tommy-running
+  xy: 141,256
+  size: 25,27
+  index: 3
+gray-tommy-running
+  xy: 173,256
+  size: 24,27
+  index: 4
+gray-tommy-running
+  xy: 205,255
+  size: 24,28
+  index: 5
+m60-aiming
+  xy: 1,91
+  size: 31,29
+  index: 0
+m60-running
+  xy: 36,92
+  size: 31,28
+  index: 27
+m60-running
+  xy: 68,92
+  size: 31,28
+  index: 28
+m60-running
+  xy: 100,91
+  size: 31,29
+  index: 29
+m60-running
+  xy: 132,92
+  size: 31,28
+  index: 30
+m60-running
+  xy: 164,92
+  size: 31,28
+  index: 31
+m60-running
+  xy: 196,91
+  size: 31,29
+  index: 32
+mg-aiming
+  xy: 7,126
+  size: 27,29
+  index: 0
+mg-running
+  xy: 42,126
+  size: 23,28
+  index: 0
+mg-running
+  xy: 74,126
+  size: 23,28
+  index: 1
+mg-running
+  xy: 106,125
+  size: 23,29
+  index: 2
+mg-running
+  xy: 138,126
+  size: 24,28
+  index: 3
+mg-running
+  xy: 170,126
+  size: 23,28
+  index: 4
+mg-running
+  xy: 202,125
+  size: 23,29
+  index: 5
+rifle-aiming
+  xy: 0,31
+  size: 31,28
+  index: 0
+rifle-running
+  xy: 40,30
+  size: 22,28
+  index: 0
+rifle-running
+  xy: 72,30
+  size: 22,28
+  index: 1
+rifle-running
+  xy: 103,30
+  size: 23,28
+  index: 2
+rifle-running
+  xy: 136,30
+  size: 23,28
+  index: 3
+rifle-running
+  xy: 168,30
+  size: 22,28
+  index: 4
+rifle-running
+  xy: 200,29
+  size: 23,29
+  index: 5
+tommy-aiming
+  xy: 6,62
+  size: 25,28
+  index: 0
+tommy-running
+  xy: 38,62
+  size: 24,27
+  index: 0
+tommy-running
+  xy: 70,62
+  size: 24,27
+  index: 1
+tommy-running
+  xy: 102,61
+  size: 24,28
+  index: 2
+tommy-running
+  xy: 134,62
+  size: 25,27
+  index: 3
+tommy-running
+  xy: 166,62
+  size: 24,27
+  index: 4
+tommy-running
+  xy: 198,61
+  size: 24,28
   index: 5

@@ -3,9 +3,7 @@ package rescue.raiders.objects;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import java.util.Random;
 import static rescue.raiders.game.RescueRaiders.FIELD_HEIGHT;
-
 import rescue.raiders.util.AtlasCache;
-import static rescue.raiders.game.RescueRaiders.fillRectangle;
 
 public class Hut extends Actor {
 
@@ -20,7 +18,6 @@ public class Hut extends Actor {
 
         ActorType b = t.isEnemy() ? ActorType.ENEMY_BALLON : ActorType.BALLON;
         this.balloon = new Balloon(b);
-        this.balloon.setUserObject(fillRectangle(b.getIconColor(), 4, 4));
     }
 
     @Override

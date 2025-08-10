@@ -39,30 +39,47 @@
             <artifactId>gdx</artifactId>
             <version>1.13.5</version>
         </dependency>
+        
         <dependency>
             <groupId>com.badlogicgames.gdx</groupId>
             <artifactId>gdx-platform</artifactId>
             <version>1.13.5</version>
             <classifier>natives-desktop</classifier>
         </dependency>
+        
         <dependency>
             <groupId>com.badlogicgames.gdx</groupId>
             <artifactId>gdx-backend-lwjgl3</artifactId>
             <version>1.13.5</version>
         </dependency>
+
+        <dependency>
+            <groupId>com.badlogicgames.gdx</groupId>
+            <artifactId>gdx-freetype</artifactId>
+            <version>1.13.5</version>
+        </dependency>
+        
+        <dependency>
+            <groupId>com.badlogicgames.gdx</groupId>
+            <artifactId>gdx-freetype-platform</artifactId>
+            <version>1.13.5</version>
+            <classifier>natives-desktop</classifier>
+        </dependency>
+
         <dependency>
             <groupId>com.badlogicgames.gdx</groupId>
             <artifactId>gdx-tools</artifactId>
             <version>1.13.5</version>
         </dependency>
+
         <dependency>
             <groupId>org.testng</groupId>
             <artifactId>testng</artifactId>
             <version>6.8.7</version>
             <scope>test</scope>
         </dependency>
-
     </dependencies>
+
    
 
 </project>
