@@ -3,152 +3,190 @@ format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
 ground
-  rotate: false
-  xy: 5, 206
+  xy: 31, 3
   size: 48, 48
   index: 0    
 pad
-  rotate: false
-  xy: 166, 14
-  size: 288, 98
+  xy: 37, 311
+  size: 343, 34
   index: 0
+pad
+  xy: 37, 349
+  size: 343, 34
+  index: 1
 hut
-  rotate: false
-  xy: 113, 436
-  size: 49, 45
+  xy: 30, 55
+  size: 48, 45
   index: 0
 enemy-hut
-  rotate: false
-  xy: 112, 496
-  size: 49, 45
+  xy: 31, 108
+  size: 48, 45
   index: 0
 base
-  rotate: false
-  xy: 438, 499
-  size: 87, 84
+  xy: 29, 430
+  size: 580, 209
   index: 0
 enemy-base
-  rotate: false
-  xy: 348, 497
-  size: 87, 84
+  xy: 29, 430
+  size: 580, 209
   index: 0
 blimp
-  rotate: false
-  xy: 531, 506
+  xy: 89, 58
   size: 65, 42
   index: 0
 enemy-blimp
-  rotate: false
-  xy: 531, 580
+  xy: 90, 107
   size: 65, 42
   index: 0
 chain
-  rotate: false
-  xy: 728, 6
+  xy: 0, 0
   size: 5, 602
   index: 0
 chain
-  rotate: false
-  xy: 734, 6
+  xy: 6, 0
   size: 5, 602
   index: 1
 chain
-  rotate: false
-  xy: 740, 6
+  xy: 12, 0
   size: 5, 602
   index: 2
 chain
-  rotate: false
-  xy: 746, 6
+  xy: 18, 0
   size: 5, 602
   index: 3
 infantry-icon
-  rotate: false
-  xy: 302, 609
+  xy: 99, 26
   size: 2, 3
   index: 0
 engineer-icon
-  rotate: false
-  xy: 299, 609
+  xy: 96, 26
   size: 2, 3
   index: 0
 enemy-infantry-icon
-  rotate: false
-  xy: 309, 609
+  xy: 106, 26
   size: 2, 3
   index: 0
 enemy-engineer-icon
-  rotate: false
-  xy: 306, 609
+  xy: 103, 26
   size: 2, 3
   index: 0
 hut-icon
-  rotate: false
-  xy: 316, 605
+  xy: 113, 22
   size: 9, 7
   index: 0
 enemy-hut-icon
-  rotate: false
-  xy: 384, 605
+  xy: 181, 22
   size: 9, 7
   index: 0
 base-icon
-  rotate: false
-  xy: 328, 605
+  xy: 125, 22
   size: 9, 7
   index: 0
 enemy-base-icon
-  rotate: false
-  xy: 396, 605
+  xy: 193, 22
   size: 9, 7
   index: 0
 tank-icon
-  rotate: false
-  xy: 340, 603
+  xy: 137, 21
   size: 16, 9
   index: 0
 enemy-tank-icon
-  rotate: false
-  xy: 360, 603
+  xy: 157, 21
   size: 16, 9
   index: 0
 super-tank-icon
-  rotate: false
-  xy: 340, 592
+  xy: 137, 21
   size: 16, 9
   index: 0
 enemy-super-tank-icon
-  rotate: false
-  xy: 360, 592
+  xy: 157, 9
   size: 16, 9
   index: 0
 jeep-icon
-  rotate: false
-  xy: 343, 614
+  xy: 140, 31
   size: 9, 6
   index: 0
 enemy-jeep-icon
-  rotate: false
-  xy: 356, 614
+  xy: 153, 31
   size: 9, 6
   index: 0
 turret-icon
-  rotate: false
-  xy: 316, 613
+  xy: 113, 30
   size: 6, 7
   index: 0
 enemy-turret-icon
-  rotate: false
-  xy: 324, 613
+  xy: 121, 30
   size: 6, 7
   index: 0
 balloon-icon
-  rotate: false
-  xy: 341, 624
+  xy: 138, 41
   size: 9, 5
   index: 0
 enemy-balloon-icon
-  rotate: false
-  xy: 350, 624
+  xy: 147, 41
   size: 9, 5
   index: 0
+blood1
+  xy: 189,93
+  size: 44,39
+  index: 0
+blood1
+  xy: 242,92
+  size: 45,41
+  index: 1
+blood2
+  xy: 353,139
+  size: 33,37
+  index: 4
+blood2
+  xy: 390,139
+  size: 36,37
+  index: 5
+blood2
+  xy: 431,140
+  size: 37,37
+  index: 6
+blood2
+  xy: 475,142
+  size: 39,38
+  index: 7
+blood2
+  xy: 255,139
+  size: 25,35
+  index: 1
+blood2
+  xy: 232,139
+  size: 18,35
+  index: 0
+blood1
+  xy: 293,94
+  size: 40,37
+  index: 2
+blood1
+  xy: 341,93
+  size: 36,39
+  index: 3
+blood1
+  xy: 386,93
+  size: 37,40
+  index: 4
+blood1
+  xy: 431,92
+  size: 35,39
+  index: 5
+blood1
+  xy: 472,92
+  size: 36,38
+  index: 6
+blood1
+  xy: 516,93
+  size: 38,39
+  index: 7
+blood2
+  xy: 315,138
+  size: 32,38
+  index: 3
+blood2
+  xy: 283,138
+  size: 27,37
+  index: 2

@@ -19,6 +19,7 @@ import rescue.raiders.game.RescueRaiders;
 import static rescue.raiders.game.RescueRaiders.BOMB;
 import static rescue.raiders.game.RescueRaiders.FIELD_HEIGHT;
 import static rescue.raiders.game.RescueRaiders.FIELD_WIDTH;
+import static rescue.raiders.game.RescueRaiders.FONT;
 import static rescue.raiders.game.RescueRaiders.GAME;
 import static rescue.raiders.game.RescueRaiders.HELI_START_X;
 import static rescue.raiders.game.RescueRaiders.HELI_START_Y;
@@ -39,6 +40,9 @@ public class Copter extends Actor implements InputProcessor {
     private float turningTime = 0f;
     private static final float TURN_FRAME_DURATION = 0.05f;
 
+    private float refuelTime = 0f;
+    private static final float REFUEL_FRAME_DURATION = 0.5f;
+
     private float ax, avx, ay, avy, angle;
     private float px, py, pvx, pvy;
 
@@ -53,6 +57,11 @@ public class Copter extends Actor implements InputProcessor {
     private final Array<TextureAtlas.AtlasRegion> turningLeft;
     private final Array<TextureAtlas.AtlasRegion> turningRight;
     private int turningIndex = -1;
+
+    private static final int MAX_BULLETS = 64;
+    private static final int MAX_BOMBS = 10;
+    private int bullets = MAX_BULLETS;
+    private int bombs = MAX_BOMBS;
 
     private int fuel = 100;
     private final TextureRegion healthBar;
@@ -96,6 +105,14 @@ public class Copter extends Actor implements InputProcessor {
         fuelBar = new TextureRegion(RescueRaiders.fillRectangleGradient(SCREEN_WIDTH, STATUS_BAR_HEIGHT, Color.ORANGE));
 
         copterSound = Sounds.play(Sound.HELICOPTER_ENGINE);
+
+        SequenceAction seq = Actions.sequence(
+                Actions.delay(5f),
+                Actions.run(() -> {
+                    fuel -= 2;
+                    updateGauges();
+                }));
+        addAction(Actions.forever(seq));
 
     }
 
@@ -147,27 +164,43 @@ public class Copter extends Actor implements InputProcessor {
 
     public void drawStatusBars(SpriteBatch batch) {
         batch.draw(healthBar, 0, SCREEN_HEIGHT - HUD_HEIGHT - STATUS_BAR_HEIGHT);
-        batch.draw(fuelBar, 0, SCREEN_HEIGHT - HUD_HEIGHT - STATUS_BAR_HEIGHT - STATUS_BAR_HEIGHT);
+        batch.draw(fuelBar, 0, SCREEN_HEIGHT - HUD_HEIGHT - STATUS_BAR_HEIGHT * 2);
+        FONT.draw(batch, "bullets " + this.bullets + " bombs " + this.bombs, SCREEN_WIDTH - 200, SCREEN_HEIGHT - HUD_HEIGHT - STATUS_BAR_HEIGHT * 3);
     }
 
     @Override
     public void takeDamage(int damage) {
         health -= damage;
-
-        double percent = (double) this.health / this.maxHealth;
-        double bar = percent * SCREEN_WIDTH;
-
-        if (this.health < 0) {
-            bar = 0;
-        }
-        if (bar > SCREEN_WIDTH) {
-            bar = SCREEN_WIDTH;
-        }
-        healthBar.setRegion(0, 0, (int) bar, STATUS_BAR_HEIGHT);
-
+        updateGauges();
         if (health <= 0) {
             health = 0;
             crash();
+        }
+    }
+
+    private void updateGauges() {
+        {
+            double percent = (double) this.health / this.maxHealth;
+            double bar = percent * SCREEN_WIDTH;
+
+            if (this.health < 0) {
+                bar = 0;
+            }
+            if (bar > SCREEN_WIDTH) {
+                bar = SCREEN_WIDTH;
+            }
+            healthBar.setRegion(0, 0, (int) bar, STATUS_BAR_HEIGHT);
+        }
+        {
+            double percent = (double) this.fuel / 100;
+            double bar = percent * SCREEN_WIDTH;
+            if (this.fuel < 0) {
+                bar = 0;
+            }
+            if (bar > SCREEN_WIDTH) {
+                bar = SCREEN_WIDTH;
+            }
+            fuelBar.setRegion(0, 0, (int) bar, STATUS_BAR_HEIGHT);
         }
     }
 
@@ -191,6 +224,11 @@ public class Copter extends Actor implements InputProcessor {
             down = false;
         } else {
             this.copterSound.resume();
+            this.fuel = 100;
+            this.health = this.maxHealth;
+            this.bullets = MAX_BULLETS;
+            this.bombs = MAX_BOMBS;
+            updateGauges();
         }
     }
 
@@ -209,38 +247,29 @@ public class Copter extends Actor implements InputProcessor {
 
         SequenceAction seq = Actions.sequence(
                 Actions.delay(5f),
-                Actions.run(new Runnable() {
-                    @Override
-                    public void run() {
-                        setDestroyed(false);
-                        stage.addActor(Copter.this);
-                    }
+                Actions.run(() -> {
+                    setDestroyed(false);
+                    stage.addActor(Copter.this);
                 }));
         stage.addAction(seq);
     }
 
-    private void decrementFuel() {
-        double percent = this.fuel / 100;
-        double bar = percent * (double) SCREEN_WIDTH;
-        if (this.fuel < 0) {
-            bar = 0;
-        }
-        if (bar > SCREEN_WIDTH) {
-            bar = SCREEN_WIDTH;
-        }
-        fuelBar.setRegion(0, 0, (int) bar, STATUS_BAR_HEIGHT);
-    }
-
     public void shoot() {
-        float angleInDegrees = west ? 180 + angle * 100 : angle < 0 ? 360 + angle * 100 : angle * 100;
-        Bullet b = new Bullet(this, west ? this.getX() + 15 : this.getX() + 55, this.getY() + 10, angleInDegrees, 2);
-        getStage().addActor(b);
-        Sounds.play(Sound.INFANTRY_GUNFIRE);
+        if (this.bullets > 0 && getStage() != null) {
+            float angleInDegrees = west ? 180 + angle * 100 : angle < 0 ? 360 + angle * 100 : angle * 100;
+            Bullet b = new Bullet(this, west ? this.getX() + 15 : this.getX() + 55, this.getY() + 10, angleInDegrees, 2);
+            getStage().addActor(b);
+            Sounds.play(Sound.INFANTRY_GUNFIRE);
+            this.bullets -= 1;
+        }
     }
 
     public void bomb() {
-        Bomb b = new Bomb(this, BOMB, west ? this.getX() + 15 : this.getX() + 55, this.getY() + 10, 6);
-        getStage().addActor(b);
+        if (this.bombs > 0 && getStage() != null) {
+            Bomb b = new Bomb(this, BOMB, this.getX() + 30, this.getY() - 10, 7);
+            getStage().addActor(b);
+            this.bombs -= 1;
+        }
     }
 
     @Override
@@ -299,23 +328,43 @@ public class Copter extends Actor implements InputProcessor {
             float speed = (float) Math.hypot(pvx, pvy);
             if (speed > CRASH_SPEED_THRESHOLD) {
                 crash();
+                return;
             } else {
                 py = SCREEN_HEIGHT - GROUND_LEVEL;
             }
         }
 
-        GameStage stage = (GameStage) getStage();
-        List<rescue.raiders.objects.Actor> actors = stage.gameActors();
+        if (this.fuel < 0) {
+            crash();
+            return;
+        }
+
         boolean crashed = false;
-        for (rescue.raiders.objects.Actor other : actors) {
-            if (other == this) {
-                continue;
-            }
-            if (other.type.isEnemy() && other.canCollide && hits(other.hitbox)) {
-                crashed = true;
-                break;
+        GameStage stage = (GameStage) getStage();
+        if (stage != null) {
+            List<rescue.raiders.objects.Actor> actors = stage.gameActors();
+            for (rescue.raiders.objects.Actor other : actors) {
+                if (other == this) {
+                    continue;
+                }
+                if (other.type == ActorType.PAD && !other.type.isEnemy() && hits(other.hitbox)) {
+                    refuelTime += Gdx.graphics.getDeltaTime();
+                    if (refuelTime >= REFUEL_FRAME_DURATION) {
+                        this.health = Math.min(this.health + 2, this.maxHealth);
+                        this.fuel = Math.min(this.fuel + 5, 100);
+                        this.bombs = Math.min(this.bombs + 1, MAX_BOMBS);
+                        this.bullets = Math.min(this.bullets + 5, MAX_BULLETS);
+                        updateGauges();
+                        refuelTime = 0;
+                    }
+                }
+                if (other.type.isEnemy() && other.canCollide && hits(other.hitbox)) {
+                    crashed = true;
+                    break;
+                }
             }
         }
+
         if (crashed) {
             crash();
         }

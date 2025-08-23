@@ -17,17 +17,18 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
+import com.badlogic.gdx.scenes.scene2d.actions.Actions;
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import com.badlogic.gdx.utils.Array;
-import com.badlogic.gdx.utils.DelayedRemovalArray;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
-import rescue.raiders.levels.Level1;
+import rescue.raiders.levels.CakeWalk;
 import rescue.raiders.objects.ActorType;
 import rescue.raiders.objects.BlueTank;
 import rescue.raiders.objects.CoveredTruck;
@@ -37,8 +38,8 @@ import rescue.raiders.objects.Jeep;
 import rescue.raiders.objects.RocketLauncher;
 import rescue.raiders.objects.TanTank;
 import rescue.raiders.objects.TreadTruck;
+import rescue.raiders.util.ParticleEffects;
 import rescue.raiders.util.Stars;
-import rescue.raiders.util.ExplosionTriangle;
 
 public class RescueRaiders extends Game implements InputProcessor {
 
@@ -69,12 +70,11 @@ public class RescueRaiders extends Game implements InputProcessor {
     private Texture enemyTurretRangeTexture;
 
     private Stars stars;
-
-    private DelayedRemovalArray<ExplosionTriangle> explosionTriangles = new DelayedRemovalArray<>();
-
-    private ShapeRenderer shapeRenderer;
+    private ParticleEffects explFX;
 
     public Copter heli;
+
+    public int funds = 32;
 
     public static BitmapFont FONT;
     public static RescueRaiders GAME;
@@ -92,7 +92,11 @@ public class RescueRaiders extends Game implements InputProcessor {
 
         GAME = this;
 
-        FONT = new BitmapFont();
+        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.classpath("assets/tiny-font.ttf"));
+        FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
+
+        parameter.size = 12;
+        FONT = generator.generateFont(parameter);
 
         Pixmap cursorPixmap = new Pixmap(Gdx.files.internal("assets/image/cursor-cross.png"));
         Cursor customCursor = Gdx.graphics.newCursor(cursorPixmap, 8, 8);
@@ -125,8 +129,7 @@ public class RescueRaiders extends Game implements InputProcessor {
         batchMiniMap = new SpriteBatch();
 
         batch = new SpriteBatch();
-
-        shapeRenderer = new ShapeRenderer();
+        explFX = new ParticleEffects(fillCircle(Color.WHITE, 5), fillCircle(Color.GRAY, 5));
 
         heli = (Copter) ActorType.HELI.getInstance();
         heli.setPosition(HELI_START_X, HELI_START_Y);
@@ -136,15 +139,22 @@ public class RescueRaiders extends Game implements InputProcessor {
 
         turretRangeTexture = filledSemiCircleUp(180, Color.GREEN);
         enemyTurretRangeTexture = filledSemiCircleUp(180, Color.SCARLET);
-        
+
         BOMB = bombTexture(AtlasCache.get("shobu-copter"));
 
-        Level l1 = new Level1(stage);
+        Level l1 = new CakeWalk(stage);
         l1.addObjects();
 
         stage.addActor(heli);
 
         stage.setHelicopter(heli);
+
+        SequenceAction seq = Actions.sequence(
+                Actions.delay(15f),
+                Actions.run(() -> {
+                    funds += 5;
+                }));
+        stage.addAction(Actions.forever(seq));
 
         stars = new Stars(SCREEN_WIDTH, SCREEN_HEIGHT, 200);
 
@@ -162,17 +172,26 @@ public class RescueRaiders extends Game implements InputProcessor {
             camera.position.x = heli.getX();
         }
 
-        shapeRenderer.setProjectionMatrix(camera.combined);
-
         stars.render(Gdx.graphics.getDeltaTime());
 
         stage.act();
-        stage.draw();
+
+        camera.update();
+        stage.getViewport().apply();
+
+        Batch stageBatch = stage.getBatch();
+        stageBatch.setProjectionMatrix(camera.combined);
+
+        stageBatch.begin();
+        stage.getRoot().draw(stageBatch, 1.0f);
+        explFX.render(stageBatch, Gdx.graphics.getDeltaTime());
+        stageBatch.end();
 
         batch.begin();
         batch.draw(floor, -1000, 0);
         batch.draw(hud, 0, SCREEN_HEIGHT - HUD_HEIGHT);
         heli.drawStatusBars(batch);
+        FONT.draw(batch, "funds " + this.funds, 10, SCREEN_HEIGHT - HUD_HEIGHT - STATUS_BAR_HEIGHT * 3);
         batch.end();
 
         batchMiniMap.begin();
@@ -200,19 +219,6 @@ public class RescueRaiders extends Game implements InputProcessor {
             }
         }
         batchMiniMap.end();
-
-        for (ExplosionTriangle tri : explosionTriangles) {
-            tri.render(Gdx.graphics.getDeltaTime());
-        }
-
-        explosionTriangles.begin();
-        for (int i = 0; i < explosionTriangles.size; i++) {
-            if (explosionTriangles.get(i).getTime() > .8f) {
-                explosionTriangles.removeIndex(i);
-            }
-        }
-        explosionTriangles.end();
-
     }
 
     @Override
@@ -220,46 +226,69 @@ public class RescueRaiders extends Game implements InputProcessor {
 
         switch (keycode) {
             case Keys.T:
-                TanTank tank = (TanTank) ActorType.TANK.getInstance();
-                tank.setPosition(SPAWN, FIELD_HEIGHT);
-                stage.addActor(tank);
+                if (funds > ActorType.TANK.cost()) {
+                    TanTank tank = (TanTank) ActorType.TANK.getInstance();
+                    tank.setPosition(SPAWN, FIELD_HEIGHT);
+                    stage.addActor(tank);
+                    funds -= ActorType.TANK.cost();
+                }
                 break;
             case Keys.E:
-                Engineer engineer = (Engineer) ActorType.getEngineer(false);
-                engineer.setPosition(SPAWN, FIELD_HEIGHT);
-                stage.addActor(engineer);
+                if (funds > ActorType.FLAMETHROWER.cost()) {
+                    Engineer engineer = (Engineer) ActorType.getEngineer(false);
+                    engineer.setPosition(SPAWN, FIELD_HEIGHT);
+                    stage.addActor(engineer);
+                    funds -= ActorType.FLAMETHROWER.cost();
+                }
                 break;
             case Keys.I:
-                Infantry infantry = (Infantry) ActorType.getInfantry(false);
-                infantry.setPosition(SPAWN, FIELD_HEIGHT);
-                stage.addActor(infantry);
+                if (funds > ActorType.TOMMY_GUNNER.cost()) {
+                    Infantry infantry = (Infantry) ActorType.getInfantry(false);
+                    infantry.setPosition(SPAWN, FIELD_HEIGHT);
+                    stage.addActor(infantry);
+                    funds -= ActorType.TOMMY_GUNNER.cost();
+                }
                 break;
             case Keys.J:
-                Jeep jeep = (Jeep) ActorType.JEEP.getInstance();
-                jeep.setPosition(SPAWN, FIELD_HEIGHT);
-                stage.addActor(jeep);
+                if (funds > ActorType.JEEP.cost()) {
+                    Jeep jeep = (Jeep) ActorType.JEEP.getInstance();
+                    jeep.setPosition(SPAWN, FIELD_HEIGHT);
+                    stage.addActor(jeep);
+                    funds -= ActorType.JEEP.cost();
+                }
                 break;
             case Keys.Y:
-                TreadTruck truck = (TreadTruck) ActorType.TREAD_TRUCK.getInstance();
-                truck.setPosition(SPAWN, FIELD_HEIGHT);
-                stage.addActor(truck);
+                if (funds > ActorType.TREAD_TRUCK.cost()) {
+                    TreadTruck truck = (TreadTruck) ActorType.TREAD_TRUCK.getInstance();
+                    truck.setPosition(SPAWN, FIELD_HEIGHT);
+                    stage.addActor(truck);
+                    funds -= ActorType.TREAD_TRUCK.cost();
+                }
                 break;
             case Keys.C:
-                CoveredTruck ctruck = (CoveredTruck) ActorType.COVERED_TRUCK.getInstance();
-                ctruck.setPosition(SPAWN, FIELD_HEIGHT);
-                stage.addActor(ctruck);
+                if (funds > ActorType.COVERED_TRUCK.cost()) {
+                    CoveredTruck ctruck = (CoveredTruck) ActorType.COVERED_TRUCK.getInstance();
+                    ctruck.setPosition(SPAWN, FIELD_HEIGHT);
+                    stage.addActor(ctruck);
+                    funds -= ActorType.COVERED_TRUCK.cost();
+                }
                 break;
             case Keys.L:
-                RocketLauncher launcher = (RocketLauncher) ActorType.ROCKET_LAUNCHER.getInstance();
-                launcher.setPosition(SPAWN, FIELD_HEIGHT);
-                stage.addActor(launcher);
+                if (funds > ActorType.ROCKET_LAUNCHER.cost()) {
+                    RocketLauncher launcher = (RocketLauncher) ActorType.ROCKET_LAUNCHER.getInstance();
+                    launcher.setPosition(SPAWN, FIELD_HEIGHT);
+                    stage.addActor(launcher);
+                    funds -= ActorType.ROCKET_LAUNCHER.cost();
+                }
                 break;
             case Keys.G:
-                BlueTank btank = (BlueTank) ActorType.BLUE_TANK.getInstance();
-                btank.setPosition(SPAWN, FIELD_HEIGHT);
-                stage.addActor(btank);
+                if (funds > ActorType.BLUE_TANK.cost()) {
+                    BlueTank btank = (BlueTank) ActorType.BLUE_TANK.getInstance();
+                    btank.setPosition(SPAWN, FIELD_HEIGHT);
+                    stage.addActor(btank);
+                    funds -= ActorType.BLUE_TANK.cost();
+                }
                 break;
-
         }
 
         return false;
@@ -316,19 +345,26 @@ public class RescueRaiders extends Game implements InputProcessor {
     }
 
     public void addExplosion(float x, float y, boolean facingWest, int count) {
-        float base = facingWest ? 180f - 20f : 20f;
-        for (int i = 0; i < count; i++) {
-            // vary each one by ±15°
-            float spread = MathUtils.random(-15f, 15f);
-            float triAngle = base + spread;
-            explosionTriangles.add(new ExplosionTriangle(shapeRenderer, x, y, triAngle));
-        }
+        explFX.addExplosion(x, y, facingWest, count);
+    }
+
+    public void addBloodSpatter(float x, float y, boolean west) {
+        explFX.addBloodSpatter(x, y, west);
     }
 
     public static final Texture fillRectangle(Color c, int w, int h) {
         Pixmap pix = new Pixmap(w, h, Pixmap.Format.RGBA8888);
-        pix.setColor(c.r, c.g, c.b, .85f);
+        pix.setColor(c);
         pix.fillRectangle(0, 0, w, h);
+        Texture t = new Texture(pix);
+        pix.dispose();
+        return t;
+    }
+
+    public static final Texture fillCircle(Color c, int radius) {
+        Pixmap pix = new Pixmap(radius * 2, radius * 2, Pixmap.Format.RGBA8888);
+        pix.setColor(c);
+        pix.fillCircle(radius, radius, radius);
         Texture t = new Texture(pix);
         pix.dispose();
         return t;

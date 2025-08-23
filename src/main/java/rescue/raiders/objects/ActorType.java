@@ -6,49 +6,55 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public enum ActorType {
 
-    HELI("shobu-copter", "copter-with-blades", Color.WHITE, false, Copter.class),
-    ENEMY_HELI("copter", "copter", Color.YELLOW, true, EnemyCopter.class),
+    HELI("shobu-copter", "copter-with-blades", Color.WHITE, false, Copter.class, 5),
+    ENEMY_HELI("copter", "copter", Color.YELLOW, true, EnemyCopter.class, 5),
     //
-
-    TOMMY_GUNNER("soldier", "tommy-running", "tommy-aiming", Color.BLUE, false, Infantry.class),
-    M60_GUNNER("soldier", "m60-running", "m60-aiming", Color.BLUE, false, Infantry.class),
-    MG_GUNNER("soldier", "mg-running", "mg-aiming", Color.BLUE, false, Infantry.class),
-    BAZOOKA("soldier", "bazooka-running", "bazooka-aiming", Color.BLUE, false, Engineer.class),
-    RIFLEMAN("soldier", "rifle-running", "rifle-aiming", Color.BLUE, false, Engineer.class),
-    FLAMETHROWER("soldier", "flame-running", "flame-aiming", Color.BLUE, false, Engineer.class),
+    TOMMY_GUNNER("soldier", "tommy-running", "tommy-aiming", Color.BLUE, false, Infantry.class, 1),
+    M60_GUNNER("soldier", "m60-running", "m60-aiming", Color.BLUE, false, Infantry.class, 1),
+    MG_GUNNER("soldier", "mg-running", "mg-aiming", Color.BLUE, false, Infantry.class, 1),
+    BAZOOKA("soldier", "bazooka-running", "bazooka-aiming", Color.BLUE, false, Engineer.class, 1),
+    RIFLEMAN("soldier", "rifle-running", "rifle-aiming", Color.BLUE, false, Engineer.class, 1),
+    FLAMETHROWER("soldier", "flame-running", "flame-aiming", Color.BLUE, false, Engineer.class, 1),
     //
-    ENEMY_TOMMY_GUNNER("soldier", "gray-tommy-running", "gray-tommy-aiming", Color.RED, true, Infantry.class),
-    ENEMY_M60_GUNNER("soldier", "gray-m60-running", "gray-m60-aiming", Color.RED, true, Infantry.class),
-    ENEMY_MG_GUNNER("soldier", "gray-mg-running", "gray-mg-aiming", Color.RED, true, Infantry.class),
-    ENEMY_FLAMETHROWER("soldier", "gray-flame-running", "gray-flame-aiming", Color.RED, true, Engineer.class),
-    ENEMY_BAZOOKA("soldier", "gray-bazooka-running", "gray-bazooka-aiming", Color.RED, true, Engineer.class),
-    ENEMY_RIFLEMAN("soldier", "gray-rifle-running", "gray-rifle-aiming", Color.RED, true, Engineer.class),
+    ENEMY_TOMMY_GUNNER("soldier", "gray-tommy-running", "gray-tommy-aiming", Color.RED, true, Infantry.class, 1),
+    ENEMY_M60_GUNNER("soldier", "gray-m60-running", "gray-m60-aiming", Color.RED, true, Infantry.class, 1),
+    ENEMY_MG_GUNNER("soldier", "gray-mg-running", "gray-mg-aiming", Color.RED, true, Infantry.class, 1),
+    ENEMY_FLAMETHROWER("soldier", "gray-flame-running", "gray-flame-aiming", Color.RED, true, Engineer.class, 1),
+    ENEMY_BAZOOKA("soldier", "gray-bazooka-running", "gray-bazooka-aiming", Color.RED, true, Engineer.class, 1),
+    ENEMY_RIFLEMAN("soldier", "gray-rifle-running", "gray-rifle-aiming", Color.RED, true, Engineer.class, 1),
     //
-    TANK("tan-tank", "driving", Color.SKY, false, TanTank.class),
-    ENEMY_TANK("grey-tank", "driving", Color.SCARLET, true, GreyTank.class),
-    BLUE_TANK("blue-tank", "driving", Color.NAVY, false, BlueTank.class),
-    ENEMY_LARGE_TANK("large-tank", "driving", Color.PINK, true, LargeTank.class),
+    TANK("tan-tank", "driving", Color.SKY, false, TanTank.class, 5),
+    ENEMY_TANK("grey-tank", "driving", Color.SCARLET, true, GreyTank.class, 5),
     //
-    JEEP("jeep", "jeep", Color.BLUE, false, Jeep.class),
-    ENEMY_JEEP("jeep", "jeep", Color.RED, true, Jeep.class),
-    TREAD_TRUCK("tread-truck", "truck", Color.BLUE, false, TreadTruck.class),
-    ENEMY_TREAD_TRUCK("tread-truck", "truck", Color.RED, true, TreadTruck.class),
-    COVERED_TRUCK("covered-truck", "truck", Color.BLUE, false, CoveredTruck.class),
-    ENEMY_COVERED_TRUCK("covered-truck", "truck", Color.RED, true, CoveredTruck.class),
+    BLUE_TANK("blue-tank", "driving", Color.NAVY, false, BlueTank.class, 5),
+    ENEMY_LARGE_TANK("large-tank", "driving", Color.PINK, true, LargeTank.class, 5),
     //
-    ROCKET_LAUNCHER("rocket-launcher", "launcher", Color.BLUE, false, RocketLauncher.class),
-    ENEMY_ROCKET_LAUNCHER("rocket-launcher", "launcher", Color.RED, true, RocketLauncher.class),
+    JEEP("jeep", "jeep", Color.BLUE, false, Jeep.class, 2),
+    ENEMY_JEEP("jeep", "jeep", Color.RED, true, Jeep.class, 2),
     //
-    BASE("backgrounds", "base", Color.GREEN, false, Base.class),
-    ENEMY_BASE("backgrounds", "enemy-base", Color.ORANGE, true, Base.class),
-    TURRET("turret", "turret", Color.WHITE, false, AAGun.class),
-    ENEMY_TURRET("turret", "enemy-turret", Color.RED, true, AAGun.class),
-    PAD("backgrounds", "pad", Color.GREEN, false, Pad.class),
-    ENEMY_PAD("backgrounds", "pad", Color.ORANGE, true, Pad.class),
-    BALLON("backgrounds", "blimp", Color.GRAY, false, Balloon.class),
-    ENEMY_BALLON("backgrounds", "enemy-blimp", Color.RED, true, Balloon.class),
-    HUT("backgrounds", "hut", Color.GRAY, false, Hut.class),
-    ENEMY_HUT("backgrounds", "enemy-hut", Color.RED, true, Hut.class);
+    TREAD_TRUCK("tread-truck", "truck", Color.BLUE, false, TreadTruck.class, 3),
+    ENEMY_TREAD_TRUCK("tread-truck", "truck", Color.RED, true, TreadTruck.class, 3),
+    //
+    COVERED_TRUCK("covered-truck", "truck", Color.BLUE, false, CoveredTruck.class, 4),
+    ENEMY_COVERED_TRUCK("covered-truck", "truck", Color.RED, true, CoveredTruck.class, 4),
+    //
+    ROCKET_LAUNCHER("rocket-launcher", "launcher", Color.BLUE, false, RocketLauncher.class, 5),
+    ENEMY_ROCKET_LAUNCHER("rocket-launcher", "launcher", Color.RED, true, RocketLauncher.class, 5),
+    //
+    BASE("backgrounds", "base", Color.GREEN, false, Base.class, 5),
+    ENEMY_BASE("backgrounds", "enemy-base", Color.ORANGE, true, Base.class, 5),
+    //
+    TURRET("turret", "turret", Color.WHITE, false, AAGun.class, 5),
+    ENEMY_TURRET("turret", "enemy-turret", Color.RED, true, AAGun.class, 5),
+    //
+    PAD("backgrounds", "pad", Color.GREEN, false, Pad.class, 5),
+    ENEMY_PAD("backgrounds", "pad", Color.ORANGE, true, Pad.class, 5),
+    //
+    BALLON("backgrounds", "blimp", Color.GRAY, false, Balloon.class, 5),
+    ENEMY_BALLON("backgrounds", "enemy-blimp", Color.RED, true, Balloon.class, 5),
+    //
+    HUT("backgrounds", "hut", Color.GRAY, false, Hut.class, 5),
+    ENEMY_HUT("backgrounds", "enemy-hut", Color.RED, true, Hut.class, 5);
 
     private static final ActorType[] FRIENDLY_INFANTRY = {
         TOMMY_GUNNER, M60_GUNNER, MG_GUNNER
@@ -69,23 +75,26 @@ public enum ActorType {
     private final Color iconColor;
     private final boolean isEnemy;
     private final Class clazz;
+    private final int cost;
 
-    private ActorType(String atlasName, String regionName, Color iconColor, boolean isEnemy, Class clazz) {
+    private ActorType(String atlasName, String regionName, Color iconColor, boolean isEnemy, Class clazz, int cost) {
         this.atlasName = atlasName;
         this.regionName = regionName;
         this.aimingName = null;
         this.iconColor = iconColor;
         this.isEnemy = isEnemy;
         this.clazz = clazz;
+        this.cost = cost;
     }
 
-    private ActorType(String atlasName, String regionName, String aimingName, Color iconColor, boolean isEnemy, Class clazz) {
+    private ActorType(String atlasName, String regionName, String aimingName, Color iconColor, boolean isEnemy, Class clazz, int cost) {
         this.atlasName = atlasName;
         this.regionName = regionName;
         this.aimingName = aimingName;
         this.iconColor = iconColor;
         this.isEnemy = isEnemy;
         this.clazz = clazz;
+        this.cost = cost;
     }
 
     public String getAtlasName() {
@@ -110,6 +119,10 @@ public enum ActorType {
 
     public Class getClazz() {
         return clazz;
+    }
+
+    public int cost() {
+        return this.cost;
     }
 
     public Actor getInstance() {

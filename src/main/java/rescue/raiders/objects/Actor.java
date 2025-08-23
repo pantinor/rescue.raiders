@@ -69,7 +69,7 @@ public class Actor extends com.badlogic.gdx.scenes.scene2d.Actor {
             health -= damage;
 
             if (health <= 0) {
-                Sounds.play(Sound.SPLAT);
+                Sounds.play(Sound.BALLOON_EXPLOSION);
                 GAME.addExplosion(getX(), getY(), !this.type.isEnemy(), 10);
                 remove();
             }

@@ -1,7 +1,10 @@
 package rescue.raiders.objects;
 
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import static rescue.raiders.game.RescueRaiders.GAME;
 import rescue.raiders.util.AtlasCache;
+import rescue.raiders.util.Sound;
+import rescue.raiders.util.Sounds;
 
 public class Engineer extends ShootableActor {
 
@@ -20,6 +23,18 @@ public class Engineer extends ShootableActor {
     @Override
     public TextureRegion shootingTexture() {
         return shootingFrame;
+    }
+
+    @Override
+    public void takeDamage(int damage) {
+        if (health > 0) {
+            health -= damage;
+            if (health <= 0) {
+                Sounds.play(Sound.SPLAT);
+                GAME.addBloodSpatter(getX(), getY(), !this.type.isEnemy());
+                remove();
+            }
+        }
     }
 
 }
