@@ -221,7 +221,7 @@ public class BattleZone implements ApplicationListener, InputProcessor {
 
         enemy = new EnemyAI.Enemy(tank);
         enemy.pos.x = 0;
-        enemy.pos.z = 15;
+        enemy.pos.z = 45;
         enemy.facing = 360;
         enemyCtx.collisionChecker = this::collidesAnyModelXZ;
 
@@ -241,8 +241,6 @@ public class BattleZone implements ApplicationListener, InputProcessor {
 
     @Override
     public void render() {
-
-        Gdx.graphics.setTitle("Battle Zone - FPS: " + Gdx.graphics.getFramesPerSecond());
 
         float dt = Gdx.graphics.getDeltaTime();
 
@@ -290,10 +288,9 @@ public class BattleZone implements ApplicationListener, InputProcessor {
 
         modelBatch.begin(cam);
 
-        modelBatch.render(axesInstance);
-
-        for (ModelInstance i : modelInstances) {
-            modelBatch.render(i, environment);
+        //modelBatch.render(axesInstance);
+        for (ModelInstance inst : modelInstances) {
+            modelBatch.render(inst, environment);
         }
 
         modelBatch.end();
@@ -513,13 +510,18 @@ public class BattleZone implements ApplicationListener, InputProcessor {
 
     public static final class GameModelInstance extends ModelInstance {
 
-        final BoundingBox boundingBox = new BoundingBox();
+        public final BoundingBox localBounds = new BoundingBox();  // model-space AABB (never mutated)
+        public final BoundingBox worldBounds = new BoundingBox();  // scratch for per-frame world AABB
 
         public GameModelInstance(Model model) {
             super(model);
-            this.calculateBoundingBox(boundingBox);
+            this.calculateBoundingBox(localBounds);
         }
 
+        public BoundingBox getWorldBounds() {
+            worldBounds.set(localBounds).mul(this.transform); // build a fresh world AABB each time
+            return worldBounds;
+        }
     }
 
     @Override
@@ -918,6 +920,10 @@ public class BattleZone implements ApplicationListener, InputProcessor {
 
     private final class Projectile {
 
+        // put near your other projectile constants
+        private static final float PROJECTILE_SPAWN_OFFSET = 0.8f;     // how far in front of barrel
+        private static final float PROJECTILE_YAW_OFFSET_DEG = 0f;     // set to 90f if mesh "front" is +X
+
         GameModelInstance inst;
         boolean active;
         int ttl;
@@ -928,14 +934,31 @@ public class BattleZone implements ApplicationListener, InputProcessor {
             if (active) {
                 return;
             }
+
             if (inst == null) {
                 inst = new GameModelInstance(projectileModel);
             }
-            pos.set(e.pos.x, e.pos.y, e.pos.z);
+
+            // Direction from enemy facing (ROM-style): yaw 0 = +Z
+            float yawDeg = (e.facing * 360f) / EnemyAI.ANGLE_STEPS;
             float rad = e.facing * MathUtils.PI2 / EnemyAI.ANGLE_STEPS;
+
+            // Velocity
             vel.set(MathUtils.sin(rad), 0f, MathUtils.cos(rad)).scl(PROJECTILE_SPEED);
+
+            // Spawn a bit in front of the tank so we don't collide with it immediately
+            pos.set(e.pos.x, e.pos.y, e.pos.z)
+                    .add(vel.x / PROJECTILE_SPEED * PROJECTILE_SPAWN_OFFSET,
+                            0f,
+                            vel.z / PROJECTILE_SPEED * PROJECTILE_SPAWN_OFFSET);
+
             ttl = PROJECTILE_TTL_FRAMES;
-            inst.transform.setToTranslation(pos);
+
+            // IMPORTANT: set rotation once, then translation — and keep it
+            inst.transform.idt()
+                    .setToRotation(Vector3.Y, yawDeg + PROJECTILE_YAW_OFFSET_DEG)
+                    .setTranslation(pos);
+
             if (!modelInstances.contains(inst)) {
                 modelInstances.add(inst);
             }
@@ -946,10 +969,13 @@ public class BattleZone implements ApplicationListener, InputProcessor {
             if (!active) {
                 return;
             }
+
             pos.x += vel.x;
             pos.z += vel.z;
             ttl--;
-            inst.transform.setToTranslation(pos);
+
+            inst.transform.setTranslation(pos);
+
             if (ttl <= 0) {
                 deactivate();
             }
@@ -963,11 +989,13 @@ public class BattleZone implements ApplicationListener, InputProcessor {
         }
     }
 
-    private boolean overlapsInstanceXZ(GameModelInstance inst, float x, float z, float radius) {
-        inst.boundingBox.mul(inst.transform);
+    private final BoundingBox tmpBox = new BoundingBox();
 
-        float minX = inst.boundingBox.min.x, maxX = inst.boundingBox.max.x;
-        float minZ = inst.boundingBox.min.z, maxZ = inst.boundingBox.max.z;
+    private boolean overlapsInstanceXZ(GameModelInstance inst, float x, float z, float radius) {
+        tmpBox.set(inst.localBounds).mul(inst.transform);
+
+        float minX = tmpBox.min.x, maxX = tmpBox.max.x;
+        float minZ = tmpBox.min.z, maxZ = tmpBox.max.z;
 
         float cx = MathUtils.clamp(x, minX, maxX);
         float cz = MathUtils.clamp(z, minZ, maxZ);
@@ -975,6 +1003,8 @@ public class BattleZone implements ApplicationListener, InputProcessor {
         float dx = x - cx, dz = z - cz;
         return dx * dx + dz * dz <= radius * radius;
     }
+
+    private static final float ENEMY_COLLISION_RADIUS = 0.4f;
 
     private boolean collidesAnyModelXZ(float x, float z) {
         for (GameModelInstance inst : modelInstances) {
@@ -984,8 +1014,6 @@ public class BattleZone implements ApplicationListener, InputProcessor {
             if (projectile != null && projectile.active && inst == projectile.inst) {
                 continue;
             }
-
-            float ENEMY_COLLISION_RADIUS = 0.4f;
 
             if (overlapsInstanceXZ(inst, x, z, ENEMY_COLLISION_RADIUS)) {
                 return true;
