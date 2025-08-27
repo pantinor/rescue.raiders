@@ -8,13 +8,13 @@ public final class EnemyAI {
 
     public static final int ANGLE_STEPS = 256;
     public static final int TURN_STEP = 1;
-    public static final int RADAR_SPIN = 0x0B;           // slow-tank radar spin per frame
+    public static final int RADAR_SPIN = 2;           // slow-tank radar spin per frame
     public static final int CLOSE_FIRING_ANGLE = 0x10; // ~22.5°
     public static final int REVERSE_TIME_FRAMES = 0x30;  // ~3 sec @60fps
     public static final int FORWARD_TIME_FRAMES = 0x34;  // ~3.5 sec @60fps
     public static final int NEW_HEADING_FRAMES = 0x40;   // ~4 sec @60fps
 
-    public static final float BASE_FORWARD_SPEED = 0.06f; // slow tank straight speed
+    public static final float BASE_FORWARD_SPEED = 0.02f; // slow tank straight speed
     public static final float SUPER_SPEED_MULT = 2.0f;    // super tanks move/turn faster
 
     public enum TankType {
@@ -25,8 +25,8 @@ public final class EnemyAI {
 
         public float playerX, playerZ;         // player world pos (XZ plane)
         public int rezProtect;                 // frames since (re)spawn; 0xFF = safe to “go hard”
-        public int enemyScore;           
-        public int playerScore;               
+        public int enemyScore;
+        public int playerScore;
         public long nmiCount;                   // monotonically increasing
         public boolean projectileBusy;
         public TankType tankType = TankType.SLOW;
@@ -52,6 +52,7 @@ public final class EnemyAI {
     public static final class Enemy {
 
         public final ModelInstance instance;
+        public ModelInstance radar;
         public final Vector3 pos = new Vector3();
 
         public boolean alive = true;
@@ -73,6 +74,14 @@ public final class EnemyAI {
             applyTransform();
         }
 
+        public void setRadar(ModelInstance radar) {
+            this.radar = radar;
+        }
+
+        public ModelInstance radar() {
+            return this.radar;
+        }
+
         public void savePos() {
             savedPos.set(pos);
         }
@@ -84,6 +93,11 @@ public final class EnemyAI {
 
         public void applyTransform() {
             instance.transform.idt().translate(pos.x, pos.y, pos.z).rotate(Vector3.Y, facing * 360f / ANGLE_STEPS);
+            if (this.radar != null) {
+                radar.transform.set(instance.transform)
+                        .translate(0f, 0f, -0.40f)
+                        .rotate(Vector3.Y, radarFacing * 360f / ANGLE_STEPS);
+            }
         }
 
         public float getX() {
@@ -102,8 +116,8 @@ public final class EnemyAI {
 
     public static void update(Enemy enmy, Context ctx) {
 
-        if (ctx.rezProtect != 0xFF) {
-            ctx.rezProtect = Math.min(0xFF, ctx.rezProtect + 1);
+        if (ctx.rezProtect != 255) {
+            ctx.rezProtect = Math.min(255, ctx.rezProtect + 1);
         }
 
         if (!enmy.alive) {
@@ -119,7 +133,7 @@ public final class EnemyAI {
         enmy.applyTransform();
     }
 
-    private static void updateTank(Enemy enmy, Context g) {
+    private static void updateTank(Enemy enmy, Context ctx) {
 
         if (enmy.moveCounter > 0) {
             enmy.moveCounter--;
@@ -130,11 +144,11 @@ public final class EnemyAI {
         enmy.radarFacing = u8(enmy.radarFacing + RADAR_SPIN);
 
         if ((enmy.reverseFlags & 0x01) != 0) {
-            moveBackward(enmy, g);
+            moveBackward(enmy, ctx);
             if ((enmy.reverseFlags & 0x02) != 0) {
-                rotateLeft(enmy, g);
+                rotateLeft(enmy, ctx);
             } else {
-                rotateRight(enmy, g);
+                rotateRight(enmy, ctx);
             }
             enmy.treadDripCtr--;
             if (enmy.moveCounter == 0) {
@@ -146,7 +160,7 @@ public final class EnemyAI {
         }
 
         if (enmy.moveCounter == 0) {
-            setTankTurnTo(enmy, g);
+            setTankTurnTo(enmy, ctx);
         }
 
         final int delta = signed8((enmy.facing - enmy.turnTo) & 0xFF);
@@ -154,26 +168,26 @@ public final class EnemyAI {
 
         if (absDelta >= CLOSE_FIRING_ANGLE) {
             if (delta >= 0) {
-                rotateRight(enmy, g);
-                tryShootPlayer(enmy, g);
-                rotateRight(enmy, g);
-                tryShootPlayer(enmy, g);
-                if (g.tankType == TankType.SUPER) {
-                    rotateRight(enmy, g);
-                    tryShootPlayer(enmy, g);
-                    rotateRight(enmy, g);
-                    tryShootPlayer(enmy, g);
+                rotateRight(enmy, ctx);
+                tryShootPlayer(enmy, ctx);
+                rotateRight(enmy, ctx);
+                tryShootPlayer(enmy, ctx);
+                if (ctx.tankType == TankType.SUPER) {
+                    rotateRight(enmy, ctx);
+                    tryShootPlayer(enmy, ctx);
+                    rotateRight(enmy, ctx);
+                    tryShootPlayer(enmy, ctx);
                 }
             } else {
-                rotateLeft(enmy, g);
-                tryShootPlayer(enmy, g);
-                rotateLeft(enmy, g);
-                tryShootPlayer(enmy, g);
-                if (g.tankType == TankType.SUPER) {
-                    rotateLeft(enmy, g);
-                    tryShootPlayer(enmy, g);
-                    rotateLeft(enmy, g);
-                    tryShootPlayer(enmy, g);
+                rotateLeft(enmy, ctx);
+                tryShootPlayer(enmy, ctx);
+                rotateLeft(enmy, ctx);
+                tryShootPlayer(enmy, ctx);
+                if (ctx.tankType == TankType.SUPER) {
+                    rotateLeft(enmy, ctx);
+                    tryShootPlayer(enmy, ctx);
+                    rotateLeft(enmy, ctx);
+                    tryShootPlayer(enmy, ctx);
                 }
             }
             return;
@@ -181,44 +195,44 @@ public final class EnemyAI {
 
         if (absDelta != 0) {
             if (delta >= 0) {
-                rotateRight(enmy, g);
+                rotateRight(enmy, ctx);
             } else {
-                rotateLeft(enmy, g);
+                rotateLeft(enmy, ctx);
             }
         }
 
-        tryShootPlayer(enmy, g);
+        tryShootPlayer(enmy, ctx);
 
         // Distance → forward; extra push when perfectly aligned
-        final float dx = g.playerX - enmy.getX();
-        final float dz = g.playerZ - enmy.getZ();
+        final float dx = ctx.playerX - enmy.getX();
+        final float dz = ctx.playerZ - enmy.getZ();
         final float dist = (float) Math.sqrt(dx * dx + dz * dz);
 
-        final float forwardStart = (g.tankType == TankType.SUPER) ? g.forwardStartDistSuper : g.forwardStartDistSlow;
+        final float forwardStart = (ctx.tankType == TankType.SUPER) ? ctx.forwardStartDistSuper : ctx.forwardStartDistSlow;
 
         if (dist >= forwardStart) {
-            forward(enmy, g, 1f);
-            if (g.tankType == TankType.SUPER) {
-                forward(enmy, g, 1f);
+            forward(enmy, ctx, 1f);
+            if (ctx.tankType == TankType.SUPER) {
+                forward(enmy, ctx, 1f);
             }
             if (absDelta == 0) {
-                forward(enmy, g, 1f);
-                if (g.tankType == TankType.SUPER) {
-                    forward(enmy, g, 1f);
+                forward(enmy, ctx, 1f);
+                if (ctx.tankType == TankType.SUPER) {
+                    forward(enmy, ctx, 1f);
                 }
             }
         }
     }
 
-    private static void setTankTurnTo(Enemy enmy, Context g) {
+    private static void setTankTurnTo(Enemy enmy, Context ctx) {
 
         // jitter helpers (0..3) to break 8-frame alignment
-        final int JIT = (int) (g.nmiCount & 0x03L);          // for NEW_HEADING_FRAMES
-        final int RJIT = (int) ((g.nmiCount >> 1) & 0x03L);   // for REVERSE_TIME_FRAMES
+        final int JIT = (int) (ctx.nmiCount & 0x03L);          // for NEW_HEADING_FRAMES
+        final int RJIT = (int) ((ctx.nmiCount >> 1) & 0x03L);   // for REVERSE_TIME_FRAMES
 
         // 1) Immediate hard if rez_protect == 0xFF
-        if (g.rezProtect == 0xFF) {
-            enmy.turnTo = calcAngleToPlayer(enmy, g);
+        if (ctx.rezProtect == 255) {
+            enmy.turnTo = calcAngleToPlayer(enmy, ctx);
             enmy.reverseFlags &= ~0x01;                          // clear reverse
             enmy.moveCounter = NEW_HEADING_FRAMES + JIT;         // ~4s (+0..3)
             return;
@@ -226,33 +240,33 @@ public final class EnemyAI {
 
         // 2) 50% coin flip -> GoHard (ROM-ish)
         if (MathUtils.randomBoolean()) {
-            enmy.turnTo = calcAngleToPlayer(enmy, g);
+            enmy.turnTo = calcAngleToPlayer(enmy, ctx);
             enmy.reverseFlags &= ~0x01;
             enmy.moveCounter = NEW_HEADING_FRAMES + JIT;         // ~4s (+0..3)
             return;
         }
 
         // 3) Score >= 100k -> GoHard
-        if (g.playerScore >= 100_000) {
-            enmy.turnTo = calcAngleToPlayer(enmy, g);
+        if (ctx.playerScore >= 100_000) {
+            enmy.turnTo = calcAngleToPlayer(enmy, ctx);
             enmy.reverseFlags &= ~0x01;
             enmy.moveCounter = NEW_HEADING_FRAMES + JIT;         // ~4s (+0..3)
             return;
         }
 
         // 4) Compare player vs enemy "score"
-        int diff = g.playerScore - g.enemyScore;
+        int diff = ctx.playerScore - ctx.enemyScore;
 
         if (diff == 0) {
             // GoMedium:
             // 1-in-8 frames: reverse for ~3s
-            if ((g.nmiCount & 7L) == 0L) {
+            if ((ctx.nmiCount & 7L) == 0L) {
                 enmy.reverseFlags |= 0x01 | (MathUtils.randomBoolean() ? 0x02 : 0x00);
                 enmy.moveCounter = REVERSE_TIME_FRAMES + RJIT;   // ~3s (+0..3)
                 return;
             }
             // 7-of-8: head 90° off the player
-            int aim = calcAngleToPlayer(enmy, g);
+            int aim = calcAngleToPlayer(enmy, ctx);
             enmy.turnTo = u8(aim ^ 0x40);                        // ±90°
             enmy.reverseFlags &= ~0x01;                          // clear reverse
             enmy.moveCounter = NEW_HEADING_FRAMES + JIT;         // ~4s (+0..3)
@@ -262,7 +276,7 @@ public final class EnemyAI {
         if (diff < 0) {
             // GoMild (player losing): small offset from previous heading
             int offset = MathUtils.random(0, 0x1F);              // up to 45°
-            boolean neg = ((g.nmiCount & 1L) == 0L);
+            boolean neg = ((ctx.nmiCount & 1L) == 0L);
             enmy.turnTo = u8(neg ? enmy.turnTo - offset : enmy.turnTo + offset);
             enmy.reverseFlags &= ~0x01;                          // clear reverse
             enmy.moveCounter = NEW_HEADING_FRAMES + JIT;         // ~4s (+0..3)
@@ -270,16 +284,16 @@ public final class EnemyAI {
         }
 
         // diff > 0 → GoHard (player winning)
-        enmy.turnTo = calcAngleToPlayer(enmy, g);
+        enmy.turnTo = calcAngleToPlayer(enmy, ctx);
         enmy.reverseFlags &= ~0x01;
         enmy.moveCounter = NEW_HEADING_FRAMES + JIT;             // ~4s (+0..3)
     }
 
-    private static void forward(Enemy enmy, Context g, float mult) {
+    private static void forward(Enemy enmy, Context ctx, float mult) {
         float spd = BASE_FORWARD_SPEED * mult;
-        stepForward(enmy, spd, g);
+        stepForward(enmy, spd, ctx);
 
-        if (g.collisionChecker.collides(enmy.pos.x, enmy.pos.z)) {
+        if (ctx.collisionChecker.collides(enmy.pos.x, enmy.pos.z)) {
             enmy.restorePos();
             int dir = (MathUtils.randomBoolean() ? 0x02 : 0x00) | 0x01; // reverse + dir
             enmy.reverseFlags |= dir;
@@ -289,22 +303,22 @@ public final class EnemyAI {
         }
     }
 
-    private static void moveBackward(Enemy enmy, Context g) {
-        stepForward(enmy, -BASE_FORWARD_SPEED, g);
+    private static void moveBackward(Enemy enmy, Context ctx) {
+        stepForward(enmy, -BASE_FORWARD_SPEED, ctx);
     }
 
-    private static void stepForward(Enemy enmy, float spd, Context g) {
+    private static void stepForward(Enemy enmy, float spd, Context ctx) {
         enmy.savePos();
         float rad = enmy.facing * MathUtils.PI2 / ANGLE_STEPS;
         enmy.pos.x += MathUtils.sin(rad) * spd;
         enmy.pos.z += MathUtils.cos(rad) * spd;
     }
 
-    private static void rotateLeft(Enemy enmy, Context g) {
+    private static void rotateLeft(Enemy enmy, Context ctx) {
         enmy.facing = u8(enmy.facing + TURN_STEP);
     }
 
-    private static void rotateRight(Enemy enmy, Context g) {
+    private static void rotateRight(Enemy enmy, Context ctx) {
         enmy.facing = u8(enmy.facing - TURN_STEP);
     }
 
@@ -317,11 +331,11 @@ public final class EnemyAI {
 
     private static void tryShootPlayer(Enemy enmy, Context ctx) {
 
-        if (ctx.rezProtect < 0x20) {
+        if (ctx.rezProtect < 32) {
             return; // be nice for ~2 sec
         }
 
-        if (ctx.playerScore < 2000 && ctx.rezProtect != 0xFF) {
+        if (ctx.playerScore < 2000 && ctx.rezProtect != 255) {
             return;
         }
 

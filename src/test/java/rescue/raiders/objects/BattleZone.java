@@ -153,7 +153,7 @@ public class BattleZone implements ApplicationListener, InputProcessor {
 
     // background 
     private static final int ANGLES = 512;
-    private static final float UNITS_PER_ANGLE = 8f;
+    private static final float UNITS_PER_ANGLE = -8f;
     private static final float SEG_W_UNITS = 512f;
     private static final int SEG_COUNT = 8;
     private static final float STRIP_UNITS = SEG_W_UNITS * SEG_COUNT;
@@ -188,7 +188,9 @@ public class BattleZone implements ApplicationListener, InputProcessor {
     private int nmiCount = 0;
 
     private static final float PROJECTILE_SPEED = 0.40f;
-    private static final int PROJECTILE_TTL_FRAMES = 0x7F;
+    private static final int PROJECTILE_TTL_FRAMES = 180;
+    private static final float PROJECTILE_RADIUS = 0.15f;
+    private static final float PLAYER_HIT_RADIUS = 0.45f;
     private Model projectileModel;
     private Projectile projectile;
 
@@ -218,20 +220,20 @@ public class BattleZone implements ApplicationListener, InputProcessor {
 
         GameModelInstance tank = buildWireframeInstance(ALL_WF.get(2), Color.RED, MODEL_SCALE, -1f, 3f, 0.5f, 3f);
         modelInstances.add(tank);
+        GameModelInstance radar = buildWireframeInstance(ALL_WF.get(13), Color.RED, MODEL_SCALE, -1f, 3f, 0.5f, 3f);
 
         enemy = new EnemyAI.Enemy(tank);
         enemy.pos.x = 0;
-        enemy.pos.z = 45;
+        enemy.pos.z = 10;
         enemy.facing = 360;
         enemyCtx.collisionChecker = this::collidesAnyModelXZ;
+        enemy.setRadar(radar);
 
         projectileModel = buildWireframeModel(wireframeFromString(MESH_PROJECTILE), Color.YELLOW, MODEL_SCALE, -1f);
         projectile = new Projectile();
         enemyCtx.shooter = () -> projectile.spawnFromEnemy(enemy);
 
         loadMapObstacles();
-
-        createAxes();
 
         for (int i = 0; i < volcanoParticles.length; i++) {
             volcanoParticles[i] = new VolcanoParticle();
@@ -288,9 +290,12 @@ public class BattleZone implements ApplicationListener, InputProcessor {
 
         modelBatch.begin(cam);
 
-        //modelBatch.render(axesInstance);
         for (ModelInstance inst : modelInstances) {
             modelBatch.render(inst, environment);
+        }
+        
+        if (enemy.radar() != null) {
+            modelBatch.render(enemy.radar(), environment);
         }
 
         modelBatch.end();
@@ -539,6 +544,24 @@ public class BattleZone implements ApplicationListener, InputProcessor {
             case Input.Keys.D:
                 dDown = true;
                 return true;
+
+            case Input.Keys.NUM_1:
+                return true;
+            case Input.Keys.NUM_2:
+                return true;
+            case Input.Keys.NUM_3:
+                return true;
+            case Input.Keys.NUM_4:
+                return true;
+            case Input.Keys.NUM_5:
+                return true;
+            case Input.Keys.NUM_6:
+                return true;
+            case Input.Keys.NUM_7:
+                return true;
+            case Input.Keys.NUM_8:
+                return true;
+
             default:
                 return false;
         }
@@ -934,27 +957,24 @@ public class BattleZone implements ApplicationListener, InputProcessor {
             if (active) {
                 return;
             }
-
             if (inst == null) {
                 inst = new GameModelInstance(projectileModel);
             }
 
-            // Direction from enemy facing (ROM-style): yaw 0 = +Z
             float yawDeg = (e.facing * 360f) / EnemyAI.ANGLE_STEPS;
             float rad = e.facing * MathUtils.PI2 / EnemyAI.ANGLE_STEPS;
 
-            // Velocity
+            // Velocity in facing direction
             vel.set(MathUtils.sin(rad), 0f, MathUtils.cos(rad)).scl(PROJECTILE_SPEED);
 
-            // Spawn a bit in front of the tank so we don't collide with it immediately
-            pos.set(e.pos.x, e.pos.y, e.pos.z)
-                    .add(vel.x / PROJECTILE_SPEED * PROJECTILE_SPAWN_OFFSET,
-                            0f,
-                            vel.z / PROJECTILE_SPEED * PROJECTILE_SPAWN_OFFSET);
+            // Spawn slightly ahead of the muzzle
+            pos.set(e.pos.x, e.pos.y, e.pos.z).add(
+                    vel.x / PROJECTILE_SPEED * PROJECTILE_SPAWN_OFFSET,
+                    0f,
+                    vel.z / PROJECTILE_SPEED * PROJECTILE_SPAWN_OFFSET);
 
             ttl = PROJECTILE_TTL_FRAMES;
 
-            // IMPORTANT: set rotation once, then translation — and keep it
             inst.transform.idt()
                     .setToRotation(Vector3.Y, yawDeg + PROJECTILE_YAW_OFFSET_DEG)
                     .setTranslation(pos);
@@ -962,7 +982,20 @@ public class BattleZone implements ApplicationListener, InputProcessor {
             if (!modelInstances.contains(inst)) {
                 modelInstances.add(inst);
             }
+
             active = true;
+
+            // Immediate overlap check at spawn (rare but safe)
+            if (hitsPlayer(pos.x, pos.z) || projectileHitsWorldXZ(pos.x, pos.z)) {
+                onProjectileHit(); // e.g., damage / explosion
+                deactivate();
+            }
+        }
+
+        private boolean hitsPlayer(float x, float z) {
+            float dx = x - enemyCtx.playerX;
+            float dz = z - enemyCtx.playerZ;
+            return (dx * dx + dz * dz) <= (PLAYER_HIT_RADIUS * PLAYER_HIT_RADIUS);
         }
 
         void update() {
@@ -970,15 +1003,40 @@ public class BattleZone implements ApplicationListener, InputProcessor {
                 return;
             }
 
-            pos.x += vel.x;
-            pos.z += vel.z;
-            ttl--;
+            // Swept movement to avoid tunneling
+            float nextX = pos.x + vel.x;
+            float nextZ = pos.z + vel.z;
 
+            // number of micro-steps based on speed and radius
+            float stepLenSq = vel.x * vel.x + vel.z * vel.z;
+            int steps = Math.max(1, (int) Math.ceil(Math.sqrt(stepLenSq) / (PROJECTILE_RADIUS * 0.5f)));
+
+            float px = pos.x, pz = pos.z;
+            for (int i = 1; i <= steps; i++) {
+                float t = i / (float) steps;
+                float sx = MathUtils.lerp(px, nextX, t);
+                float sz = MathUtils.lerp(pz, nextZ, t);
+
+                if (hitsPlayer(sx, sz) || projectileHitsWorldXZ(sx, sz)) {
+                    pos.set(sx, pos.y, sz);
+                    inst.transform.setTranslation(pos); // keep rotation, place at impact
+                    onProjectileHit();                  // hook: damage/explosion/sound
+                    deactivate();
+                    return;
+                }
+            }
+
+            // No hit: commit move
+            pos.set(nextX, pos.y, nextZ);
             inst.transform.setTranslation(pos);
-
-            if (ttl <= 0) {
+            if (--ttl <= 0) {
                 deactivate();
             }
+        }
+
+        private void onProjectileHit() {
+            // TODO: apply player damage, spawn explosion VFX, play sound, award score, etc.
+            //System.out.println("Projectile hit!");
         }
 
         void deactivate() {
@@ -987,6 +1045,21 @@ public class BattleZone implements ApplicationListener, InputProcessor {
                 modelInstances.remove(inst);
             }
         }
+    }
+
+    private boolean projectileHitsWorldXZ(float x, float z) {
+        for (GameModelInstance inst : modelInstances) {
+            if (enemy != null && inst == enemy.instance) {
+                continue;           // no self-hit
+            }
+            if (projectile != null && projectile.active && inst == projectile.inst) {
+                continue; // skip self
+            }
+            if (overlapsInstanceXZ(inst, x, z, PROJECTILE_RADIUS)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     private final BoundingBox tmpBox = new BoundingBox();
@@ -1011,6 +1084,7 @@ public class BattleZone implements ApplicationListener, InputProcessor {
             if (enemy != null && inst == enemy.instance) {
                 continue;
             }
+
             if (projectile != null && projectile.active && inst == projectile.inst) {
                 continue;
             }
@@ -1020,37 +1094,6 @@ public class BattleZone implements ApplicationListener, InputProcessor {
             }
         }
         return false;
-    }
-
-    final float GRID_MIN = 0f;
-    final float GRID_MAX = 20f;
-    final float GRID_STEP = .5f;
-    public Model axesModel;
-    public ModelInstance axesInstance;
-
-    private void createAxes() {
-        ModelBuilder modelBuilder = new ModelBuilder();
-        modelBuilder.begin();
-
-        // grid
-        MeshPartBuilder builder = modelBuilder.part("grid", GL30.GL_LINES, VertexAttributes.Usage.Position | VertexAttributes.Usage.ColorUnpacked, new Material());
-        builder.setColor(Color.LIGHT_GRAY);
-        for (float t = GRID_MIN; t <= GRID_MAX; t += GRID_STEP) {
-            builder.line(t, 0, GRID_MIN, t, 0, GRID_MAX);
-            builder.line(GRID_MIN, 0, t, GRID_MAX, 0, t);
-        }
-
-        // axes
-        builder = modelBuilder.part("axes", GL30.GL_LINES, VertexAttributes.Usage.Position | VertexAttributes.Usage.ColorUnpacked, new Material());
-        builder.setColor(Color.RED);
-        builder.line(0, 0, 0, 500, 0, 0);
-        builder.setColor(Color.GREEN);
-        builder.line(0, 0, 0, 0, 500, 0);
-        builder.setColor(Color.BLUE);
-        builder.line(0, 0, 0, 0, 0, 500);
-
-        axesModel = modelBuilder.end();
-        axesInstance = new ModelInstance(axesModel);
     }
 
 }
